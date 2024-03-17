@@ -403,7 +403,6 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="8f" green="8f" red="8f" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
@@ -425,7 +424,6 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="8f" green="8f" red="8f" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
@@ -447,14 +445,13 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="8f" green="8f" red="8f" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="212" y="306" width="315" height="-1"/>
+          <AbsoluteConstraints x="212" y="302" width="315" height="32"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -469,7 +466,6 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="8f" green="8f" red="8f" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>

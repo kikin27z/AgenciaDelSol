@@ -33,6 +33,7 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -44,7 +45,12 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
-        btnVolver = new javax.swing.JButton();
+        lblAgregarPersona = new javax.swing.JLabel();
+        lblConsultarPersona = new javax.swing.JLabel();
+        lblInsercionMasiva = new javax.swing.JLabel();
+        iconAgregarPersona = new javax.swing.JLabel();
+        iconConsultarPersona = new javax.swing.JLabel();
+        iconInsercionMasiva = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -90,9 +96,15 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
+        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
+        btnVolver.setText("Volver");
+        btnVolver.setContentAreaFilled(false);
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 480, 142, 45));
+
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        lblTitulo.setText("Trámites en curso");
+        lblTitulo.setText("Persona a tramitar:");
         add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 107, -1, 43));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
@@ -135,13 +147,34 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
-        btnVolver.setText("Volver");
-        btnVolver.setContentAreaFilled(false);
-        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(486, 485, 142, 45));
+        lblAgregarPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
+        lblAgregarPersona.setForeground(new java.awt.Color(247, 242, 244));
+        lblAgregarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAgregarPersona.setText("Agregar persona");
+        add(lblAgregarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 308, 134, 24));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVentanaTramitesCurso.png"))); // NOI18N
+        lblConsultarPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 17)); // NOI18N
+        lblConsultarPersona.setForeground(new java.awt.Color(247, 242, 244));
+        lblConsultarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblConsultarPersona.setText("Consultar persona");
+        add(lblConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 309, 140, 23));
+
+        lblInsercionMasiva.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
+        lblInsercionMasiva.setForeground(new java.awt.Color(247, 242, 244));
+        lblInsercionMasiva.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInsercionMasiva.setText("Inserción masiva");
+        add(lblInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(586, 305, 133, 30));
+
+        iconAgregarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconPersona.png"))); // NOI18N
+        add(iconAgregarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 205, 90, 90));
+
+        iconConsultarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconConsultaPersona.png"))); // NOI18N
+        add(iconConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 205, 90, 90));
+
+        iconInsercionMasiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconInsercionMasiva.png"))); // NOI18N
+        add(iconInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(606, 205, 90, 90));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaOpcionesPersona.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
     
@@ -189,6 +222,12 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel iconAgregarPersona;
+    private javax.swing.JLabel iconConsultarPersona;
+    private javax.swing.JLabel iconInsercionMasiva;
+    private javax.swing.JLabel lblAgregarPersona;
+    private javax.swing.JLabel lblConsultarPersona;
+    private javax.swing.JLabel lblInsercionMasiva;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;

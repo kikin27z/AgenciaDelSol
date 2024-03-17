@@ -171,21 +171,18 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
-        txtNombrePersona.setText("Nombre");
         txtNombrePersona.setBorder(null);
         add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 245, 236, 30));
 
         txtFechaNacimiento.setBackground(new java.awt.Color(247, 242, 244));
         txtFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtFechaNacimiento.setForeground(new java.awt.Color(143, 143, 143));
-        txtFechaNacimiento.setText("YYYY-MM-DD");
         txtFechaNacimiento.setBorder(null);
         add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 244, 192, 32));
 
         txtCurp.setBackground(new java.awt.Color(247, 242, 244));
         txtCurp.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtCurp.setForeground(new java.awt.Color(143, 143, 143));
-        txtCurp.setText("Curp");
         txtCurp.setBorder(null);
         add(txtCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(718, 244, 219, 32));
 

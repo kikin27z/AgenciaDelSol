@@ -208,6 +208,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
+        btnVolver.setBorder(null);
         btnVolver.setContentAreaFilled(false);
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 484, 142, 45));
 

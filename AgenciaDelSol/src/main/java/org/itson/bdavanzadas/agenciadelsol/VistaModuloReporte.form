@@ -457,6 +457,9 @@
           <Color blue="fd" green="fd" red="fd" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Volver"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="null"/>
+        </Property>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
       </Properties>
       <Constraints>
