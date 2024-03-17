@@ -74,18 +74,34 @@ public class Ventana extends javax.swing.JFrame {
     }
     
     
-    /**
-     * Método para cambiar a la vista de inicio del banco. Este método elimina
-     * el panel actual y muestra la vista de inicio del banco.
-     */
+    
     public void cambiarVistaInicio() {
         limpiarFrame();
-        VistaInicio vistaInicio = new VistaInicio();
+        VistaInicio vistaInicio = new VistaInicio(this);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
     }
     
-
+    public void cambiarVistaModuloReporte() {
+        limpiarFrame();
+        VistaModuloReporte vistaReporte = new VistaModuloReporte(this);
+        ponerEnJFrame(vistaReporte);
+        panelActual = vistaReporte;
+    }
+    
+    public void cambiarVistaModuloConsultas() {
+        limpiarFrame();
+        VistaModuloConsultas vistaModuloConsultas = new VistaModuloConsultas(this);
+        ponerEnJFrame(vistaModuloConsultas);
+        panelActual = vistaModuloConsultas;
+    }
+    
+    public void cambiarVistaTramitesEnCurso(){
+        limpiarFrame();
+        VistaTramitesEnCurso vistaTramitesEnCurso = new VistaTramitesEnCurso(this);
+        ponerEnJFrame(vistaTramitesEnCurso);
+        panelActual = vistaTramitesEnCurso;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

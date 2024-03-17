@@ -6,16 +6,16 @@ package org.itson.bdavanzadas.agenciadelsol;
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 244802
  */
-public class VistaInicio extends javax.swing.JPanel {
+public class VistaModuloReporte extends javax.swing.JPanel {
 
     private  Ventana ventana;
     
     /**
-     * Constructor de la clase VistaInicio.
+     * Constructor de la clase VistaModuloReporte.
      * 
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaInicio(Ventana ventana) {
+    public VistaModuloReporte(Ventana ventana) {
         this.ventana = ventana;
         initComponents();
     }
@@ -29,8 +29,6 @@ public class VistaInicio extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnTramitarLicencia = new javax.swing.JButton();
-        btnTramitarPlaca = new javax.swing.JButton();
         btnTramitesDisponibles = new javax.swing.JButton();
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
@@ -46,24 +44,10 @@ public class VistaInicio extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
-        lblTramitarPlaca = new javax.swing.JLabel();
-        lblTramitarPlaca1 = new javax.swing.JLabel();
-        iconPlaca = new javax.swing.JLabel();
-        iconLicencia = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnTramitarLicencia.setBorder(null);
-        btnTramitarLicencia.setBorderPainted(false);
-        btnTramitarLicencia.setContentAreaFilled(false);
-        add(btnTramitarLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 184, 150, 145));
-
-        btnTramitarPlaca.setBorder(null);
-        btnTramitarPlaca.setBorderPainted(false);
-        btnTramitarPlaca.setContentAreaFilled(false);
-        add(btnTramitarPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 184, 150, 145));
 
         btnTramitesDisponibles.setBorder(null);
         btnTramitesDisponibles.setBorderPainted(false);
@@ -107,7 +91,7 @@ public class VistaInicio extends javax.swing.JPanel {
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        lblTitulo.setText("Tramites disponibles");
+        lblTitulo.setText("Módulo de reportes");
         add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
@@ -150,22 +134,6 @@ public class VistaInicio extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        lblTramitarPlaca.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
-        lblTramitarPlaca.setForeground(new java.awt.Color(247, 242, 244));
-        lblTramitarPlaca.setText("Tramitar Placa");
-        add(lblTramitarPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, -1, -1));
-
-        lblTramitarPlaca1.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
-        lblTramitarPlaca1.setForeground(new java.awt.Color(247, 242, 244));
-        lblTramitarPlaca1.setText("Tramitar Licencia");
-        add(lblTramitarPlaca1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 300, -1, -1));
-
-        iconPlaca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconPlaca.png"))); // NOI18N
-        add(iconPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 195, 95, 95));
-
-        iconLicencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconLicencia.png"))); // NOI18N
-        add(iconLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 195, 95, 95));
-
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistaInicio.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
@@ -176,6 +144,7 @@ public class VistaInicio extends javax.swing.JPanel {
      * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Trámites en curso").
      */
     private void btnTramitesDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesDisponiblesActionPerformed
+        ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnTramitesDisponiblesActionPerformed
 
     /**
@@ -209,13 +178,9 @@ public class VistaInicio extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
-    private javax.swing.JButton btnTramitarLicencia;
-    private javax.swing.JButton btnTramitarPlaca;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JLabel fondo;
-    private javax.swing.JLabel iconLicencia;
-    private javax.swing.JLabel iconPlaca;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
@@ -225,8 +190,6 @@ public class VistaInicio extends javax.swing.JPanel {
     private javax.swing.JLabel lblModuloConsultas;
     private javax.swing.JLabel lblReportes;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblTramitarPlaca;
-    private javax.swing.JLabel lblTramitarPlaca1;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
     // End of variables declaration//GEN-END:variables
