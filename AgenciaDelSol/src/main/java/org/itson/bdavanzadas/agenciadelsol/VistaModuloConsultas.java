@@ -41,9 +41,20 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         lblModuloConsultas = new javax.swing.JLabel();
         lblReportes = new javax.swing.JLabel();
         lblLogo1 = new javax.swing.JLabel();
+        lblBuscar = new javax.swing.JLabel();
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
+        lblNombrePersona = new javax.swing.JLabel();
+        lblFechaNacimiento = new javax.swing.JLabel();
+        lblCurp = new javax.swing.JLabel();
+        lblCheck1 = new javax.swing.JLabel();
+        lblCheck2 = new javax.swing.JLabel();
+        lblCheck3 = new javax.swing.JLabel();
+        txtNombrePersona = new javax.swing.JTextField();
+        txtFechaNacimiento = new javax.swing.JTextField();
+        txtCurp = new javax.swing.JTextField();
+        btnFiltrar = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -89,10 +100,10 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
-        lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
         lblTitulo.setText("Módulo de consultas");
-        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 107, 337, 43));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 10, 60, 60));
@@ -125,6 +136,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         lblLogo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tramiteDisponibles.png"))); // NOI18N
         add(lblLogo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 102, 40, 40));
 
+        lblBuscar.setFont(new java.awt.Font("Amazon Ember", 0, 24)); // NOI18N
+        lblBuscar.setForeground(new java.awt.Color(196, 4, 67));
+        lblBuscar.setText("Buscar por:");
+        add(lblBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 164, 122, 29));
+
         lblLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tramitesEnCurso.png"))); // NOI18N
         add(lblLogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 157, 40, 40));
 
@@ -134,7 +150,51 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistaInicio.png"))); // NOI18N
+        lblNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblNombrePersona.setForeground(new java.awt.Color(215, 70, 118));
+        lblNombrePersona.setText("Nombre de la persona:");
+        add(lblNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 209, 200, 24));
+
+        lblFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblFechaNacimiento.setForeground(new java.awt.Color(215, 70, 118));
+        lblFechaNacimiento.setText("Fecha de nacimiento:");
+        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(471, 211, 221, 24));
+
+        lblCurp.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblCurp.setForeground(new java.awt.Color(215, 70, 118));
+        lblCurp.setText("CURP:");
+        add(lblCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 211, 185, 24));
+        add(lblCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 213, 20, 20));
+        add(lblCheck2, new org.netbeans.lib.awtextra.AbsoluteConstraints(666, 213, 20, 20));
+        add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(771, 213, 20, 20));
+
+        txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
+        txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
+        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 247, 236, 24));
+
+        txtFechaNacimiento.setBackground(new java.awt.Color(247, 242, 244));
+        txtFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtFechaNacimiento.setForeground(new java.awt.Color(143, 143, 143));
+        add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 247, 192, 24));
+
+        txtCurp.setBackground(new java.awt.Color(247, 242, 244));
+        txtCurp.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtCurp.setForeground(new java.awt.Color(143, 143, 143));
+        add(txtCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(718, 247, 219, 24));
+
+        btnFiltrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnFiltrar.setForeground(new java.awt.Color(253, 253, 253));
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.setContentAreaFilled(false);
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+        add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 164, 142, 45));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaModuloConsulta.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
     
@@ -174,13 +234,24 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel lblBuscar;
+    private javax.swing.JLabel lblCheck1;
+    private javax.swing.JLabel lblCheck2;
+    private javax.swing.JLabel lblCheck3;
+    private javax.swing.JLabel lblCurp;
+    private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
@@ -188,10 +259,14 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
     private javax.swing.JLabel lblLogo4;
     private javax.swing.JLabel lblLogoInfo;
     private javax.swing.JLabel lblModuloConsultas;
+    private javax.swing.JLabel lblNombrePersona;
     private javax.swing.JLabel lblReportes;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
+    private javax.swing.JTextField txtCurp;
+    private javax.swing.JTextField txtFechaNacimiento;
+    private javax.swing.JTextField txtNombrePersona;
     // End of variables declaration//GEN-END:variables
 
 }

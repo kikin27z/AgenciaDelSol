@@ -44,6 +44,7 @@ public class VistaTramitesEnCurso extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -89,10 +90,10 @@ public class VistaTramitesEnCurso extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
-        lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
         lblTitulo.setText("Trámites en curso");
-        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 107, -1, 43));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 10, 60, 60));
@@ -134,7 +135,13 @@ public class VistaTramitesEnCurso extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistaInicio.png"))); // NOI18N
+        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
+        btnVolver.setText("Volver");
+        btnVolver.setContentAreaFilled(false);
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(486, 485, 142, 45));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVentanaTramitesCurso.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
     
@@ -180,6 +187,7 @@ public class VistaTramitesEnCurso extends javax.swing.JPanel {
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
