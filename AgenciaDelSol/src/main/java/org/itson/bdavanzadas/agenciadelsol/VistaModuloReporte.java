@@ -170,33 +170,43 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         btnFiltrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnFiltrar.setForeground(new java.awt.Color(253, 253, 253));
         btnFiltrar.setText("Filtrar");
+        btnFiltrar.setBorder(null);
         btnFiltrar.setContentAreaFilled(false);
         add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 164, 142, 45));
 
         txtTipoReporte.setBackground(new java.awt.Color(247, 242, 244));
         txtTipoReporte.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtTipoReporte.setForeground(new java.awt.Color(143, 143, 143));
-        add(txtTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 247, 142, 24));
+        txtTipoReporte.setText("Tipo");
+        txtTipoReporte.setBorder(null);
+        add(txtTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 242, 142, 34));
 
         txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
-        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 247, 242, 24));
+        txtNombrePersona.setText("Nombre");
+        txtNombrePersona.setBorder(null);
+        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 245, 242, 30));
 
         txtFechaDesde.setBackground(new java.awt.Color(247, 242, 244));
         txtFechaDesde.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtFechaDesde.setForeground(new java.awt.Color(143, 143, 143));
-        add(txtFechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(654, 247, 115, 24));
+        txtFechaDesde.setText("Desde");
+        txtFechaDesde.setBorder(null);
+        add(txtFechaDesde, new org.netbeans.lib.awtextra.AbsoluteConstraints(654, 245, 115, 30));
 
         txtFechaHasta.setBackground(new java.awt.Color(247, 242, 244));
         txtFechaHasta.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtFechaHasta.setForeground(new java.awt.Color(143, 143, 143));
-        add(txtFechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 247, 115, 24));
+        txtFechaHasta.setText("Hasta");
+        txtFechaHasta.setBorder(null);
+        add(txtFechaHasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 245, 115, 30));
         add(lblCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(323, 215, 20, 20));
         add(lblCheck2, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 215, 20, 20));
         add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(723, 215, 20, 20));
 
         btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
         btnVolver.setContentAreaFilled(false);
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 484, 142, 45));
