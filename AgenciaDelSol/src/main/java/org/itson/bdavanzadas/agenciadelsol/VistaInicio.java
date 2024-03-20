@@ -1,5 +1,10 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.negocio.PersonasBO;
+import org.itson.bdavanzadas.daos.IPersonasDAO;
+import org.itson.bdavanzadas.daos.PersonasDAO;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -9,14 +14,18 @@ package org.itson.bdavanzadas.agenciadelsol;
 public class VistaInicio extends javax.swing.JPanel {
 
     private  Ventana ventana;
+    private IPersonasBO personasBO;
+    private IPersonasDAO personasDAO;
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaInicio(Ventana ventana) {
+    public VistaInicio(Ventana ventana, IPersonasBO personasBO, PersonasDAO personasDAO) {
         this.ventana = ventana;
+        this.personasBO = personasBO;
+        this.personasDAO = personasDAO;
         initComponents();
     }
 
@@ -29,12 +38,12 @@ public class VistaInicio extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnTramitarLicencia = new javax.swing.JButton();
         btnTramitarPlaca = new javax.swing.JButton();
         btnTramitesDisponibles = new javax.swing.JButton();
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
+        btnInsercionMasiva = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -50,19 +59,22 @@ public class VistaInicio extends javax.swing.JPanel {
         lblTramitarPlaca1 = new javax.swing.JLabel();
         iconPlaca = new javax.swing.JLabel();
         iconLicencia = new javax.swing.JLabel();
+        iconIsercionMasiva = new javax.swing.JLabel();
+        lblInsercionMasiva = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
+        btnTramitarLicencia2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(247, 242, 244));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnTramitarLicencia.setBorder(null);
-        btnTramitarLicencia.setBorderPainted(false);
-        btnTramitarLicencia.setContentAreaFilled(false);
-        add(btnTramitarLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 184, 150, 145));
-
         btnTramitarPlaca.setBorder(null);
         btnTramitarPlaca.setBorderPainted(false);
         btnTramitarPlaca.setContentAreaFilled(false);
+        btnTramitarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTramitarPlacaActionPerformed(evt);
+            }
+        });
         add(btnTramitarPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 184, 150, 145));
 
         btnTramitesDisponibles.setBorder(null);
@@ -104,6 +116,16 @@ public class VistaInicio extends javax.swing.JPanel {
             }
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
+
+        btnInsercionMasiva.setBorder(null);
+        btnInsercionMasiva.setBorderPainted(false);
+        btnInsercionMasiva.setContentAreaFilled(false);
+        btnInsercionMasiva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsercionMasivaActionPerformed(evt);
+            }
+        });
+        add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(587, 184, 150, 145));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
@@ -157,8 +179,8 @@ public class VistaInicio extends javax.swing.JPanel {
 
         lblTramitarPlaca1.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
         lblTramitarPlaca1.setForeground(new java.awt.Color(247, 242, 244));
-        lblTramitarPlaca1.setText("Tramitar Licencia");
-        add(lblTramitarPlaca1, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 300, -1, -1));
+        lblTramitarPlaca1.setText("Insercion masiva");
+        add(lblTramitarPlaca1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, -1, -1));
 
         iconPlaca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconPlaca.png"))); // NOI18N
         add(iconPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 195, 95, 95));
@@ -166,8 +188,21 @@ public class VistaInicio extends javax.swing.JPanel {
         iconLicencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconLicencia.png"))); // NOI18N
         add(iconLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 195, 95, 95));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistaInicio.png"))); // NOI18N
+        iconIsercionMasiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconInsercionMasiva.png"))); // NOI18N
+        add(iconIsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(617, 194, 90, 90));
+
+        lblInsercionMasiva.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
+        lblInsercionMasiva.setForeground(new java.awt.Color(247, 242, 244));
+        lblInsercionMasiva.setText("Tramitar Licencia");
+        add(lblInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 300, -1, -1));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vistaInicio2.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
+
+        btnTramitarLicencia2.setBorder(null);
+        btnTramitarLicencia2.setBorderPainted(false);
+        btnTramitarLicencia2.setContentAreaFilled(false);
+        add(btnTramitarLicencia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 184, 150, 145));
     }// </editor-fold>//GEN-END:initComponents
     
     /**
@@ -205,17 +240,28 @@ public class VistaInicio extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    private void btnTramitarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTramitarPlacaActionPerformed
+
+    private void btnInsercionMasivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsercionMasivaActionPerformed
+        personasBO.incersionMasivaPersonas();
+    }//GEN-LAST:event_btnInsercionMasivaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInsercionMasiva;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
-    private javax.swing.JButton btnTramitarLicencia;
+    private javax.swing.JButton btnTramitarLicencia2;
     private javax.swing.JButton btnTramitarPlaca;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel iconIsercionMasiva;
     private javax.swing.JLabel iconLicencia;
     private javax.swing.JLabel iconPlaca;
+    private javax.swing.JLabel lblInsercionMasiva;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;

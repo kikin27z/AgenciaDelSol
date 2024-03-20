@@ -1,6 +1,9 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
+import org.itson.bdavanzadas.daos.IPersonasDAO;
+import org.itson.bdavanzadas.daos.PersonasDAO;
 
 /**
  *
@@ -11,11 +14,15 @@ import javax.swing.JPanel;
 public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
+    private IPersonasBO personasBO;
+    private IPersonasDAO personasDAO;
     
     /**
      * Creates new form Ventana
      */
-    public Ventana() {
+    public Ventana(IPersonasBO personasBO) {
+        this.personasBO = personasBO;
+        
         initComponents();
     }
 
@@ -37,11 +44,11 @@ public class Ventana extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 62, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 62, Short.MAX_VALUE)
         );
 
         pack();
@@ -77,7 +84,7 @@ public class Ventana extends javax.swing.JFrame {
     
     public void cambiarVistaInicio() {
         limpiarFrame();
-        VistaInicio vistaInicio = new VistaInicio(this);
+        VistaInicio vistaInicio = new VistaInicio(this, personasBO, (PersonasDAO) personasDAO);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
     }
