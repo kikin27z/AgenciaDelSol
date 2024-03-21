@@ -22,5 +22,14 @@ import javax.persistence.Id;
 @DiscriminatorValue ("Automovil")
 public class Automovil extends Vehiculo implements Serializable {
 
+    public Automovil() {
+    }
 
+    
+    
+    public Automovil(String marca, String linea, String color, String numero_serie, String modelo, Persona persona) {
+        super(marca, linea, color, numero_serie, modelo, persona);
+    }
+
+    
 }

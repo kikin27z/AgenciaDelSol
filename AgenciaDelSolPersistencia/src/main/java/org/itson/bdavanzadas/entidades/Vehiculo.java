@@ -50,7 +50,7 @@ public class Vehiculo implements Serializable {
     private String color;
     
     @Column (name = "numero_serie", nullable = false, length = 50, unique = true)
-    private String numero_serie;
+    private String numeroSerie;
     
     @Column (name = "modelo", nullable = false, length = 5)
     private String modelo;
@@ -61,6 +61,21 @@ public class Vehiculo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
+
+    public Vehiculo() {
+    }
+
+    public Vehiculo(String marca, String linea, String color, String numeroSerie, String modelo, Persona persona) {
+        this.marca = marca;
+        this.linea = linea;
+        this.color = color;
+        this.numeroSerie = numeroSerie;
+        this.modelo = modelo;
+        this.persona = persona;
+    }
+    
+    
+    
     
     /**
      * Obtiene el ID del vehículo.
@@ -139,17 +154,17 @@ public class Vehiculo implements Serializable {
      * 
      * @return El número de serie del vehículo.
      */
-    public String getNumero_serie() {
-        return numero_serie;
+    public String getNumeroSerie() {
+        return numeroSerie;
     }
 
     /**
      * Establece el número de serie del vehículo.
      * 
-     * @param numero_serie El número de serie del vehículo.
+     * @param numeroSerie El número de serie del vehículo.
      */
-    public void setNumero_serie(String numero_serie) {
-        this.numero_serie = numero_serie;
+    public void setNumeroSerie(String numeroSerie) {
+        this.numeroSerie = numeroSerie;
     }
 
     /**

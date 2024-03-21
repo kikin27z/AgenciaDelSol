@@ -30,7 +30,7 @@ public class Placa extends Tramite implements Serializable {
     @Column (name = "numero",nullable = false, length = 7, unique = true)
     private String numero;
 
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne (cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
     
