@@ -1,3 +1,5 @@
 com\itson\bdavanzadas\dtos\ConsultarPersonaDTO.class
-com\itson\bdavanzadas\negocio\PersonasBO.class
+com\itson\bdavanzadas\avisos\Aviso.class
 com\itson\bdavanzadas\negocio\IPersonasBO.class
+com\itson\bdavanzadas\avisos\IAviso.class
+com\itson\bdavanzadas\negocio\PersonasBO.class

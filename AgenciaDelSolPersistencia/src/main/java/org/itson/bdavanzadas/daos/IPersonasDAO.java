@@ -36,6 +36,6 @@ public interface IPersonasDAO {
      * @return La persona coincidente.
      * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
-    public Persona consultarPersonaPorCurp(String curp) throws PersistenciaException;
+    public Persona consultarPersonaPorCurp(Persona persona) throws PersistenciaException;
   
 }

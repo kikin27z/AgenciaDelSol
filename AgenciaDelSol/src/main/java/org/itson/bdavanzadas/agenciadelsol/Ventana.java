@@ -15,7 +15,6 @@ public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
     private IPersonasBO personasBO;
-    private IPersonasDAO personasDAO;
     
     /**
      * Creates new form Ventana
@@ -84,7 +83,7 @@ public class Ventana extends javax.swing.JFrame {
     
     public void cambiarVistaInicio() {
         limpiarFrame();
-        VistaInicio vistaInicio = new VistaInicio(this, personasBO, (PersonasDAO) personasDAO);
+        VistaInicio vistaInicio = new VistaInicio(this, personasBO);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
     }
@@ -108,13 +107,6 @@ public class Ventana extends javax.swing.JFrame {
         VistaTramitesEnCurso vistaTramitesEnCurso = new VistaTramitesEnCurso(this);
         ponerEnJFrame(vistaTramitesEnCurso);
         panelActual = vistaTramitesEnCurso;
-    }
-    
-    public void cambiarVistaOpcionesPersona(){
-        limpiarFrame();
-        VistaOpcionesPersona vistaOpcionesPersona = new VistaOpcionesPersona(this);
-        ponerEnJFrame(vistaOpcionesPersona);
-        panelActual = vistaOpcionesPersona;
     }
     
     public void cambiarVistaPersonaATramitar(){

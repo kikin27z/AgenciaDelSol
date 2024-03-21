@@ -6,6 +6,7 @@ package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import java.util.List;
+import org.itson.bdavanzadas.entidades.Persona;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface IPersonasBO {
 
     public void incersionMasivaPersonas();
     
-     List<ConsultarPersonaDTO> consultarPersonasRegistradas(ConsultarPersonaDTO consulta);
+    public Persona consultarPersonaPorCurp(ConsultarPersonaDTO personaDTO);
 
 }

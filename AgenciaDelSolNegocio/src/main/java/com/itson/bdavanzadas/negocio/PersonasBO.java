@@ -39,35 +39,27 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
-    public IPersonasDAO getPersonasDAO() {
-        return personasDAO;
-    }
-
-    public void setPersonasDAO(IPersonasDAO personasDAO) {
-        this.personasDAO = personasDAO;
-    }
-
-    @Override
-    public List<ConsultarPersonaDTO> consultarPersonasRegistradas(ConsultarPersonaDTO consulta) {
-        List<ConsultarPersonaDTO> resultados = new ArrayList<>();
-
-        try {
-            // Consultar personas por CURP utilizando el método del DAO
-            Persona persona = personasDAO.consultarPersonaPorCurp(consulta.getCurp());
-
-            // Si la persona no es nula, convertir la entidad a DTO y agregarla a la lista de resultados
-            if (persona != null) {
-                ConsultarPersonaDTO dto = convertirPersonaADTO(persona);
-                resultados.add(dto);
-            }
-
-            logger.log(Level.INFO, "Se consulto correctamente la lista");
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return resultados;
-    }
+//    @Override
+//    public List<ConsultarPersonaDTO> consultarPersonasRegistradas(ConsultarPersonaDTO consulta) {
+//        List<ConsultarPersonaDTO> resultados = new ArrayList<>();
+//
+//        try {
+//            // Consultar personas por CURP utilizando el método del DAO
+//            Persona persona = personasDAO.consultarPersonaPorCurp(consulta.getCurp());
+//
+//            // Si la persona no es nula, convertir la entidad a DTO y agregarla a la lista de resultados
+//            if (persona != null) {
+//                ConsultarPersonaDTO dto = convertirPersonaADTO(persona);
+//                resultados.add(dto);
+//            }
+//
+//            logger.log(Level.INFO, "Se consulto correctamente la lista");
+//        } catch (PersistenciaException ex) {
+//            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return resultados;
+//    }
 
     /**
      * Este método sirve para convertir una entidad Persona a DTO
@@ -84,6 +76,18 @@ public class PersonasBO implements IPersonasBO {
         dto.setFechaNacimiento(persona.getFechaNacimiento());
         dto.setTelefono(Integer.parseInt(persona.getTelefono()));
         return dto;
+    }
+
+    @Override
+    public Persona consultarPersonaPorCurp(ConsultarPersonaDTO personaDTO) {       
+        try {
+            Persona persona = new Persona();
+            persona.setCurp(personaDTO.getCurp());
+            return personasDAO.consultarPersonaPorCurp(persona);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
 }

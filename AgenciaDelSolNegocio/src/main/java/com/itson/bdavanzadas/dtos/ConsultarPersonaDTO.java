@@ -25,6 +25,10 @@
         public ConsultarPersonaDTO() {
         }
 
+        public ConsultarPersonaDTO(String curp) {
+            this.curp = curp;
+        }
+        
         public String getCurp() {
             return curp;
         }

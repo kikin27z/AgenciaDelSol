@@ -19,15 +19,15 @@ import org.itson.bdavanzadas.excepciones.PersistenciaException;
 public class AgenciaDelSolPersistencia {
 
     public static void main(String[] args) {
-            IConexion conexion = new Conexion();
-            IPersonasDAO personasDAO = new PersonasDAO(conexion);
-       
-            try{
-                Persona persona = personasDAO.consultarPersonaPorCurp("CAMG040802HSRSLLA5");
-                System.out.println(persona);
-            }catch(PersistenciaException ex) {
-            Logger.getLogger(AgenciaDelSolPersistencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//            IConexion conexion = new Conexion();
+//            IPersonasDAO personasDAO = new PersonasDAO(conexion);
+//       
+//            try{
+//                Persona persona = personasDAO.consultarPersonaPorCurp("CAMG040802HSRSLLA5");
+//                System.out.println(persona);
+//            }catch(PersistenciaException ex) {
+//            Logger.getLogger(AgenciaDelSolPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+//        }
             
 //            
 //            EntityManager entityManager = conexion.crearConexion();

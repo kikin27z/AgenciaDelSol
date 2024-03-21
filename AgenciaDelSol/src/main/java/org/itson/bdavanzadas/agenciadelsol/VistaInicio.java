@@ -15,17 +15,15 @@ public class VistaInicio extends javax.swing.JPanel {
 
     private  Ventana ventana;
     private IPersonasBO personasBO;
-    private IPersonasDAO personasDAO;
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaInicio(Ventana ventana, IPersonasBO personasBO, PersonasDAO personasDAO) {
+    public VistaInicio(Ventana ventana, IPersonasBO personasBO) {
         this.ventana = ventana;
         this.personasBO = personasBO;
-        this.personasDAO = personasDAO;
         initComponents();
     }
 
@@ -254,7 +252,7 @@ public class VistaInicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btnInsercionMasivaActionPerformed
 
     private void btnTramitarLicencia2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarLicencia2ActionPerformed
-    ventana.cambiarVistaOpcionesPersona();
+        ventana.cambiarVistaPersonaATramitar();
     }//GEN-LAST:event_btnTramitarLicencia2ActionPerformed
 
 
