@@ -70,7 +70,6 @@ public class PersonasBO implements IPersonasBO {
      */
     private ConsultarPersonaDTO convertirPersonaADTO(Persona persona) {
         ConsultarPersonaDTO dto = new ConsultarPersonaDTO();
-        dto.setCurp(persona.getCurp());
         dto.setRfc(persona.getRfc());
         dto.setNombres(persona.getNombres());
         dto.setFechaNacimiento(persona.getFechaNacimiento());
@@ -82,8 +81,8 @@ public class PersonasBO implements IPersonasBO {
     public Persona consultarPersonaPorCurp(ConsultarPersonaDTO personaDTO) {       
         try {
             Persona persona = new Persona();
-            persona.setCurp(personaDTO.getCurp());
-            return personasDAO.consultarPersonaPorCurp(persona);
+            persona.setRfc(personaDTO.getRfc());
+            return personasDAO.consultarPersonaPorRfc(persona);
         } catch (PersistenciaException ex) {
             Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
             return null;

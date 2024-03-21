@@ -79,11 +79,11 @@ public class PersonasDAO implements IPersonasDAO {
     }
 
     @Override
-    public Persona consultarPersonaPorCurp(Persona persona) throws PersistenciaException {
+    public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
 
-        Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.curp = :curp");
-        query.setParameter("curp", persona.getCurp());
+        Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+        query.setParameter("rfc", persona.getRfc());
 
         Persona personaConsultada = (Persona) query.getSingleResult();
 

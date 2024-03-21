@@ -16,7 +16,6 @@
      */
     public class ConsultarPersonaDTO {
 
-        private String curp;
         private String rfc;
         private String nombres;
         private Calendar fechaNacimiento;
@@ -25,16 +24,15 @@
         public ConsultarPersonaDTO() {
         }
 
-        public ConsultarPersonaDTO(String curp) {
-            this.curp = curp;
-        }
-        
-        public String getCurp() {
-            return curp;
+        public ConsultarPersonaDTO(String rfc) {
+            this.rfc = rfc;
         }
 
-        public void setCurp(String curp) {
-            this.curp = curp;
+        public ConsultarPersonaDTO(String rfc, String nombres, Calendar fechaNacimiento, int telefono) {
+            this.rfc = rfc;
+            this.nombres = nombres;
+            this.fechaNacimiento = fechaNacimiento;
+            this.telefono = telefono;
         }
 
         public String getRfc() {

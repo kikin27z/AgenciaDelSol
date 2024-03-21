@@ -50,7 +50,6 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        btnBuscar1 = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -63,16 +62,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
         lblCurpPersona = new javax.swing.JLabel();
-        txtCurpPersona = new javax.swing.JTextField();
-        costo1 = new javax.swing.JLabel();
-        costo2 = new javax.swing.JLabel();
-        costo3 = new javax.swing.JLabel();
-        texto2 = new javax.swing.JLabel();
-        texto3 = new javax.swing.JLabel();
-        texto4 = new javax.swing.JLabel();
-        texto5 = new javax.swing.JLabel();
-        costoTitulo = new javax.swing.JLabel();
-        lblPersonasRegistradas1 = new javax.swing.JLabel();
+        txtRfcPersona = new javax.swing.JTextField();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -129,18 +119,6 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         });
         add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, 142, 45));
 
-        btnBuscar1.setFont(new java.awt.Font("Amazon Ember", 0, 14)); // NOI18N
-        btnBuscar1.setForeground(new java.awt.Color(253, 253, 253));
-        btnBuscar1.setText("Buscar");
-        btnBuscar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        btnBuscar1.setContentAreaFilled(false);
-        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscar1ActionPerformed(evt);
-            }
-        });
-        add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 380, 90, 30));
-
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
         lblTitulo.setText("Persona a tramitar");
@@ -188,64 +166,19 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
 
         lblCurpPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblCurpPersona.setForeground(new java.awt.Color(215, 70, 118));
-        lblCurpPersona.setText("Curp de la persona:");
+        lblCurpPersona.setText("RFC de la persona:");
         add(lblCurpPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 215, 24));
 
-        txtCurpPersona.setBackground(new java.awt.Color(247, 242, 244));
-        txtCurpPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtCurpPersona.setForeground(new java.awt.Color(143, 143, 143));
-        txtCurpPersona.setBorder(null);
-        txtCurpPersona.addActionListener(new java.awt.event.ActionListener() {
+        txtRfcPersona.setBackground(new java.awt.Color(247, 242, 244));
+        txtRfcPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtRfcPersona.setForeground(new java.awt.Color(143, 143, 143));
+        txtRfcPersona.setBorder(null);
+        txtRfcPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCurpPersonaActionPerformed(evt);
+                txtRfcPersonaActionPerformed(evt);
             }
         });
-        add(txtCurpPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 218, 440, 34));
-
-        costo1.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        costo1.setForeground(new java.awt.Color(196, 4, 67));
-        costo1.setText("Costo x");
-        add(costo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 380, 80, 30));
-
-        costo2.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        costo2.setForeground(new java.awt.Color(196, 4, 67));
-        costo2.setText("Costo x");
-        add(costo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, 80, 30));
-
-        costo3.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        costo3.setForeground(new java.awt.Color(196, 4, 67));
-        costo3.setText("Costo x");
-        add(costo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 480, 80, 30));
-
-        texto2.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        texto2.setForeground(new java.awt.Color(196, 4, 67));
-        texto2.setText("3 AÑO");
-        add(texto2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 80, 30));
-
-        texto3.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        texto3.setForeground(new java.awt.Color(196, 4, 67));
-        texto3.setText("Vigencia");
-        add(texto3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 80, 30));
-
-        texto4.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        texto4.setForeground(new java.awt.Color(196, 4, 67));
-        texto4.setText("1 AÑO");
-        add(texto4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 80, 30));
-
-        texto5.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        texto5.setForeground(new java.awt.Color(196, 4, 67));
-        texto5.setText("2 AÑO");
-        add(texto5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 80, 30));
-
-        costoTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 18)); // NOI18N
-        costoTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        costoTitulo.setText("Costo x");
-        add(costoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, 170, 30));
-
-        lblPersonasRegistradas1.setFont(new java.awt.Font("Amazon Ember", 0, 24)); // NOI18N
-        lblPersonasRegistradas1.setForeground(new java.awt.Color(196, 4, 67));
-        lblPersonasRegistradas1.setText("Costos Licencias ");
-        add(lblPersonasRegistradas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 290, 210, 30));
+        add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 218, 440, 34));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaPersonaATramitar.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
@@ -297,50 +230,41 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      * hace clic y despliega la lista en una tabla).
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        ConsultarPersonaDTO personaDTO = new ConsultarPersonaDTO(txtCurpPersona.getText());
+        ConsultarPersonaDTO personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
         Persona persona = personasBO.consultarPersonaPorCurp(personaDTO);
-        
-        Calendar fechaNacimiento = persona.getFechaNacimiento();
-        Calendar fechaActual = Calendar.getInstance();
-
-        int años = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
-        if (años >= 18) {
-            if (persona.getDiscapacidad().equals("NORMAL")) {
-                costoTitulo.setText("Costo normal");
-                costo1.setText("600");
-                costo2.setText("900");
-                costo3.setText("1100");
-            } else {
-                costoTitulo.setText("Costo Discapacitados");
-                costo1.setText("200");
-                costo2.setText("500");
-                costo3.setText("700");
-            }
-        } else {
-            new Aviso().mostrarAviso(ventana, "No se puede tramitar a un menor de edad");
-        }
+//        
+//        Calendar fechaNacimiento = persona.getFechaNacimiento();
+//        Calendar fechaActual = Calendar.getInstance();
+//
+//        int años = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+//        if (años >= 18) {
+//            if (persona.getDiscapacidad().equals("NORMAL")) {
+//                costoTitulo.setText("Costo normal");
+//                costo1.setText("600");
+//                costo2.setText("900");
+//                costo3.setText("1100");
+//            } else {
+//                costoTitulo.setText("Costo Discapacitados");
+//                costo1.setText("200");
+//                costo2.setText("500");
+//                costo3.setText("700");
+//            }
+//        } else {
+//            new Aviso().mostrarAviso(ventana, "No se puede tramitar a un menor de edad");
+//        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void txtCurpPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurpPersonaActionPerformed
+    private void txtRfcPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcPersonaActionPerformed
         
-    }//GEN-LAST:event_txtCurpPersonaActionPerformed
-
-    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscar1ActionPerformed
+    }//GEN-LAST:event_txtRfcPersonaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
-    private javax.swing.JLabel costo1;
-    private javax.swing.JLabel costo2;
-    private javax.swing.JLabel costo3;
-    private javax.swing.JLabel costoTitulo;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel lblCurpPersona;
     private javax.swing.JLabel lblLogo;
@@ -350,16 +274,11 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private javax.swing.JLabel lblLogo4;
     private javax.swing.JLabel lblLogoInfo;
     private javax.swing.JLabel lblModuloConsultas;
-    private javax.swing.JLabel lblPersonasRegistradas1;
     private javax.swing.JLabel lblReportes;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
-    private javax.swing.JLabel texto2;
-    private javax.swing.JLabel texto3;
-    private javax.swing.JLabel texto4;
-    private javax.swing.JLabel texto5;
-    private javax.swing.JTextField txtCurpPersona;
+    private javax.swing.JTextField txtRfcPersona;
     // End of variables declaration//GEN-END:variables
 
 }
