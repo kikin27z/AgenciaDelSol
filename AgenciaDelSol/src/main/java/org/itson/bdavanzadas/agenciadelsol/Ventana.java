@@ -109,6 +109,21 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaTramitesEnCurso);
         panelActual = vistaTramitesEnCurso;
     }
+    
+    public void cambiarVistaOpcionesPersona(){
+        limpiarFrame();
+        VistaOpcionesPersona vistaOpcionesPersona = new VistaOpcionesPersona(this);
+        ponerEnJFrame(vistaOpcionesPersona);
+        panelActual = vistaOpcionesPersona;
+    }
+    
+    public void cambiarVistaPersonaATramitar(){
+        limpiarFrame();
+        VistaPersonaATramitar vistaPersonaATramitar = new VistaPersonaATramitar(this, personasBO);
+        ponerEnJFrame(vistaPersonaATramitar);
+        panelActual = vistaPersonaATramitar;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

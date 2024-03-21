@@ -30,4 +30,12 @@ public interface IPersonasDAO {
     public void insercionMasiva() throws PersistenciaException;
     
     
+    /**
+     * Realiza una consulta de personas en base a la curp.
+     * @param curp
+     * @return La persona coincidente.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    public Persona consultarPersonaPorCurp(String curp) throws PersistenciaException;
+  
 }

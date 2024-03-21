@@ -4,6 +4,9 @@
  */
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import java.util.List;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -11,5 +14,9 @@ package com.itson.bdavanzadas.negocio;
  * @author Gael Rafael Castro Molina - 247887
  */
 public interface IPersonasBO {
+
     public void incersionMasivaPersonas();
+    
+     List<ConsultarPersonaDTO> consultarPersonasRegistradas(ConsultarPersonaDTO consulta);
+
 }

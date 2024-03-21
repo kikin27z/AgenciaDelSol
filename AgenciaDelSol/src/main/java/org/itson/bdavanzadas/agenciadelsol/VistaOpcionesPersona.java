@@ -1,5 +1,8 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.negocio.PersonasBO;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -34,6 +37,8 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        btnConsultarPersona = new javax.swing.JButton();
+        btnInsercionMasiva = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -45,10 +50,8 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
-        lblAgregarPersona = new javax.swing.JLabel();
         lblConsultarPersona = new javax.swing.JLabel();
         lblInsercionMasiva = new javax.swing.JLabel();
-        iconAgregarPersona = new javax.swing.JLabel();
         iconConsultarPersona = new javax.swing.JLabel();
         iconInsercionMasiva = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
@@ -102,6 +105,22 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         btnVolver.setContentAreaFilled(false);
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 480, 142, 45));
 
+        btnConsultarPersona.setContentAreaFilled(false);
+        btnConsultarPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarPersonaActionPerformed(evt);
+            }
+        });
+        add(btnConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 183, 150, 146));
+
+        btnInsercionMasiva.setContentAreaFilled(false);
+        btnInsercionMasiva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsercionMasivaActionPerformed(evt);
+            }
+        });
+        add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 183, 150, 147));
+
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
         lblTitulo.setText("Persona a tramitar:");
@@ -147,32 +166,23 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        lblAgregarPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
-        lblAgregarPersona.setForeground(new java.awt.Color(247, 242, 244));
-        lblAgregarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAgregarPersona.setText("Agregar persona");
-        add(lblAgregarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 308, 134, 24));
-
         lblConsultarPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 17)); // NOI18N
         lblConsultarPersona.setForeground(new java.awt.Color(247, 242, 244));
         lblConsultarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblConsultarPersona.setText("Consultar persona");
-        add(lblConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 309, 140, 23));
+        add(lblConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 302, 140, 23));
 
         lblInsercionMasiva.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
         lblInsercionMasiva.setForeground(new java.awt.Color(247, 242, 244));
         lblInsercionMasiva.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblInsercionMasiva.setText("Inserción masiva");
-        add(lblInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(586, 305, 133, 30));
-
-        iconAgregarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconPersona.png"))); // NOI18N
-        add(iconAgregarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 205, 90, 90));
+        add(lblInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 298, 133, 30));
 
         iconConsultarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconConsultaPersona.png"))); // NOI18N
-        add(iconConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 205, 90, 90));
+        add(iconConsultarPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 200, 90, 90));
 
         iconInsercionMasiva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconInsercionMasiva.png"))); // NOI18N
-        add(iconInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(606, 205, 90, 90));
+        add(iconInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 90, 90));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaOpcionesPersona.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
@@ -214,18 +224,33 @@ public class VistaOpcionesPersona extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Consultar persona".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Consultar persona").
+     */
+    private void btnConsultarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarPersonaActionPerformed
+       ventana.cambiarVistaPersonaATramitar();   
+    }//GEN-LAST:event_btnConsultarPersonaActionPerformed
+
+    private void btnInsercionMasivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsercionMasivaActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_btnInsercionMasivaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultarPersona;
+    private javax.swing.JButton btnInsercionMasiva;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel fondo;
-    private javax.swing.JLabel iconAgregarPersona;
     private javax.swing.JLabel iconConsultarPersona;
     private javax.swing.JLabel iconInsercionMasiva;
-    private javax.swing.JLabel lblAgregarPersona;
     private javax.swing.JLabel lblConsultarPersona;
     private javax.swing.JLabel lblInsercionMasiva;
     private javax.swing.JLabel lblLogo;
