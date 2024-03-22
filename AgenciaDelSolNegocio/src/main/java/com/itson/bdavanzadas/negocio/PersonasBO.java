@@ -20,6 +20,7 @@ import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
+ * Clase que implementa la lógica de negocio relacionada con las personas.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -33,11 +34,25 @@ public class PersonasBO implements IPersonasBO {
     Persona persona;
     Aviso aviso;
 
+    /**
+     * Constructor de la clase PersonasBO.
+     *
+     * Este constructor inicializa la conexión a la base de datos y el objeto de
+     * acceso a datos (DAO) correspondiente.
+     */
     public PersonasBO() {
         this.conexion = new Conexion();
         this.personasDAO = new PersonasDAO(conexion);
     }
 
+    /**
+     * Realiza una inserción masiva de personas en la base de datos. Llama al
+     * método de inserción masiva en el DAO correspondiente y registra un
+     * mensaje de registro de información si la inserción es exitosa.
+     *
+     * @throws PersistenciaException Si ocurre un error durante la inserción
+     * masiva de personas.
+     */
     @Override
     public void incersionMasivaPersonas() {
         try {
@@ -48,9 +63,24 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
+    /**
+     * Consulta una persona en la base de datos por su RFC.
+     *
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene el RFC de la
+     * persona a buscar.
+     * @return ConsultarPersonaDTO con la información de la persona encontrada,
+     * o null si no se encuentra o no cumple con los requisitos.
+     */
     @Override
     public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) {
         try {
+            String rfc = personaDTO.getRfc();
+
+            if (rfc.length() != 13) {
+                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La RFC debe tener una longitud de 13 caracteres");
+                return null;
+            }
+
             Persona personaBuscar = new Persona();
             personaBuscar.setRfc(personaDTO.getRfc());
             persona = personasDAO.consultarPersonaPorRfc(personaBuscar);
@@ -63,24 +93,31 @@ public class PersonasBO implements IPersonasBO {
                     persona.getTelefono(),
                     persona.getDiscapacidad()
             );
-//            if (esMayor()) {
+
+            if (esMayor(persona.getFechaNacimiento())) {
                 return personaEncontrada;
-//            } else {
-//                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La persona debe de ser mayor");
-//                return null;
-//            }
+            } else {
+                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La persona debe de ser mayor");
+                return null;
+            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
+    /**
+     * Verifica si una persona es mayor de edad comparando su fecha de
+     * nacimiento con la fecha actual.
+     *
+     * @param fechaNacimiento La fecha de nacimiento de la persona.
+     * @return true si la persona es mayor de edad, false si es menor de edad.
+     */
     @Override
-    public boolean esMayor(){
-        Calendar fechaNacimiento = persona.getFechaNacimiento();
+    public boolean esMayor(Calendar fechaNacimiento) {
         Calendar fechaActual = Calendar.getInstance();
         int edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
-        if (edad >=18) {
+        if (edad >= 18) {
             return true;
         } else {
             System.out.println("Es menor");
@@ -88,6 +125,11 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
+    /**
+     * Verifica si una persona tiene una discapacidad.
+     *
+     * @return true si la persona tiene una discapacidad, false si no la tiene.
+     */
     @Override
     public boolean esDiscapacitado() {
         return persona.getDiscapacidad() == Discapacidad.DISCAPACITADO;

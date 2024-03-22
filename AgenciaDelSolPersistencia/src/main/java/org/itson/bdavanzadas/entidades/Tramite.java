@@ -55,6 +55,16 @@ public class Tramite implements Serializable {
     public Tramite() {
     }
 
+    /**
+     * Constructor de la clase Tramite.
+     *
+     * Este constructor inicializa un objeto Tramite con la fecha de emisión, el
+     * costo y la persona asociada proporcionados.
+     *
+     * @param fechaEmision La fecha en que se emite el trámite.
+     * @param costo El costo asociado al trámite.
+     * @param persona La persona asociada al trámite.
+     */
     public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
