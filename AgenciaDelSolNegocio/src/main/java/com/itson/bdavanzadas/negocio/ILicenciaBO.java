@@ -4,24 +4,14 @@
  */
 package com.itson.bdavanzadas.negocio;
 
-import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
-import java.util.List;
-import org.itson.bdavanzadas.entidades.Persona;
+import com.itson.bdavanzadas.dtos.LicenciasDTO;
 
 /**
- *
+ * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
  */
-public interface IPersonasBO {
-
-    public void incersionMasivaPersonas();
-    
-    public boolean esMayor();
-    
-    public boolean esDiscapacitado();
-    
-    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO);
-    
+public interface ILicenciaBO {
+    public LicenciasDTO realizarTramite(LicenciasDTO licenciaDTO);
 }

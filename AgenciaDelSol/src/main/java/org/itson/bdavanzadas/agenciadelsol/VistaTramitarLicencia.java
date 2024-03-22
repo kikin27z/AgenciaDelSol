@@ -1,14 +1,18 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.negocio.ILicenciaBO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.negocio.LicenciaBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
+import org.itson.bdavanzadas.entidades.Discapacidad;
+import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Persona;
 
 /**
@@ -21,15 +25,20 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
 
     private Ventana ventana;
     private IPersonasBO personasBO;
+    private ILicenciaBO licenciasBO;
+    private ConsultarPersonaDTO personaDTO;
+    
     /**
      * Constructor de la clase VistaPersonaATramitar.
      *
      * @param ventana La ventana de Persona a tramitar recibe datos para
      * consultar personas.
      */
-    public VistaTramitarLicencia(Ventana ventana, IPersonasBO personasBO) {
+    public VistaTramitarLicencia(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
-        this.personasBO = personasBO;
+        this.personasBO = new PersonasBO();
+//        this.licenciasBO = new LicenciaBO(licenciasDAO, personasBO)
+        this.personaDTO = personaDTO;
         initComponents();
         
     }
@@ -185,7 +194,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
                 cbxAnioVigenciaActionPerformed(evt);
             }
         });
-        add(cbxAnioVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 210, 435, 40));
+        add(cbxAnioVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 210, 460, 40));
 
         btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(253, 253, 253));
@@ -200,9 +209,15 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(353, 334, 142, 45));
 
         btnTramitar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnTramitar.setForeground(new java.awt.Color(253, 253, 253));
         btnTramitar.setText("Tramitar");
         btnTramitar.setBorder(null);
         btnTramitar.setContentAreaFilled(false);
+        btnTramitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTramitarActionPerformed(evt);
+            }
+        });
         add(btnTramitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 334, 142, 45));
 
         lblPrecio.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -212,8 +227,8 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
 
         lblCosto.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(215, 70, 118));
-        lblCosto.setText("0.0");
-        add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 100, 32));
+        lblCosto.setText("$0.0 MXN");
+        add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 360, 32));
 
         lblCostoLicencias.setFont(new java.awt.Font("Amazon Ember", 0, 24)); // NOI18N
         lblCostoLicencias.setForeground(new java.awt.Color(215, 70, 118));
@@ -324,12 +339,89 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     private void cbxAnioVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAnioVigenciaActionPerformed
-
+        int seleccion = cbxAnioVigencia.getSelectedIndex();
+        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+            switch (seleccion) {
+                case 0:
+                    lblCosto.setText("$600.00 MXN");
+                    break;
+                case 1:
+                    lblCosto.setText("$900.00 MXN");
+                    break;
+                default:
+                    lblCosto.setText("$1,100.00 MXN");
+            }
+        }else{
+            switch (seleccion) {
+                case 0:
+                    lblCosto.setText("$200.00 MXN");
+                    break;
+                case 1:
+                    lblCosto.setText("$500.00 MXN");
+                    break;
+                default:
+                    lblCosto.setText("$700.00 MXN");
+            }
+        }
     }//GEN-LAST:event_cbxAnioVigenciaActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        ventana.cambiarVistaPersonaATramitar();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnTramitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarActionPerformed
+        int seleccion = cbxAnioVigencia.getSelectedIndex();
+        Integer años = cbxAnioVigencia.getSelectedIndex();
+        float costo = 0F;
+        
+        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+            switch (seleccion) {
+                case 0:
+                    costo = 600F;
+                    break;
+                case 1:
+                    costo = 900F;
+                    break;
+                default:
+                    costo = 1100F;
+            }
+        }else{
+            switch (seleccion) {
+                case 0:
+                    costo = 200F;
+                    break;
+                case 1:
+                    costo = 500F;
+                    break;
+                default:
+                    costo = 700F;
+            }
+        }
+        
+        
+        Calendar fechaEmision = Calendar.getInstance();
+        Calendar fechaVigencia = (Calendar) fechaEmision.clone();
+        fechaVigencia.add(Calendar.YEAR, años);
+        
+        ConsultarPersonaDTO personaConsultada = personasBO.consultarPersonaPorRfc(personaDTO);
+        Persona persona = new Persona(
+                personaConsultada.getNombres(), 
+                personaConsultada.getApellidoPaterno(), 
+                personaConsultada.getApellidoMaterno(), 
+                personaConsultada.getTelefono(), 
+                personaConsultada.getTelefono(), 
+                personaConsultada.getFechaNacimiento(), 
+                personaConsultada.getDiscapacidad()
+        );
+
+        LicenciasDTO licenciaDTO = new LicenciasDTO(
+                EstadoLicencia.ACTIVA, 
+                fechaVigencia, 
+                fechaEmision, 
+                costo, 
+                persona);
+        licenciasBO.realizarTramite(licenciaDTO);
+    }//GEN-LAST:event_btnTramitarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,5 +1,6 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
@@ -15,13 +16,12 @@ public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
     private IPersonasBO personasBO;
+
     
     /**
      * Creates new form Ventana
      */
-    public Ventana(IPersonasBO personasBO) {
-        this.personasBO = personasBO;
-        
+    public Ventana() {
         initComponents();
     }
 
@@ -83,7 +83,7 @@ public class Ventana extends javax.swing.JFrame {
     
     public void cambiarVistaInicio() {
         limpiarFrame();
-        VistaInicio vistaInicio = new VistaInicio(this, personasBO);
+        VistaInicio vistaInicio = new VistaInicio(this);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
     }
@@ -111,9 +111,16 @@ public class Ventana extends javax.swing.JFrame {
     
     public void cambiarVistaPersonaATramitar(){
         limpiarFrame();
-        VistaPersonaATramitar vistaPersonaATramitar = new VistaPersonaATramitar(this, personasBO);
+        VistaPersonaATramitar vistaPersonaATramitar = new VistaPersonaATramitar(this);
         ponerEnJFrame(vistaPersonaATramitar);
         panelActual = vistaPersonaATramitar;
+    }
+    
+    public void cambiarVistaTramitarLicencia(ConsultarPersonaDTO personaDTO){
+        limpiarFrame();
+        VistaTramitarLicencia vistaTramitarLicencia = new VistaTramitarLicencia(this, personaDTO);
+        ponerEnJFrame(vistaTramitarLicencia);
+        panelActual = vistaTramitarLicencia;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

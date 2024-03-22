@@ -4,13 +4,18 @@
  */
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.bdavanzadas.conexion.Conexion;
+import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
+import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -24,9 +29,13 @@ public class PersonasBO implements IPersonasBO {
 
     private IPersonasDAO personasDAO;
     static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
+    IConexion conexion;
+    Persona persona;
+    Aviso aviso;
 
-    public PersonasBO(IPersonasDAO personasDAO) {
-        this.personasDAO = personasDAO;
+    public PersonasBO() {
+        this.conexion = new Conexion();
+        this.personasDAO = new PersonasDAO(conexion);
     }
 
     @Override
@@ -39,54 +48,49 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
-//    @Override
-//    public List<ConsultarPersonaDTO> consultarPersonasRegistradas(ConsultarPersonaDTO consulta) {
-//        List<ConsultarPersonaDTO> resultados = new ArrayList<>();
-//
-//        try {
-//            // Consultar personas por CURP utilizando el método del DAO
-//            Persona persona = personasDAO.consultarPersonaPorCurp(consulta.getCurp());
-//
-//            // Si la persona no es nula, convertir la entidad a DTO y agregarla a la lista de resultados
-//            if (persona != null) {
-//                ConsultarPersonaDTO dto = convertirPersonaADTO(persona);
-//                resultados.add(dto);
-//            }
-//
-//            logger.log(Level.INFO, "Se consulto correctamente la lista");
-//        } catch (PersistenciaException ex) {
-//            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return resultados;
-//    }
-
-    /**
-     * Este método sirve para convertir una entidad Persona a DTO
-     * ConsultarPersonaDTO
-     *
-     * @param persona
-     * @return dto
-     */
-    private ConsultarPersonaDTO convertirPersonaADTO(Persona persona) {
-        ConsultarPersonaDTO dto = new ConsultarPersonaDTO();
-        dto.setRfc(persona.getRfc());
-        dto.setNombres(persona.getNombres());
-        dto.setFechaNacimiento(persona.getFechaNacimiento());
-        dto.setTelefono(Integer.parseInt(persona.getTelefono()));
-        return dto;
-    }
-
     @Override
-    public Persona consultarPersonaPorCurp(ConsultarPersonaDTO personaDTO) {       
+    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) {
         try {
-            Persona persona = new Persona();
-            persona.setRfc(personaDTO.getRfc());
-            return personasDAO.consultarPersonaPorRfc(persona);
+            Persona personaBuscar = new Persona();
+            personaBuscar.setRfc(personaDTO.getRfc());
+            persona = personasDAO.consultarPersonaPorRfc(personaBuscar);
+            ConsultarPersonaDTO personaEncontrada = new ConsultarPersonaDTO(
+                    persona.getRfc(),
+                    persona.getNombres(),
+                    persona.getApellidoPaterno(),
+                    persona.getApellidoMaterno(),
+                    persona.getFechaNacimiento(),
+                    persona.getTelefono(),
+                    persona.getDiscapacidad()
+            );
+//            if (esMayor()) {
+                return personaEncontrada;
+//            } else {
+//                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La persona debe de ser mayor");
+//                return null;
+//            }
         } catch (PersistenciaException ex) {
             Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    @Override
+    public boolean esMayor(){
+        Calendar fechaNacimiento = persona.getFechaNacimiento();
+        Calendar fechaActual = Calendar.getInstance();
+        int edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+        if (edad >=18) {
+            return true;
+        } else {
+            System.out.println("Es menor");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean esDiscapacitado() {
+        return persona.getDiscapacidad() == Discapacidad.DISCAPACITADO;
     }
 
 }

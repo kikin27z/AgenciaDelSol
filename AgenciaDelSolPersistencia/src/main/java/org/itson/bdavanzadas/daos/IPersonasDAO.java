@@ -32,6 +32,7 @@ public interface IPersonasDAO {
     
     /**
      * Realiza una consulta de personas en base a la rfc.
+     * @param persona Persona a consultar.
      * @return La persona coincidente.
      * @throws PersistenciaException Si ocurre un error durante la consulta.
      */

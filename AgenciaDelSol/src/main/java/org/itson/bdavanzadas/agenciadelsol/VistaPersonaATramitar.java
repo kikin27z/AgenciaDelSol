@@ -1,9 +1,11 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -21,15 +23,17 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
 
     private Ventana ventana;
     private IPersonasBO personasBO;
+    private ConsultarPersonaDTO personaDTO;
+    
     /**
      * Constructor de la clase VistaPersonaATramitar.
      *
      * @param ventana La ventana de Persona a tramitar recibe datos para
      * consultar personas.
      */
-    public VistaPersonaATramitar(Ventana ventana, IPersonasBO personasBO) {
+    public VistaPersonaATramitar(Ventana ventana) {
         this.ventana = ventana;
-        this.personasBO = personasBO;
+        this.personasBO = new PersonasBO();
         initComponents();
         
     }
@@ -45,11 +49,13 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnConfirmar = new javax.swing.JButton();
         btnTramitesDisponibles = new javax.swing.JButton();
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        lblConfirmacion = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -63,10 +69,27 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblLogo4 = new javax.swing.JLabel();
         lblCurpPersona = new javax.swing.JLabel();
         txtRfcPersona = new javax.swing.JTextField();
+        lblTelefono = new javax.swing.JLabel();
+        lblTelefonoTitulo = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblNombreTitulo = new javax.swing.JLabel();
+        lblFechaNacimiento = new javax.swing.JLabel();
+        lblFechaNacimientoTitulo = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnConfirmar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnConfirmar.setForeground(new java.awt.Color(253, 253, 253));
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.setContentAreaFilled(false);
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+        add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(473, 488, 142, 45));
 
         btnTramitesDisponibles.setBorder(null);
         btnTramitesDisponibles.setBorderPainted(false);
@@ -118,6 +141,11 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
             }
         });
         add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, 142, 45));
+
+        lblConfirmacion.setFont(new java.awt.Font("Amazon Ember", 1, 24)); // NOI18N
+        lblConfirmacion.setForeground(new java.awt.Color(196, 4, 67));
+        lblConfirmacion.setText("¿Son correctos los datos?");
+        add(lblConfirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 321, 300, 43));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
@@ -180,6 +208,27 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         });
         add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 218, 440, 34));
 
+        lblTelefono.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 440, -1, -1));
+
+        lblTelefonoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblTelefonoTitulo.setText("Teléfono");
+        add(lblTelefonoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, -1, -1));
+
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, -1, -1));
+
+        lblNombreTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNombreTitulo.setText("Nombre");
+        add(lblNombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
+
+        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
+
+        lblFechaNacimientoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblFechaNacimientoTitulo.setText("Fecha Nacimiento");
+        add(lblFechaNacimientoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, -1, -1));
+
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaPersonaATramitar.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
@@ -230,43 +279,44 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      * hace clic y despliega la lista en una tabla).
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        ConsultarPersonaDTO personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
-        Persona persona = personasBO.consultarPersonaPorCurp(personaDTO);
-//        
-//        Calendar fechaNacimiento = persona.getFechaNacimiento();
-//        Calendar fechaActual = Calendar.getInstance();
-//
-//        int años = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
-//        if (años >= 18) {
-//            if (persona.getDiscapacidad().equals("NORMAL")) {
-//                costoTitulo.setText("Costo normal");
-//                costo1.setText("600");
-//                costo2.setText("900");
-//                costo3.setText("1100");
-//            } else {
-//                costoTitulo.setText("Costo Discapacitados");
-//                costo1.setText("200");
-//                costo2.setText("500");
-//                costo3.setText("700");
-//            }
-//        } else {
-//            new Aviso().mostrarAviso(ventana, "No se puede tramitar a un menor de edad");
-//        }
+        personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
+        personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
+        lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
+
+        //formato de fecha 
+        Calendar fechaNacimiento = personaDTO.getFechaNacimiento();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFormateada = formato.format(fechaNacimiento.getTime());
+
+        lblFechaNacimiento.setText(fechaFormateada);
+        lblTelefono.setText(personaDTO.getTelefono());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtRfcPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcPersonaActionPerformed
         
     }//GEN-LAST:event_txtRfcPersonaActionPerformed
 
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        if (personaDTO != null) {
+            ventana.cambiarVistaTramitarLicencia(personaDTO);
+        } else{
+            new Aviso().mostrarAviso(ventana, "Primero busca a la persona para avazar");
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel lblConfirmacion;
     private javax.swing.JLabel lblCurpPersona;
+    private javax.swing.JLabel lblFechaNacimiento;
+    private javax.swing.JLabel lblFechaNacimientoTitulo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
@@ -274,7 +324,11 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private javax.swing.JLabel lblLogo4;
     private javax.swing.JLabel lblLogoInfo;
     private javax.swing.JLabel lblModuloConsultas;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombreTitulo;
     private javax.swing.JLabel lblReportes;
+    private javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblTelefonoTitulo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;

@@ -2,6 +2,8 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
+import org.itson.bdavanzadas.conexion.Conexion;
+import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
 
@@ -13,17 +15,18 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
  */
 public class VistaInicio extends javax.swing.JPanel {
 
-    private  Ventana ventana;
-    private IPersonasBO personasBO;
+    private Ventana ventana;
+    private IConexion conexion = new Conexion();
+    private IPersonasBO personasBO = new PersonasBO();
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaInicio(Ventana ventana, IPersonasBO personasBO) {
+    public VistaInicio(Ventana ventana) {
         this.ventana = ventana;
-        this.personasBO = personasBO;
+        this.personasBO = new PersonasBO();
         initComponents();
     }
 

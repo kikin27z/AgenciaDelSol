@@ -19,8 +19,10 @@ import org.itson.bdavanzadas.excepciones.PersistenciaException;
 public class AgenciaDelSolPersistencia {
 
     public static void main(String[] args) {
-//            IConexion conexion = new Conexion();
-//            IPersonasDAO personasDAO = new PersonasDAO(conexion);
+            IConexion conexion = new Conexion();
+            IPersonasDAO personasDAO = new PersonasDAO(conexion);
+            
+            
 //       
 //            try{
 //                Persona persona = personasDAO.consultarPersonaPorCurp("CAMG040802HSRSLLA5");

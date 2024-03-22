@@ -21,14 +21,7 @@ public class AgenciaDelSol {
     
     
     public static void main(String[] args) {
-        IPersonasDAO personasDAO;
-        IConexion conexion = new Conexion();
-        personasBO = new PersonasBO(new PersonasDAO(conexion));
-        
-        
-        
-        
-        Ventana ventana = new Ventana(personasBO);
+        Ventana ventana = new Ventana();
         
         ventana.cambiarVistaInicio();
         ventana.setVisible(true);
