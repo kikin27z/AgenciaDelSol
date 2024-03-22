@@ -58,7 +58,7 @@ public class LicenciaBO implements ILicenciaBO{
             licencia.setCosto(licenciaDTO.getCosto());
             licencia.setPersona(persona);
             
-            licenciasDAO.desactivarLicencias(persona);
+//            licenciasDAO.desactivarLicencias(persona);
             licenciasDAO.tramitarLicencias(licencia);
             
             return licenciaDTO;

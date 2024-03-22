@@ -7,11 +7,14 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
+import org.itson.bdavanzadas.entidades.Tramite;
 
 /**
  * Esta clase implementa la interfaz ILicenciasDAO y proporciona métodos para
@@ -49,21 +52,16 @@ public class LicenciasDAO implements ILicenciasDAO{
     @Override
     public void desactivarLicencias(Persona persona) {
         EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Licencia> criteriaQuery = criteriaBuilder.createQuery(Licencia.class);
+        Root<Tramite> tramiteRoot = criteriaQuery.from(Tramite.class);
+        Join<Tramite, Licencia> licenciaJoin = tramiteRoot.join("licencia");
+
+        Predicate predicate = criteriaBuilder.equal(tramiteRoot.get("persona").get("id"), persona.getId());
+
+        criteriaQuery.select(licenciaJoin).where(predicate);
         
-        Query query = entityManager.createQuery("SELECT l FROM Licencias l INNER JOIN l.tramite t WHERE t.persona.id = :idPersona");
-        query.setParameter("idPersona", persona.getId());
-        
-        List<Licencia> licencias = (List<Licencia>) query.getResultList();
-        
-        
-//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//
-//        CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
-//        Root<Licencia> root = criteria.from(Licencia.class);
-//        
-//        criteria.select(root).where(builder.equal(root.get("id"), persona.getId())); 
-//        TypedQuery<Licencia> query = entityManager.createQuery(criteria);
-//        List<Licencia> licencias = query.getResultList();
+        List<Licencia> licencias = entityManager.createQuery(criteriaQuery).getResultList();
         
         if(licencias != null){
             for (Licencia licencia : licencias) {
