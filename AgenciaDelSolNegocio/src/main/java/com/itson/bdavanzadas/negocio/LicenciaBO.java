@@ -5,13 +5,18 @@
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.bdavanzadas.conexion.Conexion;
+import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.ILicenciasDAO;
+import org.itson.bdavanzadas.daos.LicenciasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * @author José Karim Franco Valencia - 245138
@@ -24,26 +29,39 @@ public class LicenciaBO implements ILicenciaBO{
     private PersonasBO personasBO;
     private PersonasDAO personasDAO;
     static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
+    IConexion conexion;
 
-    public LicenciaBO(ILicenciasDAO licenciasDAO, PersonasBO personasBO) {
-        this.licenciasDAO = licenciasDAO;
-        this.personasBO = personasBO;
+    public LicenciaBO() {
+        conexion = new Conexion();
     }
 
     @Override
     public LicenciasDTO realizarTramite(LicenciasDTO licenciaDTO) {
-        Licencia licencia = new Licencia(
-                licenciaDTO.getEstado(), 
-                licenciaDTO.getFechaVigencia()
-        );
-        
-        licencia.setFechaEmision(licenciaDTO.getFechaEmision());
-        licencia.setCosto(licenciaDTO.getCosto());
-        licencia.setPersona(licenciaDTO.getPersona());
-        
-        licenciasDAO.tramitarLicencias(licencia);
-        
-        return licenciaDTO;
+            licenciasDAO = new LicenciasDAO(conexion);
+            Licencia licencia = new Licencia(
+                    licenciaDTO.getEstado(),
+                    licenciaDTO.getFechaVigencia()
+            );
+            personasDAO = new PersonasDAO(conexion);
+            
+            Persona persona = new Persona();
+            persona.setRfc(licenciaDTO.getPersona().getRfc());
+            
+        try {
+            persona = personasDAO.consultarPersonaPorRfc(persona);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(LicenciaBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+            licencia.setFechaEmision(licenciaDTO.getFechaEmision());
+            licencia.setCosto(licenciaDTO.getCosto());
+            licencia.setPersona(persona);
+            
+            licenciasDAO.desactivarLicencias(persona);
+            licenciasDAO.tramitarLicencias(licencia);
+            
+            return licenciaDTO;
     }
     
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itson.bdavanzadas.dtos;
 
 import java.util.Calendar;
@@ -19,9 +15,9 @@ public class LicenciasDTO {
     private Calendar fechaVigencia;
     private Calendar fechaEmision;
     private Float costo;
-    private Persona persona;
+    private ConsultarPersonaDTO persona;
 
-    public LicenciasDTO(EstadoLicencia estado, Calendar fechaVigencia, Calendar fechaEmision, Float costo, Persona persona) {
+    public LicenciasDTO(EstadoLicencia estado, Calendar fechaVigencia, Calendar fechaEmision, Float costo, ConsultarPersonaDTO persona) {
         this.estado = estado;
         this.fechaVigencia = fechaVigencia;
         this.fechaEmision = fechaEmision;
@@ -61,13 +57,15 @@ public class LicenciasDTO {
         this.costo = costo;
     }
 
-    public Persona getPersona() {
+    public ConsultarPersonaDTO getPersona() {
         return persona;
     }
 
-    public void setPersona(Persona persona) {
+    public void setPersona(ConsultarPersonaDTO persona) {
         this.persona = persona;
     }
+
+    
     
     
 }

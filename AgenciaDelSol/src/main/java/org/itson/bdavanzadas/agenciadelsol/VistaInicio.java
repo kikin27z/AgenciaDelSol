@@ -1,5 +1,6 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import org.itson.bdavanzadas.conexion.Conexion;
@@ -45,7 +46,7 @@ public class VistaInicio extends javax.swing.JPanel {
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
         btnInsercionMasiva = new javax.swing.JButton();
-        btnTramitarLicencia2 = new javax.swing.JButton();
+        btnTramitarLicencia = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -128,15 +129,15 @@ public class VistaInicio extends javax.swing.JPanel {
         });
         add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(587, 184, 150, 145));
 
-        btnTramitarLicencia2.setBorder(null);
-        btnTramitarLicencia2.setBorderPainted(false);
-        btnTramitarLicencia2.setContentAreaFilled(false);
-        btnTramitarLicencia2.addActionListener(new java.awt.event.ActionListener() {
+        btnTramitarLicencia.setBorder(null);
+        btnTramitarLicencia.setBorderPainted(false);
+        btnTramitarLicencia.setContentAreaFilled(false);
+        btnTramitarLicencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTramitarLicencia2ActionPerformed(evt);
+                btnTramitarLicenciaActionPerformed(evt);
             }
         });
-        add(btnTramitarLicencia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 184, 150, 145));
+        add(btnTramitarLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 184, 150, 145));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
@@ -225,7 +226,11 @@ public class VistaInicio extends javax.swing.JPanel {
      * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Trámites disponibles").
      */
     private void btnTramitesEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesEnCursoActionPerformed
-        ventana.cambiarVistaTramitesEnCurso();
+        if(ventana.isSeHizoInsercion()){
+            ventana.cambiarVistaTramitesEnCurso();
+        }else{
+            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
+        }
     }//GEN-LAST:event_btnTramitesEnCursoActionPerformed
 
     /**
@@ -234,7 +239,11 @@ public class VistaInicio extends javax.swing.JPanel {
      * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Módulo consultas").
      */
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
-        ventana.cambiarVistaModuloConsultas();
+        if(ventana.isSeHizoInsercion()){
+            ventana.cambiarVistaModuloConsultas();
+        }else{
+            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
+        }
     }//GEN-LAST:event_btnModuloConsultasActionPerformed
 
     /**
@@ -251,19 +260,28 @@ public class VistaInicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTramitarPlacaActionPerformed
 
     private void btnInsercionMasivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsercionMasivaActionPerformed
-        personasBO.incersionMasivaPersonas();
+        if(ventana.isSeHizoInsercion()){
+            new Aviso().mostrarAviso(ventana, "Ya hizo la insercion masiva");
+        }else{
+            personasBO.incersionMasivaPersonas();
+            ventana.setSeHizoInsercion(true);
+        }
     }//GEN-LAST:event_btnInsercionMasivaActionPerformed
 
-    private void btnTramitarLicencia2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarLicencia2ActionPerformed
-        ventana.cambiarVistaPersonaATramitar();
-    }//GEN-LAST:event_btnTramitarLicencia2ActionPerformed
+    private void btnTramitarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarLicenciaActionPerformed
+        if(ventana.isSeHizoInsercion()){
+            ventana.cambiarVistaPersonaATramitar();
+        }else{
+            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
+        }
+    }//GEN-LAST:event_btnTramitarLicenciaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInsercionMasiva;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
-    private javax.swing.JButton btnTramitarLicencia2;
+    private javax.swing.JButton btnTramitarLicencia;
     private javax.swing.JButton btnTramitarPlaca;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;

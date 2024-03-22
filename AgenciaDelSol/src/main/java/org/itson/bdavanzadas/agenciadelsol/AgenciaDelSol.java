@@ -15,9 +15,6 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
  * @author Gael Rafael Castro Molina - 247887
  */
 public class AgenciaDelSol {
-
-    private static IPersonasBO personasBO;
-    
     
     
     public static void main(String[] args) {

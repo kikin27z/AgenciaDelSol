@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.itson.bdavanzadas.daos;
 
+import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
+import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
+import org.itson.bdavanzadas.entidades.Persona;
 
 /**
  * Esta clase implementa la interfaz ILicenciasDAO y proporciona métodos para
@@ -28,6 +32,7 @@ public class LicenciasDAO implements ILicenciasDAO{
 
     @Override
     public Licencia tramitarLicencias(Licencia licencia) {
+        
         EntityManager em = conexion.crearConexion();
         
         em.getTransaction().begin();
@@ -39,6 +44,31 @@ public class LicenciasDAO implements ILicenciasDAO{
         em.close();
         
         return licencia;
+    }
+
+    @Override
+    public void desactivarLicencias(Persona persona) {
+        EntityManager entityManager = conexion.crearConexion();
+        
+        Query query = entityManager.createQuery("SELECT l FROM Logro l ORDER BY l.puntos DESC");
+        
+        List<Licencia> licencias = (List<Licencia>) query.getResultList();
+        
+        
+//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//
+//        CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
+//        Root<Licencia> root = criteria.from(Licencia.class);
+//        
+//        criteria.select(root).where(builder.equal(root.get("id"), persona.getId())); 
+//        TypedQuery<Licencia> query = entityManager.createQuery(criteria);
+//        List<Licencia> licencias = query.getResultList();
+        
+        if(licencias != null){
+            for (Licencia licencia : licencias) {
+                licencia.setEstado(EstadoLicencia.INACTIVA);
+            }
+        }
     }
     
 }

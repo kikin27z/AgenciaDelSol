@@ -16,12 +16,14 @@ public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
     private IPersonasBO personasBO;
+    private boolean seHizoInsercion;
 
     
     /**
      * Creates new form Ventana
      */
     public Ventana() {
+        seHizoInsercion = false;
         initComponents();
     }
 
@@ -122,6 +124,16 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaTramitarLicencia);
         panelActual = vistaTramitarLicencia;
     }
+
+    public boolean isSeHizoInsercion() {
+        return seHizoInsercion;
+    }
+
+    public void setSeHizoInsercion(boolean seHizoInsercion) {
+        this.seHizoInsercion = seHizoInsercion;
+    }
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

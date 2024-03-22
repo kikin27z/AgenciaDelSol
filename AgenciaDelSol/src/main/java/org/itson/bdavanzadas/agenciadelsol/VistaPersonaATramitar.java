@@ -216,11 +216,11 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         add(lblTelefonoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, -1, -1));
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, -1, -1));
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, -1, -1));
 
         lblNombreTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNombreTitulo.setText("Nombre");
-        add(lblNombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
+        add(lblNombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, -1, -1));
 
         lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));

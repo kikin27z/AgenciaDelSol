@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package org.itson.bdavanzadas.daos;
 
 import org.itson.bdavanzadas.entidades.Licencia;
+import org.itson.bdavanzadas.entidades.Persona;
 
 /**
  * Esta interfaz define métodos para acceder y manipular datos relacionados con personas en la base de datos.
@@ -17,4 +14,7 @@ import org.itson.bdavanzadas.entidades.Licencia;
  */
 public interface ILicenciasDAO {
     public Licencia tramitarLicencias(Licencia licencia);
+    
+    
+    public void desactivarLicencias(Persona persona);
 }

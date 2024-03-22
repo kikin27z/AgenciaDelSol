@@ -289,7 +289,6 @@
             <StringItem index="2" value="3 A&#xd1;OS"/>
           </StringArray>
         </Property>
-        <Property name="selectedIndex" type="int" value="-1"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Events>

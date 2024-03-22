@@ -1,5 +1,6 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.negocio.ILicenciaBO;
@@ -27,6 +28,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     private IPersonasBO personasBO;
     private ILicenciaBO licenciasBO;
     private ConsultarPersonaDTO personaDTO;
+    private LicenciasDTO licenciaDTO;
     
     /**
      * Constructor de la clase VistaPersonaATramitar.
@@ -37,10 +39,15 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     public VistaTramitarLicencia(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
-//        this.licenciasBO = new LicenciaBO(licenciasDAO, personasBO)
+        this.licenciasBO = new LicenciaBO();
         this.personaDTO = personaDTO;
-        initComponents();
         
+        initComponents();
+        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+            lblCosto.setText("$600.00 MXN");
+        }else{
+            lblCosto.setText("$200.00 MXN");
+        }
     }
 
     
@@ -187,7 +194,6 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         cbxAnioVigencia.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
         cbxAnioVigencia.setForeground(new java.awt.Color(157, 134, 90));
         cbxAnioVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 AÑO", "2 AÑOS", "3 AÑOS" }));
-        cbxAnioVigencia.setSelectedIndex(-1);
         cbxAnioVigencia.setFocusable(false);
         cbxAnioVigencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,8 +376,11 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnTramitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarActionPerformed
+        if(!new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer tramitar la licencia?", "¿Quiére una nueva licencia?")){
+            return;
+        }
         int seleccion = cbxAnioVigencia.getSelectedIndex();
-        Integer años = cbxAnioVigencia.getSelectedIndex();
+        Integer años = cbxAnioVigencia.getSelectedIndex()+1;
         float costo = 0F;
         
         if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
@@ -403,24 +412,16 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         Calendar fechaVigencia = (Calendar) fechaEmision.clone();
         fechaVigencia.add(Calendar.YEAR, años);
         
-        ConsultarPersonaDTO personaConsultada = personasBO.consultarPersonaPorRfc(personaDTO);
-        Persona persona = new Persona(
-                personaConsultada.getNombres(), 
-                personaConsultada.getApellidoPaterno(), 
-                personaConsultada.getApellidoMaterno(), 
-                personaConsultada.getTelefono(), 
-                personaConsultada.getTelefono(), 
-                personaConsultada.getFechaNacimiento(), 
-                personaConsultada.getDiscapacidad()
-        );
 
-        LicenciasDTO licenciaDTO = new LicenciasDTO(
+        licenciaDTO = new LicenciasDTO(
                 EstadoLicencia.ACTIVA, 
                 fechaVigencia, 
                 fechaEmision, 
                 costo, 
-                persona);
+                personaDTO);
         licenciasBO.realizarTramite(licenciaDTO);
+        
+        
     }//GEN-LAST:event_btnTramitarActionPerformed
 
 
