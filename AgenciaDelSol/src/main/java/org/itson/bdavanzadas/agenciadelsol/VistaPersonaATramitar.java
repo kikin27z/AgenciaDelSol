@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.entidades.Persona;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * Clase que representa la vista para tramitar una licencia para una persona en
@@ -35,6 +36,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     public VistaPersonaATramitar(Ventana ventana) {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
+        this.personaDTO = new ConsultarPersonaDTO();
         initComponents();
 
     }
@@ -280,6 +282,10 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
         personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
+        if(personaDTO == null){
+            new Aviso().mostrarAviso(ventana, "No se encontro la persona con ese rfc");
+            return;
+        }
         lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
 
         //formato de fecha 

@@ -2,6 +2,7 @@ package org.itson.bdavanzadas.daos;
 
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
@@ -90,14 +91,18 @@ public class PersonasDAO implements IPersonasDAO {
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
 
-        Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
-        query.setParameter("rfc", persona.getRfc());
 
-        Persona personaConsultada = (Persona) query.getSingleResult();
-
-        entityManager.close();
-
-        return personaConsultada;
+            try{
+                Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+                query.setParameter("rfc", persona.getRfc());
+                Persona personaConsultada = (Persona) query.getSingleResult();
+                return  personaConsultada;
+            }catch(NoResultException nre){
+                throw new PersistenciaException("RFC inválido");
+            }finally{
+                entityManager.close();  
+            }
+            
     }
 
 }

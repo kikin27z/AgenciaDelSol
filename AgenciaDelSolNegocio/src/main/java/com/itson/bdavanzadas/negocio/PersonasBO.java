@@ -74,13 +74,6 @@ public class PersonasBO implements IPersonasBO {
     @Override
     public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) {
         try {
-            String rfc = personaDTO.getRfc();
-
-            if (rfc.length() != 13) {
-                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La RFC debe tener una longitud de 13 caracteres");
-                return null;
-            }
-
             Persona personaBuscar = new Persona();
             personaBuscar.setRfc(personaDTO.getRfc());
             persona = personasDAO.consultarPersonaPorRfc(personaBuscar);
@@ -94,15 +87,10 @@ public class PersonasBO implements IPersonasBO {
                     persona.getDiscapacidad()
             );
 
-            if (esMayor(persona.getFechaNacimiento())) {
                 return personaEncontrada;
-            } else {
-                Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, "La persona debe de ser mayor");
-                return null;
-            }
         } catch (PersistenciaException ex) {
-            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            
+        return null;
         }
     }
 

@@ -7,6 +7,7 @@ package com.itson.bdavanzadas.negocio;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.PersistenceException;
 import org.itson.bdavanzadas.entidades.Persona;
 
 /**
@@ -61,6 +62,6 @@ public interface IPersonasBO {
      * @return ConsultarPersonaDTO con la información de la persona encontrada,
      * o null si no se encuentra o no cumple con los requisitos.
      */
-    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO);
+    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws PersistenceException;
 
 }
