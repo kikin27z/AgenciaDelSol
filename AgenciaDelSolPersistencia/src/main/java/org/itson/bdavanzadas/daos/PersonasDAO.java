@@ -2,8 +2,13 @@ package org.itson.bdavanzadas.daos;
 
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
@@ -74,18 +79,30 @@ public class PersonasDAO implements IPersonasDAO {
         entityManager.close();
     }
 
+    /**
+     * Busca una persona en la base de datos por su RFC.
+     *
+     * @param persona Objeto Persona que contiene el RFC de la persona a buscar.
+     * @return La persona encontrada en la base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
-    public Persona consultarPersonaPorCurp(String curp) throws PersistenciaException {
+    public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
 
-        Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.curp = :curp");
-        query.setParameter("curp", curp);
 
-        Persona persona = (Persona) query.getSingleResult();
-
-        entityManager.close();
-
-        return persona;
+            try{
+                Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+                query.setParameter("rfc", persona.getRfc());
+                Persona personaConsultada = (Persona) query.getSingleResult();
+                return  personaConsultada;
+            }catch(NoResultException nre){
+                throw new PersistenciaException("RFC inválido");
+            }finally{
+                entityManager.close();  
+            }
+            
     }
 
 }

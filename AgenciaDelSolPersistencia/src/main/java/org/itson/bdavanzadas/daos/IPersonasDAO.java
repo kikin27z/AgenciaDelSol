@@ -31,11 +31,11 @@ public interface IPersonasDAO {
     
     
     /**
-     * Realiza una consulta de personas en base a la curp.
-     * @param curp
+     * Realiza una consulta de personas en base a la rfc.
+     * @param persona Persona a consultar.
      * @return La persona coincidente.
      * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
-    public Persona consultarPersonaPorCurp(String curp) throws PersistenciaException;
+    public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException;
   
 }

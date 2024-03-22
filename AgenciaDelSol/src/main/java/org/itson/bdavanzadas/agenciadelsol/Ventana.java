@@ -1,11 +1,14 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
 
 /**
+ * Clase que representa la ventana principal de la aplicación.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -15,14 +18,13 @@ public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
     private IPersonasBO personasBO;
-    private IPersonasDAO personasDAO;
-    
+    private boolean seHizoInsercion;
+
     /**
      * Creates new form Ventana
      */
-    public Ventana(IPersonasBO personasBO) {
-        this.personasBO = personasBO;
-        
+    public Ventana() {
+        seHizoInsercion = false;
         initComponents();
     }
 
@@ -54,7 +56,6 @@ public class Ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     /**
      * Método para limpiar el contenido de la ventana. Si hay un panel
      * actualmente mostrado, lo elimina de la ventana.
@@ -65,7 +66,7 @@ public class Ventana extends javax.swing.JFrame {
             panelActual = null;
         }
     }
-    
+
     /**
      * Método para agregar un panel a la ventana. Este método agrega el panel
      * especificado a la ventana, lo posiciona y ajusta su tamaño
@@ -79,51 +80,135 @@ public class Ventana extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.pack();  // Ajustar el tamaño automáticamente
     }
-    
-    
-    
+
+    /**
+     * Cambia la vista actual del frame a la vista de inicio.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista de inicio. Luego, coloca esta nueva
+     * vista en el frame y actualiza el panel actual al nuevo panel de inicio.
+     */
     public void cambiarVistaInicio() {
         limpiarFrame();
-        VistaInicio vistaInicio = new VistaInicio(this, personasBO, (PersonasDAO) personasDAO);
+        VistaInicio vistaInicio = new VistaInicio(this);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
     }
-    
+
+    /**
+     * Cambia la vista actual del frame a la vista del módulo de reporte.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista del módulo de reporte. Luego, coloca
+     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
+     * del módulo de reporte.
+     */
     public void cambiarVistaModuloReporte() {
         limpiarFrame();
         VistaModuloReporte vistaReporte = new VistaModuloReporte(this);
         ponerEnJFrame(vistaReporte);
         panelActual = vistaReporte;
     }
-    
+
+    /**
+     * Cambia la vista actual del frame a la vista del módulo de consultas.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista del módulo de consultas. Luego,
+     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
+     * panel del módulo de consultas.
+     */
     public void cambiarVistaModuloConsultas() {
         limpiarFrame();
         VistaModuloConsultas vistaModuloConsultas = new VistaModuloConsultas(this);
         ponerEnJFrame(vistaModuloConsultas);
         panelActual = vistaModuloConsultas;
     }
-    
-    public void cambiarVistaTramitesEnCurso(){
+
+    /**
+     * Cambia la vista actual del frame a la vista de los trámites en curso.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista de los trámites en curso. Luego,
+     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
+     * panel de los trámites en curso.
+     */
+    public void cambiarVistaTramitesEnCurso() {
         limpiarFrame();
         VistaTramitesEnCurso vistaTramitesEnCurso = new VistaTramitesEnCurso(this);
         ponerEnJFrame(vistaTramitesEnCurso);
         panelActual = vistaTramitesEnCurso;
     }
-    
-    public void cambiarVistaOpcionesPersona(){
+
+    /**
+     * Cambia la vista actual del frame a la vista de persona a tramitar.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista de persona a tramitar. Luego, coloca
+     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
+     * de persona a tramitar.
+     */
+    public void cambiarVistaPersonaATramitar() {
         limpiarFrame();
-        VistaOpcionesPersona vistaOpcionesPersona = new VistaOpcionesPersona(this);
-        ponerEnJFrame(vistaOpcionesPersona);
-        panelActual = vistaOpcionesPersona;
-    }
-    
-    public void cambiarVistaPersonaATramitar(){
-        limpiarFrame();
-        VistaPersonaATramitar vistaPersonaATramitar = new VistaPersonaATramitar(this, personasBO);
+        VistaPersonaATramitar vistaPersonaATramitar = new VistaPersonaATramitar(this);
         ponerEnJFrame(vistaPersonaATramitar);
         panelActual = vistaPersonaATramitar;
     }
+
+    /**
+     * Cambia la vista actual del frame a la vista de tramitar licencia con la
+     * información de una persona.
+     *
+     * Este método elimina cualquier componente presente en el frame actual y
+     * crea una nueva instancia de la vista de tramitar licencia, pasando como
+     * parámetro la información de la persona proporcionada en un objeto
+     * ConsultarPersonaDTO. Luego, coloca esta nueva vista en el frame y
+     * actualiza el panel actual al nuevo panel de tramitar licencia.
+     *
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona para tramitar la licencia.
+     */
+    public void cambiarVistaTramitarLicencia(ConsultarPersonaDTO personaDTO) {
+        limpiarFrame();
+        VistaTramitarLicencia vistaTramitarLicencia = new VistaTramitarLicencia(this, personaDTO);
+        ponerEnJFrame(vistaTramitarLicencia);
+        panelActual = vistaTramitarLicencia;
+    }
     
+    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
+        ponerEnJFrame(vistaConfirmarLicencia);
+        panelActual = vistaConfirmarLicencia;
+    }
+
+    /**
+     * Verifica si se ha realizado una inserción masiva de personas.
+     *
+     * Este método devuelve un valor booleano que indica si se ha realizado una
+     * inserción masiva de personas en el sistema.
+     *
+     * @return true si se ha realizado una inserción masiva de personas, false
+     * en caso contrario.
+     */
+    public boolean isSeHizoInsercion() {
+        return seHizoInsercion;
+    }
+
+    /**
+     * Establece si se ha realizado una inserción masiva de personas.
+     *
+     * Este método establece el estado de la inserción masiva de personas en el
+     * sistema.
+     *
+     * @param seHizoInsercion true si se ha realizado una inserción masiva de
+     * personas, false en caso contrario.
+     */
+    public void setSeHizoInsercion(boolean seHizoInsercion) {
+        this.seHizoInsercion = seHizoInsercion;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 public class Tramite implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id_tramite")
@@ -43,15 +42,8 @@ public class Tramite implements Serializable {
     @Temporal (TemporalType.TIMESTAMP)
     private Calendar fechaEmision;
     
-    @Column (name = "fecha_recepcion", nullable = true)
-    @Temporal (TemporalType.TIMESTAMP)
-    private Calendar fechaRecepcion;
-    
     @Column (name = "costo", nullable = false)
     private Float costo;
-    
-    @Column (name = "nombre_completo", nullable = false, length = 110)
-    private String nombre;
     
     @ManyToOne ()
     @JoinColumn (name = "id_persona", nullable = false)
@@ -63,6 +55,21 @@ public class Tramite implements Serializable {
     public Tramite() {
     }
 
+    /**
+     * Constructor de la clase Tramite.
+     *
+     * Este constructor inicializa un objeto Tramite con la fecha de emisión, el
+     * costo y la persona asociada proporcionados.
+     *
+     * @param fechaEmision La fecha en que se emite el trámite.
+     * @param costo El costo asociado al trámite.
+     * @param persona La persona asociada al trámite.
+     */
+    public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
+        this.fechaEmision = fechaEmision;
+        this.costo = costo;
+        this.persona = persona;
+    }
     
     /**
      * Obtiene el ID del trámite.
@@ -101,24 +108,6 @@ public class Tramite implements Serializable {
     }
 
     /**
-     * Obtiene la fecha de recepción del trámite.
-     * 
-     * @return La fecha de recepción del trámite.
-     */
-    public Calendar getFechaRecepcion() {
-        return fechaRecepcion;
-    }
-
-    /**
-     * Establece la fecha de recepción del trámite.
-     * 
-     * @param fechaRecepcion La fecha de recepción del trámite.
-     */
-    public void setFechaRecepcion(Calendar fechaRecepcion) {
-        this.fechaRecepcion = fechaRecepcion;
-    }
-
-    /**
      * Obtiene el costo del trámite.
      * 
      * @return El costo del trámite.
@@ -134,24 +123,6 @@ public class Tramite implements Serializable {
      */
     public void setCosto(Float costo) {
         this.costo = costo;
-    }
-
-    /**
-     * Obtiene el nombre completo asociado al trámite.
-     * 
-     * @return El nombre completo asociado al trámite.
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Establece el nombre completo asociado al trámite.
-     * 
-     * @param nombre El nombre completo asociado al trámite.
-     */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     /**
@@ -171,7 +142,7 @@ public class Tramite implements Serializable {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-    
+
     /**
      * Calcula y devuelve un valor hash basado en el ID del trámite.
      * 

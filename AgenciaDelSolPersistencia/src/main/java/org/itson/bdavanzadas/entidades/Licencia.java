@@ -32,9 +32,6 @@ public class Licencia extends Tramite implements Serializable {
     @Enumerated (EnumType.STRING)
     private EstadoLicencia estado;
     
-    @Column (name = "vigencia_anios", nullable = false)
-    private Integer vigenciaAnios;
-    
     @Column (name = "fecha_vigencia", nullable = true)
     @Temporal (TemporalType.TIMESTAMP)
     private Calendar fechaVigencia;
@@ -45,6 +42,11 @@ public class Licencia extends Tramite implements Serializable {
     public Licencia() {
     }
 
+    public Licencia(EstadoLicencia estado, Calendar fechaVigencia) {
+        this.estado = estado;
+        this.fechaVigencia = fechaVigencia;
+    }
+    
     /**
      * Obtiene el estado de la licencia.
      * 
@@ -61,24 +63,6 @@ public class Licencia extends Tramite implements Serializable {
      */
     public void setEstado(EstadoLicencia estado) {
         this.estado = estado;
-    }
-
-    /**
-     * Obtiene la vigencia en años de la licencia.
-     * 
-     * @return La vigencia en años de la licencia.
-     */
-    public Integer getVigenciaAnios() {
-        return vigenciaAnios;
-    }
-
-    /**
-     * Establece la vigencia en años de la licencia.
-     * 
-     * @param vigenciaAnios La vigencia en años de la licencia.
-     */
-    public void setVigenciaAnios(Integer vigenciaAnios) {
-        this.vigenciaAnios = vigenciaAnios;
     }
 
     /**
@@ -99,32 +83,32 @@ public class Licencia extends Tramite implements Serializable {
         this.fechaVigencia = fechaVigencia;
     }
 
-    /**
-     * Método para calcular el costo de la licencia basado en la vigencia y el estado de discapacidad.
-     */
-    public void calcularCosto(){
-        if(this.getPersona().getDiscapacidad() == Discapacidad.NORMAL){
-            switch (vigenciaAnios) {
-                case 1:
-                    this.setCosto(600F);
-                    break;
-                case 2:
-                    this.setCosto(900F);
-                default:
-                    this.setCosto(1100F);
-            }
-        }else{
-            switch (vigenciaAnios) {
-                case 1:
-                    this.setCosto(200F);
-                    break;
-                case 2:
-                    this.setCosto(500F);
-                default:
-                    this.setCosto(700F);
-            }
-        }
-    }
+//    /**
+//     * Método para calcular el costo de la licencia basado en la vigencia y el estado de discapacidad.
+//     */
+//    public void calcularCosto(){
+//        if(this.getPersona().getDiscapacidad() == Discapacidad.NORMAL){
+//            switch (vigenciaAnios) {
+//                case 1:
+//                    this.setCosto(600F);
+//                    break;
+//                case 2:
+//                    this.setCosto(900F);
+//                default:
+//                    this.setCosto(1100F);
+//            }
+//        }else{
+//            switch (vigenciaAnios) {
+//                case 1:
+//                    this.setCosto(200F);
+//                    break;
+//                case 2:
+//                    this.setCosto(500F);
+//                default:
+//                    this.setCosto(700F);
+//            }
+//        }
+//    }
     
     
 }

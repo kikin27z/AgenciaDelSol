@@ -57,9 +57,6 @@ public class Persona implements Serializable {
     @Column (name = "rfc", nullable = false, length = 13, unique = true)
     private String rfc;
     
-    @Column (name = "curp", nullable = false, length = 18, unique = true)
-    private String curp;
-    
     @Column (name = "fecha_nacimiento", nullable =  false)
     @Temporal (TemporalType.DATE)
     private Calendar fechaNacimiento;
@@ -88,17 +85,15 @@ public class Persona implements Serializable {
      * @param apellidoMaterno   El apellido materno de la persona.
      * @param telefono          El teléfono de la persona.
      * @param rfc               El RFC de la persona.
-     * @param curp              El CURP de la persona.
      * @param fechaNacimiento   La fecha de nacimiento de la persona.
      * @param discapacidad      El tipo de discapacidad de la persona.
      */
-    public Persona(String nombres, String apellidoPaterno, String apellidoMaterno, String telefono, String rfc, String curp, Calendar fechaNacimiento, Discapacidad discapacidad) {
+    public Persona(String nombres, String apellidoPaterno, String apellidoMaterno, String telefono, String rfc, Calendar fechaNacimiento, Discapacidad discapacidad) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.telefono = telefono;
         this.rfc = rfc;
-        this.curp = curp;
         this.fechaNacimiento = fechaNacimiento;
         this.discapacidad = discapacidad;
     }
@@ -209,24 +204,6 @@ public class Persona implements Serializable {
      */
     public void setRfc(String rfc) {
         this.rfc = rfc;
-    }
-
-    /**
-     * Obtiene el CURP de la persona.
-     * 
-     * @return El CURP de la persona.
-     */
-    public String getCurp() {
-        return curp;
-    }
-
-    /**
-     * Establece el CURP de la persona.
-     * 
-     * @param curp El CURP de la persona.
-     */
-    public void setCurp(String curp) {
-        this.curp = curp;
     }
 
     /**
