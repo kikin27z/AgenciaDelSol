@@ -421,7 +421,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
                 personaDTO);
         licenciasBO.realizarTramite(licenciaDTO);
         
-        
+        ventana.cambiarVistaConfirmacionTramiteLicencia(licenciaDTO);
     }//GEN-LAST:event_btnTramitarActionPerformed
 
 
