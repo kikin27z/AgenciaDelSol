@@ -19,6 +19,10 @@ import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
+ * Clase que implementa la lógica de negocio relacionada con las licencias.
+ * Se encarga de tramitar las licencias, desactivar licencias previas y gestionar
+ * la conexión con la capa de persistencia.
+ * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
@@ -31,10 +35,22 @@ public class LicenciaBO implements ILicenciaBO{
     static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
     IConexion conexion;
 
+    /**
+     * Constructor de la clase LicenciaBO.
+     * Inicializa la conexión con la base de datos.
+     */
     public LicenciaBO() {
         conexion = new Conexion();
     }
 
+    /**
+     * Realiza el trámite de una licencia.
+     * Este método tramita una nueva licencia para una persona dada, desactivando
+     * cualquier licencia previa que pueda tener.
+     * 
+     * @param licenciaDTO El DTO que contiene los datos de la licencia a tramitar.
+     * @return El DTO de la licencia tramitada.
+     */
     @Override
     public LicenciasDTO realizarTramite(LicenciasDTO licenciaDTO) {
             licenciasDAO = new LicenciasDAO(conexion);
