@@ -17,6 +17,8 @@ import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Persona;
 
 /**
+ * Clase que representa la vista para tramitar una licencia en la aplicación.
+ *
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -29,7 +31,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     private ILicenciaBO licenciasBO;
     private ConsultarPersonaDTO personaDTO;
     private LicenciasDTO licenciaDTO;
-    
+
     /**
      * Constructor de la clase VistaPersonaATramitar.
      *
@@ -41,16 +43,14 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         this.personasBO = new PersonasBO();
         this.licenciasBO = new LicenciaBO();
         this.personaDTO = personaDTO;
-        
+
         initComponents();
-        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+        if (personaDTO.getDiscapacidad() == Discapacidad.NORMAL) {
             lblCosto.setText("$600.00 MXN");
-        }else{
+        } else {
             lblCosto.setText("$200.00 MXN");
         }
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -344,9 +344,18 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    /**
+     * Maneja el evento de acción del combobox de año de vigencia.
+     *
+     * Este método se ejecuta cuando se selecciona un elemento del combobox de
+     * año de vigencia en la interfaz gráfica. Actualiza el costo mostrado según
+     * la selección del año de vigencia y el tipo de discapacidad de la persona.
+     *
+     * @param evt El evento de acción asociado al combobox de año de vigencia.
+     */
     private void cbxAnioVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAnioVigenciaActionPerformed
         int seleccion = cbxAnioVigencia.getSelectedIndex();
-        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+        if (personaDTO.getDiscapacidad() == Discapacidad.NORMAL) {
             switch (seleccion) {
                 case 0:
                     lblCosto.setText("$600.00 MXN");
@@ -357,7 +366,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
                 default:
                     lblCosto.setText("$1,100.00 MXN");
             }
-        }else{
+        } else {
             switch (seleccion) {
                 case 0:
                     lblCosto.setText("$200.00 MXN");
@@ -371,19 +380,37 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cbxAnioVigenciaActionPerformed
 
+    /**
+     * Maneja el evento de acción del botón de volver.
+     *
+     * Este método se ejecuta cuando se hace clic en el botón de volver en la
+     * interfaz gráfica. Se encarga de cambiar la vista actual de la ventana a
+     * la vista de tramitar licencia para una persona.
+     *
+     * @param evt El evento de acción asociado al botón de volver.
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         ventana.cambiarVistaPersonaATramitar();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    /**
+     * Maneja el evento de acción del botón de tramitar licencia.
+     *
+     * Este método se ejecuta cuando se hace clic en el botón de tramitar
+     * licencia en la interfaz gráfica. Se encarga de manejar la lógica
+     * relacionada con el trámite de una nueva licencia para una persona.
+     *
+     * @param evt El evento de acción asociado al botón de tramitar licencia.
+     */
     private void btnTramitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarActionPerformed
-        if(!new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer tramitar la licencia?", "¿Quiére una nueva licencia?")){
+        if (!new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer tramitar la licencia?", "¿Quiére una nueva licencia?")) {
             return;
         }
         int seleccion = cbxAnioVigencia.getSelectedIndex();
-        Integer años = cbxAnioVigencia.getSelectedIndex()+1;
+        Integer años = cbxAnioVigencia.getSelectedIndex() + 1;
         float costo = 0F;
-        
-        if(personaDTO.getDiscapacidad() == Discapacidad.NORMAL){
+
+        if (personaDTO.getDiscapacidad() == Discapacidad.NORMAL) {
             switch (seleccion) {
                 case 0:
                     costo = 600F;
@@ -394,7 +421,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
                 default:
                     costo = 1100F;
             }
-        }else{
+        } else {
             switch (seleccion) {
                 case 0:
                     costo = 200F;
@@ -406,18 +433,16 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
                     costo = 700F;
             }
         }
-        
-        
+
         Calendar fechaEmision = Calendar.getInstance();
         Calendar fechaVigencia = (Calendar) fechaEmision.clone();
         fechaVigencia.add(Calendar.YEAR, años);
-        
 
         licenciaDTO = new LicenciasDTO(
-                EstadoLicencia.ACTIVA, 
-                fechaVigencia, 
-                fechaEmision, 
-                costo, 
+                EstadoLicencia.ACTIVA,
+                fechaVigencia,
+                fechaEmision,
+                costo,
                 personaDTO);
         licenciasBO.realizarTramite(licenciaDTO);
         

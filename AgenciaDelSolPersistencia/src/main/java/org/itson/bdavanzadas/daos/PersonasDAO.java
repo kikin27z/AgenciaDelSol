@@ -78,6 +78,14 @@ public class PersonasDAO implements IPersonasDAO {
         entityManager.close();
     }
 
+    /**
+     * Busca una persona en la base de datos por su RFC.
+     *
+     * @param persona Objeto Persona que contiene el RFC de la persona a buscar.
+     * @return La persona encontrada en la base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta a la
+     * base de datos.
+     */
     @Override
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();

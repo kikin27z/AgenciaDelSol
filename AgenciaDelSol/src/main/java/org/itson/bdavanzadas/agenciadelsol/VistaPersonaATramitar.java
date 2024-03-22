@@ -1,6 +1,5 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
@@ -14,6 +13,8 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.entidades.Persona;
 
 /**
+ * Clase que representa la vista para tramitar una licencia para una persona en
+ * la aplicación.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -24,7 +25,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private Ventana ventana;
     private IPersonasBO personasBO;
     private ConsultarPersonaDTO personaDTO;
-    
+
     /**
      * Constructor de la clase VistaPersonaATramitar.
      *
@@ -35,10 +36,8 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
         initComponents();
-        
-    }
 
-    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -291,15 +290,26 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblFechaNacimiento.setText(fechaFormateada);
         lblTelefono.setText(personaDTO.getTelefono());
     }//GEN-LAST:event_btnBuscarActionPerformed
-
+    /**
+     * Campo de texto que recibe la RFC
+     *
+     * @param evt Se asocia rfc a persona
+     */
     private void txtRfcPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcPersonaActionPerformed
-        
-    }//GEN-LAST:event_txtRfcPersonaActionPerformed
 
+    }//GEN-LAST:event_txtRfcPersonaActionPerformed
+    /**
+     * Maneja el evento de acción del botón de confirmar.
+     *
+     * Este método se ejecuta cuando se hace clic en el botón de confirmar en la
+     * interfaz gráfica.
+     *
+     * @param evt El evento de acción asociado al botón de confirmar.
+     */
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         if (personaDTO != null) {
             ventana.cambiarVistaTramitarLicencia(personaDTO);
-        } else{
+        } else {
             new Aviso().mostrarAviso(ventana, "Primero busca a la persona para avazar");
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
