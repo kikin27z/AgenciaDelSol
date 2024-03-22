@@ -1,7 +1,9 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
+import java.text.SimpleDateFormat;
 import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
@@ -18,16 +20,19 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
     private Ventana ventana;
     private IConexion conexion = new Conexion();
     private IPersonasBO personasBO = new PersonasBO();
+    private LicenciasDTO licenciaDTO;
 
     /**
      * Constructor de la clase VistaInicio.
      *
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaConfirmacionTramiteLicencia(Ventana ventana) {
+    public VistaConfirmacionTramiteLicencia(Ventana ventana, LicenciasDTO licenciaDTO) {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
+        this.licenciaDTO = licenciaDTO;
         initComponents();
+        cargarDatos();
     }
 
     /**
@@ -69,7 +74,7 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
 
         lblCostoTramite.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblCostoTramite.setForeground(new java.awt.Color(196, 4, 67));
-        add(lblCostoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 362, 225, 38));
+        add(lblCostoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 362, 350, 38));
 
         lblNombreSolicitanteTramite.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblNombreSolicitanteTramite.setForeground(new java.awt.Color(196, 4, 67));
@@ -81,7 +86,7 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
 
         lblFechaTramite.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblFechaTramite.setForeground(new java.awt.Color(196, 4, 67));
-        add(lblFechaTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 163, 300, 43));
+        add(lblFechaTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 163, 500, 43));
 
         lblCosto.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(196, 4, 67));
@@ -131,5 +136,20 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
     private javax.swing.JLabel lblTipoTramite;
     private javax.swing.JLabel lblTramiteEnCurso;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarDatos() {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaFormateada = formato.format(licenciaDTO.getFechaEmision().getTime());
+        
+        lblFechaTramite.setText(fechaFormateada);
+        lblTipoTramite.setText("Expedición de licencia");
+        String nombreCompleto = licenciaDTO.getPersona().getNombres().concat(" "+licenciaDTO.getPersona().getApellidoPaterno());
+        lblNombreSolicitanteTramite.setText(nombreCompleto);
+        
+        String numeroFormateado = String.format("%.2f", licenciaDTO.getCosto());
+
+        lblCostoTramite.setText("$" + numeroFormateado + " MXN");
+        
+    }
 
 }

@@ -1,6 +1,7 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
@@ -123,6 +124,13 @@ public class Ventana extends javax.swing.JFrame {
         VistaTramitarLicencia vistaTramitarLicencia = new VistaTramitarLicencia(this, personaDTO);
         ponerEnJFrame(vistaTramitarLicencia);
         panelActual = vistaTramitarLicencia;
+    }
+    
+    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
+        ponerEnJFrame(vistaConfirmarLicencia);
+        panelActual = vistaConfirmarLicencia;
     }
 
     public boolean isSeHizoInsercion() {

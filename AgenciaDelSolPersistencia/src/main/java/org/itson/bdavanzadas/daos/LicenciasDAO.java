@@ -50,7 +50,8 @@ public class LicenciasDAO implements ILicenciasDAO{
     public void desactivarLicencias(Persona persona) {
         EntityManager entityManager = conexion.crearConexion();
         
-        Query query = entityManager.createQuery("SELECT l FROM Logro l ORDER BY l.puntos DESC");
+        Query query = entityManager.createQuery("SELECT l FROM Licencias l INNER JOIN l.tramite t WHERE t.persona.id = :idPersona");
+        query.setParameter("idPersona", persona.getId());
         
         List<Licencia> licencias = (List<Licencia>) query.getResultList();
         
