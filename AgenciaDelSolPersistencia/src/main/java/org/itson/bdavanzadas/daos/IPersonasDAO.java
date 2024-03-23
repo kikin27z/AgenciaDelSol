@@ -38,4 +38,10 @@ public interface IPersonasDAO {
      */
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException;
   
+     /**
+     * Verifica si existen registros de personas.
+     * 
+     * @return true si hay registros de personas, false si la tabla está vacía.
+     */
+    public boolean hayRegistros();
 }

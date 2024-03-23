@@ -277,11 +277,10 @@ public class VistaInicio extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de inserción masiva.
      */
     private void btnInsercionMasivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsercionMasivaActionPerformed
-        if (ventana.isSeHizoInsercion()) {
+        if (personasBO.hayRegistros()) {
             new Aviso().mostrarAviso(ventana, "Ya hizo la insercion masiva");
         } else {
             personasBO.insersionMasivaPersonas();
-            ventana.setSeHizoInsercion(true);
         }
     }//GEN-LAST:event_btnInsercionMasivaActionPerformed
 
@@ -291,7 +290,7 @@ public class VistaInicio extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de tramitar licencia.
      */
     private void btnTramitarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarLicenciaActionPerformed
-        if (ventana.isSeHizoInsercion()) {
+        if (personasBO.hayRegistros()) {
             ventana.cambiarVistaPersonaATramitar();
         } else {
             new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");

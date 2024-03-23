@@ -7,9 +7,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -82,33 +79,4 @@ public class Licencia extends Tramite implements Serializable {
     public void setFechaVigencia(Calendar fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
     }
-
-//    /**
-//     * Método para calcular el costo de la licencia basado en la vigencia y el estado de discapacidad.
-//     */
-//    public void calcularCosto(){
-//        if(this.getPersona().getDiscapacidad() == Discapacidad.NORMAL){
-//            switch (vigenciaAnios) {
-//                case 1:
-//                    this.setCosto(600F);
-//                    break;
-//                case 2:
-//                    this.setCosto(900F);
-//                default:
-//                    this.setCosto(1100F);
-//            }
-//        }else{
-//            switch (vigenciaAnios) {
-//                case 1:
-//                    this.setCosto(200F);
-//                    break;
-//                case 2:
-//                    this.setCosto(500F);
-//                default:
-//                    this.setCosto(700F);
-//            }
-//        }
-//    }
-    
-    
 }

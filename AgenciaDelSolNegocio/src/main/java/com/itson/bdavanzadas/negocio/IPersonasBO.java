@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
-import java.util.Calendar;
-import java.util.List;
-import javax.persistence.PersistenceException;
-import org.itson.bdavanzadas.entidades.Persona;
+
 
 /**
  * Interfaz que define las operaciones de lógica de negocio relacionadas con las
@@ -48,4 +41,10 @@ public interface IPersonasBO {
      */
     public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException;
 
+    /**
+     * Verifica si existen registros de personas.
+     * 
+     * @return true si hay registros de personas, false si la tabla está vacía.
+     */
+    public boolean hayRegistros();
 }

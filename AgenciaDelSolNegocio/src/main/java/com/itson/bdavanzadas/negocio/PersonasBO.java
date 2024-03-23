@@ -91,4 +91,14 @@ public class PersonasBO implements IPersonasBO {
             throw new ValidacionDTOException(ex.getMessage());
         }
     }
+
+    /**
+     * Verifica si existen registros de personas.
+     * 
+     * @return true si hay registros de personas, false si la tabla está vacía.
+     */
+    @Override
+    public boolean hayRegistros() {
+        return personasDAO.hayRegistros();
+    }
 }

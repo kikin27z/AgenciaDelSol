@@ -3,18 +3,14 @@ package org.itson.bdavanzadas.daos;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
-import org.itson.bdavanzadas.entidades.Tramite;
 
 /**
  * Esta clase implementa la interfaz ILicenciasDAO y proporciona métodos para
@@ -72,22 +68,21 @@ public class LicenciasDAO implements ILicenciasDAO {
     @Override
     public void desactivarLicencias(Persona persona) {
         EntityManager entityManager = conexion.crearConexion();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Licencia> criteriaQuery = criteriaBuilder.createQuery(Licencia.class);
-        Root<Tramite> tramiteRoot = criteriaQuery.from(Tramite.class);
-        Join<Tramite, Licencia> licenciaJoin = tramiteRoot.join("licencia");
-
-        Predicate predicate = criteriaBuilder.equal(tramiteRoot.get("persona").get("id"), persona.getId());
-
-        criteriaQuery.select(licenciaJoin).where(predicate);
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Licencia> criteria = cb.createQuery(Licencia.class); 
+        Root<Licencia> root = criteria.from(Licencia.class);
+        criteria.select(root).where(cb.equal(root.get("persona").get("rfc"),persona.getRfc())); 
+        TypedQuery<Licencia> query = entityManager.createQuery(criteria);
+        List<Licencia> licencias = query.getResultList(); 
         
-        List<Licencia> licencias = entityManager.createQuery(criteriaQuery).getResultList();
-        
-        if(licencias != null){
+        //Commienza a cambiar el estado de las licencias previas
+        entityManager.getTransaction().begin();
             for (Licencia licencia : licencias) {
                 licencia.setEstado(EstadoLicencia.INACTIVA);
             }
+        entityManager.getTransaction().commit();
+        entityManager.close();
         }
     }
 
-}
+

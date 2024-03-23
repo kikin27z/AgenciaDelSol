@@ -8,13 +8,8 @@ import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.LicenciaBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.util.Calendar;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
-import org.itson.bdavanzadas.entidades.Persona;
 
 /**
  * Clase que representa la vista para tramitar una licencia en la aplicación.
@@ -406,46 +401,8 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         if (!new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer tramitar la licencia?", "¿Quiére una nueva licencia?")) {
             return;
         }
-        int seleccion = cbxAnioVigencia.getSelectedIndex();
-        Integer años = cbxAnioVigencia.getSelectedIndex() + 1;
-        float costo = 0F;
-
-        if (personaDTO.getDiscapacidad() == Discapacidad.NORMAL) {
-            switch (seleccion) {
-                case 0:
-                    costo = 600F;
-                    break;
-                case 1:
-                    costo = 900F;
-                    break;
-                default:
-                    costo = 1100F;
-            }
-        } else {
-            switch (seleccion) {
-                case 0:
-                    costo = 200F;
-                    break;
-                case 1:
-                    costo = 500F;
-                    break;
-                default:
-                    costo = 700F;
-            }
-        }
-
-        Calendar fechaEmision = Calendar.getInstance();
-        Calendar fechaVigencia = (Calendar) fechaEmision.clone();
-        fechaVigencia.add(Calendar.YEAR, años);
-
-        licenciaDTO = new LicenciasDTO(
-                EstadoLicencia.ACTIVA,
-                fechaVigencia,
-                fechaEmision,
-                costo,
-                personaDTO);
-        licenciasBO.realizarTramite(licenciaDTO);
         
+        cargarDatosLicencia();
         ventana.cambiarVistaConfirmacionTramiteLicencia(licenciaDTO);
     }//GEN-LAST:event_btnTramitarActionPerformed
 
@@ -487,5 +444,50 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
     private javax.swing.JLabel lblVigencia2;
     private javax.swing.JLabel lblVigencia3;
     // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Carga los datos de la licencia y realiza el trámite.
+     * Este método es invocado al hacer clic en el botón de "Tramitar licencia".
+     */
+    private void cargarDatosLicencia(){
+        int seleccion = cbxAnioVigencia.getSelectedIndex();
+        Integer anios = cbxAnioVigencia.getSelectedIndex() + 1;
+        float costo = 0F;
 
+        if (personaDTO.getDiscapacidad() == Discapacidad.NORMAL) {
+            switch (seleccion) {
+                case 0:
+                    costo = 600F;
+                    break;
+                case 1:
+                    costo = 900F;
+                    break;
+                default:
+                    costo = 1100F;
+            }
+        } else {
+            switch (seleccion) {
+                case 0:
+                    costo = 200F;
+                    break;
+                case 1:
+                    costo = 500F;
+                    break;
+                default:
+                    costo = 700F;
+            }
+        }
+
+        Calendar fechaEmision = Calendar.getInstance();
+        Calendar fechaVigencia = (Calendar) fechaEmision.clone();
+        fechaVigencia.add(Calendar.YEAR, anios);
+
+        licenciaDTO = new LicenciasDTO(
+                EstadoLicencia.ACTIVA,
+                fechaVigencia,
+                fechaEmision,
+                costo,
+                personaDTO);
+        licenciasBO.realizarTramite(licenciaDTO);
+    }
 }

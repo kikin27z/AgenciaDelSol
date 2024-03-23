@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
@@ -12,8 +8,6 @@ import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.ILicenciasDAO;
 import org.itson.bdavanzadas.daos.LicenciasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
-import org.itson.bdavanzadas.entidades.Discapacidad;
-import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
@@ -41,6 +35,7 @@ public class LicenciaBO implements ILicenciaBO{
      */
     public LicenciaBO() {
         conexion = new Conexion();
+        licenciasDAO = new LicenciasDAO(conexion);
     }
 
     /**
@@ -53,7 +48,7 @@ public class LicenciaBO implements ILicenciaBO{
      */
     @Override
     public LicenciasDTO realizarTramite(LicenciasDTO licenciaDTO) {
-            licenciasDAO = new LicenciasDAO(conexion);
+            
             Licencia licencia = new Licencia(
                     licenciaDTO.getEstado(),
                     licenciaDTO.getFechaVigencia()
@@ -74,10 +69,9 @@ public class LicenciaBO implements ILicenciaBO{
             licencia.setCosto(licenciaDTO.getCosto());
             licencia.setPersona(persona);
             
-//            licenciasDAO.desactivarLicencias(persona);
+            licenciasDAO.desactivarLicencias(persona);
             licenciasDAO.tramitarLicencias(licencia);
             
             return licenciaDTO;
     }
-    
 }
