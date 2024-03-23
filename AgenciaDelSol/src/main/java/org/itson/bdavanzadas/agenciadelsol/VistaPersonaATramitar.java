@@ -2,16 +2,13 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
-import org.itson.bdavanzadas.entidades.Persona;
-import org.itson.bdavanzadas.excepciones.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase que representa la vista para tramitar una licencia para una persona en
@@ -26,6 +23,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private Ventana ventana;
     private IPersonasBO personasBO;
     private ConsultarPersonaDTO personaDTO;
+    private boolean rfcValidado;
 
     /**
      * Constructor de la clase VistaPersonaATramitar.
@@ -37,8 +35,10 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
         this.personaDTO = new ConsultarPersonaDTO();
+        this.rfcValidado = false;
         initComponents();
 
+        limpiarDatos();
     }
 
     /**
@@ -202,29 +202,27 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         txtRfcPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtRfcPersona.setForeground(new java.awt.Color(143, 143, 143));
         txtRfcPersona.setBorder(null);
-        txtRfcPersona.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRfcPersonaActionPerformed(evt);
-            }
-        });
         add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 218, 440, 34));
 
         lblTelefono.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 440, -1, -1));
+        lblTelefono.setText("-----");
+        add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 440, 170, 20));
 
         lblTelefonoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblTelefonoTitulo.setText("Teléfono");
         add(lblTelefonoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, -1, -1));
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, -1, -1));
+        lblNombre.setText("-----");
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 240, 20));
 
         lblNombreTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNombreTitulo.setText("Nombre");
         add(lblNombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, -1, -1));
 
         lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
+        lblFechaNacimiento.setText("-----");
+        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, 180, 20));
 
         lblFechaNacimientoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblFechaNacimientoTitulo.setText("Fecha Nacimiento");
@@ -281,30 +279,22 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
-        personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
-        if(personaDTO == null){
-            new Aviso().mostrarAviso(ventana, "No se encontro la persona con ese rfc");
-            return;
-        }
-        lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
-
-        //formato de fecha 
-        Calendar fechaNacimiento = personaDTO.getFechaNacimiento();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada = formato.format(fechaNacimiento.getTime());
-
-        lblFechaNacimiento.setText(fechaFormateada);
-        lblTelefono.setText(personaDTO.getTelefono());
+        try {
+            personaDTO.validarRFC();
+            personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
+            personaDTO.mayorEdad();
+            cargarDatosRFC();
+            rfcValidado = true;
+            
+        } catch (ValidacionDTOException ve) {
+            rfcValidado = false;
+            limpiarDatos();
+            new Aviso().mostrarAviso(ventana, ve.getMessage());
+            Logger.getLogger(VistaPersonaATramitar.class.getName()).log(Level.SEVERE, "RFC inválido");
+        } 
     }//GEN-LAST:event_btnBuscarActionPerformed
-    /**
-     * Campo de texto que recibe la RFC
-     *
-     * @param evt Se asocia rfc a persona
-     */
-    private void txtRfcPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcPersonaActionPerformed
 
-    }//GEN-LAST:event_txtRfcPersonaActionPerformed
-    /**
+   /**
      * Maneja el evento de acción del botón de confirmar.
      *
      * Este método se ejecuta cuando se hace clic en el botón de confirmar en la
@@ -313,10 +303,10 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de confirmar.
      */
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        if (personaDTO != null) {
+        if (rfcValidado) {
             ventana.cambiarVistaTramitarLicencia(personaDTO);
         } else {
-            new Aviso().mostrarAviso(ventana, "Primero busca a la persona para avazar");
+            new Aviso().mostrarAviso(ventana, "Primero busca a la persona válida para avazar");
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
@@ -351,4 +341,22 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private javax.swing.JTextField txtRfcPersona;
     // End of variables declaration//GEN-END:variables
 
+    private void cargarDatosRFC() {
+        lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
+
+        //formato de fecha 
+        Calendar fechaNacimiento = personaDTO.getFechaNacimiento();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFormateada = formato.format(fechaNacimiento.getTime());
+
+        lblFechaNacimiento.setText(fechaFormateada);
+        lblTelefono.setText(personaDTO.getTelefono());
+    }
+
+    
+    private void limpiarDatos(){
+        lblNombre.setText("-----");
+        lblFechaNacimiento.setText("-----");
+        lblTelefono.setText("-----");
+    }
 }

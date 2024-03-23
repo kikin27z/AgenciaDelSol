@@ -1,5 +1,6 @@
 package com.itson.bdavanzadas.dtos;
 
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.Calendar;
 import org.itson.bdavanzadas.entidades.Discapacidad;
 
@@ -183,5 +184,42 @@ public class ConsultarPersonaDTO {
         this.discapacidad = discapacidad;
     }
 
+    /**
+     * Método que verifica si un rfc 
+     * @return true si el rfc es válido.
+     * @throws ValidacionDTOException Arroja la excepcion si el rfc es inválido.
+     */
+    public boolean validarRFC() throws ValidacionDTOException{
+        if(this.rfc.isBlank()){
+            throw new ValidacionDTOException("Campo rfc vacio, intente de nuevo");
+            
+        }else if (this.rfc.length() != 13){
+            throw new ValidacionDTOException("El rfc debe ser de 13 caracteres unicamente.");
+        }
+        
+        
+        return true;
+    }
     
+    /**
+     * Verifica si una persona es mayor de edad comparando su fecha de
+     * nacimiento con la fecha actual.
+     * @throws ValidacionDTOException Arroja la excepcion si la persona es menor de edad.
+     */
+    public void mayorEdad() throws ValidacionDTOException{
+        Calendar fechaActual = Calendar.getInstance();
+
+        int edad = fechaActual.get(Calendar.YEAR) - this.fechaNacimiento.get(Calendar.YEAR);
+        int diferenciaMeses = fechaActual.get(Calendar.MONTH) - this.fechaNacimiento.get(Calendar.MONTH);
+        int diferenciaDias = fechaActual.get(Calendar.DAY_OF_MONTH) - this.fechaNacimiento.get(Calendar.DAY_OF_MONTH);
+
+        // Ajustar la edad si todavía no ha pasado el cumpleaños este año
+        if (diferenciaMeses < 0 || (diferenciaMeses == 0 && diferenciaDias < 0)) {
+            edad--;
+        }
+        if(edad < 18){
+            throw new ValidacionDTOException("El trámite no se puede llevar acabo, la persona es menor de edad");
+        }
+        
+    }
 }

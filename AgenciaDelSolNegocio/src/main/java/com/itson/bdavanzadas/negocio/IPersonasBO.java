@@ -5,6 +5,7 @@
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -28,26 +29,8 @@ public interface IPersonasBO {
      * base de datos, utilizando el DAO correspondiente. Registra eventos de log
      * utilizando un Logger para llevar un registro de las operaciones
      * realizadas.
-     *
-     * @throws PersistenciaException Si ocurre un error durante la inserción
-     * masiva de personas.
      */
-    public void incersionMasivaPersonas();
-
-    /**
-     * Verifica si una persona es mayor de edad.
-     *
-     * @param fechaNacimiento La fecha de nacimiento de la persona.
-     * @return true si la persona es mayor de edad, false si es menor de edad.
-     */
-    public boolean esMayor(Calendar fechaNacimiento);
-
-    /**
-     * Verifica si una persona tiene una discapacidad.
-     *
-     * @return true si la persona tiene una discapacidad, false si no la tiene.
-     */
-    public boolean esDiscapacitado();
+    public void insersionMasivaPersonas();
 
     /**
      * Consulta una persona en la base de datos por su RFC.
@@ -61,7 +44,8 @@ public interface IPersonasBO {
      * persona a buscar.
      * @return ConsultarPersonaDTO con la información de la persona encontrada,
      * o null si no se encuentra o no cumple con los requisitos.
+     * @throws ValidacionDTOException arroja la excepción si el rfc no existe en la base de datos.
      */
-    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws PersistenceException;
+    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException;
 
 }

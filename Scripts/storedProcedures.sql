@@ -2,12 +2,15 @@ Use agencia;
 DELIMITER //
 
 CREATE PROCEDURE insercion_masiva ()
+
+
+
 BEGIN
 	INSERT INTO personas (nombres,apellido_paterno,apellido_materno, discapacitado, fecha_nacimiento,  rfc, telefono) VALUES
-    ('Jose Karim', 'Franco', 'Valencia', 'NORMAL', '2007-03-27', 'KUBV931119SF4', '6449393234'),
+    #('Jose Karim', 'Franco', 'Valencia', 'NORMAL', '2007-03-27', 'KUBV931119SF4', '6449393234'),
     ('Victor Humberto','Encinas','Guzman','NORMAL','2004-05-16','MELM8305281H0','6646787333'),
     ('Esmeralda','Molina','Estrada','NORMAL','2004-02-23','RVJO130213NR3','6447779990'),
-    ('Adriana','Gutierrez','Robles','DISCAPACITADO', '2003-04-04',  'GURA03040431','6442112147'),
+    #('Adriana','Gutierrez','Robles','DISCAPACITADO', '2003-04-04',  'GURA03040431F','6442112147'),
     ('Jesus Rene','Gonzalez','Castro','NORMAL', '2004-03-19',  'GOCJ040119GHA','6442522642'),
     ('Gael Rafael','Castro','Molina','NORMAL', '2004-06-16',  'CAMG040616IR6','6442266331'),
     ('Oliver','Inzunza','Valle','NORMAL', '2004-12-16',  'IUVO0407069Z3','6871568089'),
@@ -25,7 +28,7 @@ BEGIN
     ('Ana', 'Ramirez', 'Jimenez','NORMAL', '1990-06-23', 'RAJA900623MDF', '6627890123'),
     ('Pedro', 'Martinez', 'Gutierrez','NORMAL', '1992-12-15', 'MAGP921215HDF', '6624567890'),
 	('Maria', 'Hernandez', 'Garcia','NORMAL', '1988-07-06', 'HEMG880706MDF', '6629876543'),
-    ('Juan', 'Lopez', 'Gomez','DISCAPACITADO', '1992-05-18', 'LOGJ920518HDF', '6621234567');
+    #('Juan', 'Lopez', 'Gomez','DISCAPACITADO', '1992-05-18', 'LOGJ920518HDF', '6621234567');
 END //
 
 DELIMITER ;

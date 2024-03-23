@@ -11,12 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * Clase que representa a una persona en el sistema.
@@ -28,12 +27,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table (name="personas")
-@NamedStoredProcedureQueries({
-  @NamedStoredProcedureQuery(
-    name = "insercionMasiva", 
-    procedureName = "insercion_masiva", 
-    resultClasses = { Persona.class }) 
-})
 public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +44,7 @@ public class Persona implements Serializable {
     @Column (name = "apellido_materno", nullable = false, length = 30)
     private String apellidoMaterno;
     
-    @Column (name = "telefono", nullable = false, length = 15)
+    @Column (name = "telefono", nullable = false)
     private String telefono;
     
     @Column (name = "rfc", nullable = false, length = 13, unique = true)
@@ -88,7 +81,7 @@ public class Persona implements Serializable {
      * @param fechaNacimiento   La fecha de nacimiento de la persona.
      * @param discapacidad      El tipo de discapacidad de la persona.
      */
-    public Persona(String nombres, String apellidoPaterno, String apellidoMaterno, String telefono, String rfc, Calendar fechaNacimiento, Discapacidad discapacidad) {
+    public Persona(String nombres, String apellidoPaterno, String apellidoMaterno, Discapacidad discapacidad, Calendar fechaNacimiento, String rfc, String telefono) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -259,7 +252,6 @@ public class Persona implements Serializable {
     public void setTramites(List<Tramite> tramites) {
         this.tramites = tramites;
     }
-
     
     /**
      * Calcula y devuelve un valor hash basado en el ID de la persona.

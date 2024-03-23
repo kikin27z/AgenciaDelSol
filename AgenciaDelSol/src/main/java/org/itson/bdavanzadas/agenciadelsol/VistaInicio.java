@@ -280,7 +280,7 @@ public class VistaInicio extends javax.swing.JPanel {
         if (ventana.isSeHizoInsercion()) {
             new Aviso().mostrarAviso(ventana, "Ya hizo la insercion masiva");
         } else {
-            personasBO.incersionMasivaPersonas();
+            personasBO.insersionMasivaPersonas();
             ventana.setSeHizoInsercion(true);
         }
     }//GEN-LAST:event_btnInsercionMasivaActionPerformed

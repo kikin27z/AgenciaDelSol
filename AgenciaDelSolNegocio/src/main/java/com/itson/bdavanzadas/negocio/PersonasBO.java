@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
-import org.itson.bdavanzadas.entidades.Discapacidad;
+import org.itson.bdavanzadas.encriptar.Encriptacion;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -32,7 +26,6 @@ public class PersonasBO implements IPersonasBO {
     static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
     IConexion conexion;
     Persona persona;
-    Aviso aviso;
 
     /**
      * Constructor de la clase PersonasBO.
@@ -46,15 +39,15 @@ public class PersonasBO implements IPersonasBO {
     }
 
     /**
-     * Realiza una inserción masiva de personas en la base de datos. Llama al
-     * método de inserción masiva en el DAO correspondiente y registra un
-     * mensaje de registro de información si la inserción es exitosa.
+     * Realiza una inserción masiva de personas en la base de datos.
      *
-     * @throws PersistenciaException Si ocurre un error durante la inserción
-     * masiva de personas.
+     * Este método se encarga de realizar una inserción masiva de personas en la
+     * base de datos, utilizando el DAO correspondiente. Registra eventos de log
+     * utilizando un Logger para llevar un registro de las operaciones
+     * realizadas.
      */
     @Override
-    public void incersionMasivaPersonas() {
+    public void insersionMasivaPersonas() {
         try {
             personasDAO.insercionMasiva();
             logger.log(Level.INFO, "Se hizo la insercion correctamente");
@@ -63,16 +56,22 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
-    /**
+        /**
      * Consulta una persona en la base de datos por su RFC.
+     *
+     * Este método busca una persona en la base de datos utilizando el RFC
+     * proporcionado en un objeto ConsultarPersonaDTO. Retorna un objeto
+     * ConsultarPersonaDTO con la información de la persona encontrada, o null
+     * si no se encuentra o no cumple con los requisitos.
      *
      * @param personaDTO Objeto ConsultarPersonaDTO que contiene el RFC de la
      * persona a buscar.
      * @return ConsultarPersonaDTO con la información de la persona encontrada,
      * o null si no se encuentra o no cumple con los requisitos.
+     * @throws ValidacionDTOException arroja la excepción si el rfc no existe en la base de datos.
      */
     @Override
-    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) {
+    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException{
         try {
             Persona personaBuscar = new Persona();
             personaBuscar.setRfc(personaDTO.getRfc());
@@ -83,44 +82,13 @@ public class PersonasBO implements IPersonasBO {
                     persona.getApellidoPaterno(),
                     persona.getApellidoMaterno(),
                     persona.getFechaNacimiento(),
-                    persona.getTelefono(),
+                    Encriptacion.decriptar(persona.getTelefono()),
                     persona.getDiscapacidad()
             );
 
                 return personaEncontrada;
         } catch (PersistenciaException ex) {
-            
-        return null;
+            throw new ValidacionDTOException(ex.getMessage());
         }
     }
-
-    /**
-     * Verifica si una persona es mayor de edad comparando su fecha de
-     * nacimiento con la fecha actual.
-     *
-     * @param fechaNacimiento La fecha de nacimiento de la persona.
-     * @return true si la persona es mayor de edad, false si es menor de edad.
-     */
-    @Override
-    public boolean esMayor(Calendar fechaNacimiento) {
-        Calendar fechaActual = Calendar.getInstance();
-        int edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
-        if (edad >= 18) {
-            return true;
-        } else {
-            System.out.println("Es menor");
-            return false;
-        }
-    }
-
-    /**
-     * Verifica si una persona tiene una discapacidad.
-     *
-     * @return true si la persona tiene una discapacidad, false si no la tiene.
-     */
-    @Override
-    public boolean esDiscapacitado() {
-        return persona.getDiscapacidad() == Discapacidad.DISCAPACITADO;
-    }
-
 }

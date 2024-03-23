@@ -1,25 +1,25 @@
-package org.itson.bdavanzadas.excepciones;
+package com.itson.bdavanzadas.excepcionesdtos;
 
 /**
- * Excepción personalizada para errores con la capa de persistencia
+ * Excepción personalizada para errores al momento de validar dtos
  * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
  */
-public class PersistenciaException extends Exception {
+public class ValidacionDTOException extends Exception {
     
     /**
      * Constructor vacío.
      */
-    public PersistenciaException() {
+    public ValidacionDTOException() {
     }
 
     /**
      * Constructor que establece el mensaje de la excepción.
      * @param message de la excepción.
      */
-    public PersistenciaException(String message) {
+    public ValidacionDTOException(String message) {
         super(message);
     }
 
@@ -28,7 +28,7 @@ public class PersistenciaException extends Exception {
      * @param message de la excepción.
      * @param cause de la excepción.
      */
-    public PersistenciaException(String message, Throwable cause) {
+    public ValidacionDTOException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -36,7 +36,7 @@ public class PersistenciaException extends Exception {
      * Constructor que establece la causa de la excepción.
      * @param cause de la excepción
      */
-    public PersistenciaException(Throwable cause) {
+    public ValidacionDTOException(Throwable cause) {
         super(cause);
     }
     
@@ -48,7 +48,7 @@ public class PersistenciaException extends Exception {
      * @param enableSuppression Indica si la supresión de excepciones está habilitada o no.
      * @param writableStackTrace Indica si se debe escribir el stack trace en la salida estándar de error.
      */
-    public PersistenciaException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ValidacionDTOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

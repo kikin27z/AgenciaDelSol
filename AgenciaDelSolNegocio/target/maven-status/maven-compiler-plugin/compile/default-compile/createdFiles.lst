@@ -4,5 +4,6 @@ com\itson\bdavanzadas\negocio\ILicenciaBO.class
 com\itson\bdavanzadas\negocio\IPersonasBO.class
 com\itson\bdavanzadas\avisos\IAviso.class
 com\itson\bdavanzadas\negocio\PersonasBO.class
+com\itson\bdavanzadas\excepcionesdtos\ValidacionDTOException.class
 com\itson\bdavanzadas\avisos\Aviso.class
 com\itson\bdavanzadas\negocio\LicenciaBO.class
