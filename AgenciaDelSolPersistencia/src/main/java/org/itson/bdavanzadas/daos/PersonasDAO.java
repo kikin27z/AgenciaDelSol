@@ -192,7 +192,7 @@ public class PersonasDAO implements IPersonasDAO {
         fecha20.set(Calendar.YEAR, 1955);
         fecha20.set(Calendar.MONTH, Calendar.FEBRUARY); 
         fecha20.set(Calendar.DAY_OF_MONTH, 24);
-        Persona persona20 = new Persona("Steve", "Paul", "Jobs", Discapacidad.DISCAPACITADO, fecha20, "PAJO550224APP", Encriptacion.encriptar("6552349391"));
+        Persona persona20 = new Persona("Steve", "Jobs", "Paul", Discapacidad.DISCAPACITADO, fecha20, "PAJO550224APP", Encriptacion.encriptar("6552349391"));
         
         
         

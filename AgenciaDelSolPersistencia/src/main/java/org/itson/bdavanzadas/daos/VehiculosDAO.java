@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.Automovil;
-import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
  *
@@ -30,7 +29,13 @@ public class VehiculosDAO implements IVehiculosDAO{
         this.conexion = conexion;
     }
     
-    
+    /**
+     * Agrega un automóvil a la base de datos.
+     * 
+     * @param automovil El automóvil que se va a agregar.
+     * @return El automóvil agregado.
+     * @throws PersistenceException Si ocurre un error durante la persistencia.
+     */
     @Override
     public Automovil agregarAutomovil(Automovil automovil) throws PersistenceException {
         // Obtenemos acceso a la Fábrica de entityManagers
@@ -47,9 +52,17 @@ public class VehiculosDAO implements IVehiculosDAO{
         entityManager.close();
         return automovil;
     }
-
+    
+    
+     /**
+     * Busca un automóvil en la base de datos.
+     * 
+     * @param automovil El automóvil que se va a buscar.
+     * @return El automóvil encontrado.
+     * @throws PersistenceException Si ocurre un error durante la búsqueda.
+     */
     @Override
-    public Vehiculo buscarVehiculo(Vehiculo vehiculo) throws PersistenceException {
+    public Automovil buscarAutomovil(Automovil automovil) throws PersistenceException {
         EntityManager entityManager = conexion.crearConexion();
         //Objeto constructor de consultas
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -58,7 +71,7 @@ public class VehiculosDAO implements IVehiculosDAO{
         
         Root<Automovil> root = criteria.from(Automovil.class);
         criteria.select(root).
-                where( builder.equal(root.get("numeroSerie"),vehiculo.getNumeroSerie()));
+                where( builder.equal(root.get("numeroSerie"),automovil.getNumeroSerie()));
         
         //Consulta contruida
         TypedQuery<Automovil> query = entityManager.createQuery(criteria);

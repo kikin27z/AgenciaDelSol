@@ -55,16 +55,38 @@ public class Vehiculo implements Serializable {
     @Column (name = "modelo", nullable = false, length = 5)
     private String modelo;
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "vehiculo")
+    @OneToMany(mappedBy = "vehiculo")
     private List<Placa> placas;
     
     @ManyToOne
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
 
+    /**
+     * Constructor vacío de la clase Vehiculo.
+     */
     public Vehiculo() {
     }
 
+    /**
+     * Constructor de la clase Vehiculo que inicializa el número de serie del vehículo.
+     * 
+     * @param numeroSerie El número de serie del vehículo.
+     */
+    public Vehiculo(String numeroSerie) {
+        this.numeroSerie = numeroSerie;
+    }
+    
+    /**
+     * Constructor de la clase Vehiculo que inicializa todos sus atributos.
+     * 
+     * @param marca La marca del vehículo.
+     * @param linea La línea del vehículo.
+     * @param color El color del vehículo.
+     * @param numeroSerie El número de serie del vehículo.
+     * @param modelo El modelo del vehículo.
+     * @param persona La persona asociada al vehículo.
+     */
     public Vehiculo(String marca, String linea, String color, String numeroSerie, String modelo, Persona persona) {
         this.marca = marca;
         this.linea = linea;
@@ -73,9 +95,6 @@ public class Vehiculo implements Serializable {
         this.modelo = modelo;
         this.persona = persona;
     }
-    
-    
-    
     
     /**
      * Obtiene el ID del vehículo.

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
  */
-public class VistaPersonaATramitar extends javax.swing.JPanel {
+public class VistaVehiculoTramitar extends javax.swing.JPanel {
 
     private Ventana ventana;
     private IPersonasBO personasBO;
@@ -31,10 +31,10 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      * @param ventana La ventana de Persona a tramitar recibe datos para
      * consultar personas.
      */
-    public VistaPersonaATramitar(Ventana ventana) {
+    public VistaVehiculoTramitar(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
-        this.personaDTO = new ConsultarPersonaDTO();
+        this.personaDTO = personaDTO;
         this.rfcValidado = false;
         initComponents();
 
@@ -55,7 +55,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
+        btnRegistrarVehiculo = new javax.swing.JButton();
         lblConfirmacion = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
@@ -68,14 +68,21 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
-        lblCurpPersona = new javax.swing.JLabel();
-        txtRfcPersona = new javax.swing.JTextField();
-        lblTelefono = new javax.swing.JLabel();
-        lblTelefonoTitulo = new javax.swing.JLabel();
-        lblNombre = new javax.swing.JLabel();
-        lblNombreTitulo = new javax.swing.JLabel();
-        lblFechaNacimiento = new javax.swing.JLabel();
-        lblFechaNacimientoTitulo = new javax.swing.JLabel();
+        cbxNumerosSerie = new javax.swing.JComboBox<>();
+        lblNumeroSerie = new javax.swing.JLabel();
+        lblColorInfo = new javax.swing.JLabel();
+        lblColor = new javax.swing.JLabel();
+        lblMarcaInfo = new javax.swing.JLabel();
+        lblMarca = new javax.swing.JLabel();
+        lblTipoInfo = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
+        lblLinea = new javax.swing.JLabel();
+        lblLineaInfo = new javax.swing.JLabel();
+        lblModelo = new javax.swing.JLabel();
+        lblModeloInfo = new javax.swing.JLabel();
+        iconPlaca = new javax.swing.JLabel();
+        lblTramitarPlaca1 = new javax.swing.JLabel();
+        lblCurpPersona1 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -132,25 +139,24 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
-        btnBuscar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(253, 253, 253));
-        btnBuscar.setText("Buscar");
-        btnBuscar.setContentAreaFilled(false);
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarVehiculo.setBorder(null);
+        btnRegistrarVehiculo.setBorderPainted(false);
+        btnRegistrarVehiculo.setContentAreaFilled(false);
+        btnRegistrarVehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                btnRegistrarVehiculoActionPerformed(evt);
             }
         });
-        add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, 142, 45));
+        add(btnRegistrarVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(733, 171, 150, 145));
 
         lblConfirmacion.setFont(new java.awt.Font("Amazon Ember", 1, 24)); // NOI18N
         lblConfirmacion.setForeground(new java.awt.Color(196, 4, 67));
         lblConfirmacion.setText("¿Son correctos los datos?");
-        add(lblConfirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 321, 300, 43));
+        add(lblConfirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 290, 300, 43));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        lblTitulo.setText("Persona a tramitar");
+        lblTitulo.setText("Vehículo a tramitar:");
         add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 120, 340, 43));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
@@ -193,42 +199,82 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        lblCurpPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        lblCurpPersona.setForeground(new java.awt.Color(215, 70, 118));
-        lblCurpPersona.setText("RFC de la persona:");
-        add(lblCurpPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 215, 24));
+        cbxNumerosSerie.setBackground(new java.awt.Color(247, 242, 244));
+        cbxNumerosSerie.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
+        cbxNumerosSerie.setForeground(new java.awt.Color(157, 134, 90));
+        cbxNumerosSerie.setFocusable(false);
+        cbxNumerosSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxNumerosSerieActionPerformed(evt);
+            }
+        });
+        add(cbxNumerosSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 215, 450, 40));
 
-        txtRfcPersona.setBackground(new java.awt.Color(247, 242, 244));
-        txtRfcPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtRfcPersona.setForeground(new java.awt.Color(143, 143, 143));
-        txtRfcPersona.setBorder(null);
-        add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 218, 440, 34));
+        lblNumeroSerie.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblNumeroSerie.setForeground(new java.awt.Color(215, 70, 118));
+        lblNumeroSerie.setText("Número de serie:");
+        add(lblNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 215, 24));
 
-        lblTelefono.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblTelefono.setText("-----");
-        add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 440, 170, 20));
+        lblColorInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblColorInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblColorInfo.setText("Color:");
+        add(lblColorInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 375, 65, -1));
 
-        lblTelefonoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblTelefonoTitulo.setText("Teléfono");
-        add(lblTelefonoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, -1, -1));
+        lblColor.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblColor.setText("-----");
+        add(lblColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(624, 375, 230, 20));
 
-        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblNombre.setText("-----");
-        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 240, 20));
+        lblMarcaInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblMarcaInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMarcaInfo.setText("Marca:");
+        add(lblMarcaInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 375, 50, 20));
 
-        lblNombreTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblNombreTitulo.setText("Nombre");
-        add(lblNombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, -1, -1));
+        lblMarca.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblMarca.setText("-----");
+        add(lblMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 375, 290, 20));
 
-        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblFechaNacimiento.setText("-----");
-        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, 180, 20));
+        lblTipoInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblTipoInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTipoInfo.setText("Tipo:");
+        add(lblTipoInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 340, 50, 20));
 
-        lblFechaNacimientoTitulo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblFechaNacimientoTitulo.setText("Fecha Nacimiento");
-        add(lblFechaNacimientoTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, -1, -1));
+        lblTipo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblTipo.setText("-----");
+        add(lblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, 290, 20));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaPersonaATramitar.png"))); // NOI18N
+        lblLinea.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblLinea.setText("-----");
+        add(lblLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 410, 290, 20));
+
+        lblLineaInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblLineaInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblLineaInfo.setText("Linea:");
+        add(lblLineaInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 410, 50, 20));
+
+        lblModelo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblModelo.setText("-----");
+        add(lblModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(624, 340, 170, -1));
+
+        lblModeloInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblModeloInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblModeloInfo.setText("Modelo:");
+        add(lblModeloInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 340, 65, -1));
+
+        iconPlaca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconAuto.png"))); // NOI18N
+        add(iconPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(761, 188, 95, 95));
+
+        lblTramitarPlaca1.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
+        lblTramitarPlaca1.setForeground(new java.awt.Color(247, 242, 244));
+        lblTramitarPlaca1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTramitarPlaca1.setText("Nuevo Vehículo");
+        add(lblTramitarPlaca1, new org.netbeans.lib.awtextra.AbsoluteConstraints(736, 290, 144, -1));
+
+        lblCurpPersona1.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblCurpPersona1.setForeground(new java.awt.Color(215, 70, 118));
+        lblCurpPersona1.setText("¿Registrar nuevo vehículo?");
+        add(lblCurpPersona1, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 137, 247, 30));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaVehiculoTramitar.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -271,29 +317,6 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
-    /**
-     * Método que se ejecuta al hacer clic en el botón "Buscar".
-     *
-     * @param evt El evento de acción que desencadena este método (en este caso,
-     * hace clic y despliega la lista en una tabla).
-     */
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        personaDTO = new ConsultarPersonaDTO(txtRfcPersona.getText());
-        try {
-            personaDTO.validarRFC();
-            personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
-            personaDTO.mayorEdad();
-            cargarDatosRFC();
-            rfcValidado = true;
-            
-        } catch (ValidacionDTOException ve) {
-            rfcValidado = false;
-            limpiarDatos();
-            new Aviso().mostrarAviso(ventana, ve.getMessage());
-            Logger.getLogger(VistaPersonaATramitar.class.getName()).log(Level.SEVERE, "RFC inválido");
-        } 
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
    /**
      * Maneja el evento de acción del botón de confirmar.
      *
@@ -303,72 +326,61 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de confirmar.
      */
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        if (rfcValidado) {
-            if(ventana.isTramiteLicencia()){
-                ventana.cambiarVistaTramitarLicencia(personaDTO);
-            }else{
-                ventana.cambiarVistaVehiculoTramitar(personaDTO);
-            }
-        } else {
-            new Aviso().mostrarAviso(ventana, "Primero busca a la persona válida para avazar");
-        }
+        
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void cbxNumerosSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNumerosSerieActionPerformed
+
+    }//GEN-LAST:event_cbxNumerosSerieActionPerformed
+
+    private void btnRegistrarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVehiculoActionPerformed
+        
+    }//GEN-LAST:event_btnRegistrarVehiculoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
+    private javax.swing.JButton btnRegistrarVehiculo;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
+    private javax.swing.JComboBox<String> cbxNumerosSerie;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel iconPlaca;
+    private javax.swing.JLabel lblColor;
+    private javax.swing.JLabel lblColorInfo;
     private javax.swing.JLabel lblConfirmacion;
-    private javax.swing.JLabel lblCurpPersona;
-    private javax.swing.JLabel lblFechaNacimiento;
-    private javax.swing.JLabel lblFechaNacimientoTitulo;
+    private javax.swing.JLabel lblCurpPersona1;
+    private javax.swing.JLabel lblLinea;
+    private javax.swing.JLabel lblLineaInfo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
     private javax.swing.JLabel lblLogo3;
     private javax.swing.JLabel lblLogo4;
     private javax.swing.JLabel lblLogoInfo;
+    private javax.swing.JLabel lblMarca;
+    private javax.swing.JLabel lblMarcaInfo;
+    private javax.swing.JLabel lblModelo;
+    private javax.swing.JLabel lblModeloInfo;
     private javax.swing.JLabel lblModuloConsultas;
-    private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblNombreTitulo;
+    private javax.swing.JLabel lblNumeroSerie;
     private javax.swing.JLabel lblReportes;
-    private javax.swing.JLabel lblTelefono;
-    private javax.swing.JLabel lblTelefonoTitulo;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JLabel lblTipoInfo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTramitarPlaca1;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
-    private javax.swing.JTextField txtRfcPersona;
     // End of variables declaration//GEN-END:variables
 
-    /**
-    * Este método actualiza los campos de nombre, fecha de nacimiento y teléfono con
-    * la información de la persona encontrada.
-    */
-    private void cargarDatosRFC() {
-        lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
-
-        //formato de fecha 
-        Calendar fechaNacimiento = personaDTO.getFechaNacimiento();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada = formato.format(fechaNacimiento.getTime());
-
-        lblFechaNacimiento.setText(fechaFormateada);
-        lblTelefono.setText(personaDTO.getTelefono());
-    }
-
-    /**
-    * Este método restablece los campos de texto y las etiquetas a sus valores predeterminados.
-    * Se utiliza cuando se desea limpiar la interfaz después de una búsqueda o acción.
-    */
+    
     private void limpiarDatos(){
-        txtRfcPersona.setText("");
-        lblNombre.setText("-----");
-        lblFechaNacimiento.setText("-----");
-        lblTelefono.setText("-----");
+        lblMarca.setText("-----");
+        lblModelo.setText("-----");
+        lblColor.setText("-----");
+        lblLinea.setText("-----");
+        lblTipo.setText("-----");
     }
 }

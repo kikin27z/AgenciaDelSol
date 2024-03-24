@@ -2,10 +2,7 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
-import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
 
 /**
  * Clase que representa la ventana principal de la aplicación.
@@ -17,14 +14,12 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
-    private IPersonasBO personasBO;
-    private boolean seHizoInsercion;
+    private boolean tramiteLicencia;
 
     /**
      * Creates new form Ventana
      */
     public Ventana() {
-        seHizoInsercion = false;
         initComponents();
     }
 
@@ -39,7 +34,6 @@ public class Ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 580));
-        setPreferredSize(new java.awt.Dimension(1000, 580));
         setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -83,10 +77,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de inicio.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de inicio. Luego, coloca esta nueva
-     * vista en el frame y actualiza el panel actual al nuevo panel de inicio.
      */
     public void cambiarVistaInicio() {
         limpiarFrame();
@@ -97,11 +87,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista del módulo de reporte.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista del módulo de reporte. Luego, coloca
-     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
-     * del módulo de reporte.
      */
     public void cambiarVistaModuloReporte() {
         limpiarFrame();
@@ -112,11 +97,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista del módulo de consultas.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista del módulo de consultas. Luego,
-     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
-     * panel del módulo de consultas.
      */
     public void cambiarVistaModuloConsultas() {
         limpiarFrame();
@@ -127,11 +107,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de los trámites en curso.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de los trámites en curso. Luego,
-     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
-     * panel de los trámites en curso.
      */
     public void cambiarVistaTramitesEnCurso() {
         limpiarFrame();
@@ -142,11 +117,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de persona a tramitar.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de persona a tramitar. Luego, coloca
-     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
-     * de persona a tramitar.
      */
     public void cambiarVistaPersonaATramitar() {
         limpiarFrame();
@@ -159,12 +129,6 @@ public class Ventana extends javax.swing.JFrame {
      * Cambia la vista actual del frame a la vista de tramitar licencia con la
      * información de una persona.
      *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de tramitar licencia, pasando como
-     * parámetro la información de la persona proporcionada en un objeto
-     * ConsultarPersonaDTO. Luego, coloca esta nueva vista en el frame y
-     * actualiza el panel actual al nuevo panel de tramitar licencia.
-     *
      * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
      * de la persona para tramitar la licencia.
      */
@@ -175,37 +139,47 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaTramitarLicencia;
     }
     
+     /**
+     * Cambia la vista actual del frame a la vista de confirmación de tramite de licencia.
+     *
+     * @param licenciaDTO Objeto LicenciasDTO que contiene la información de la licencia tramitada.
+     */
     public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO){
         limpiarFrame();
         VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
         ponerEnJFrame(vistaConfirmarLicencia);
         panelActual = vistaConfirmarLicencia;
     }
-
+    
     /**
-     * Verifica si se ha realizado una inserción masiva de personas.
-     *
-     * Este método devuelve un valor booleano que indica si se ha realizado una
-     * inserción masiva de personas en el sistema.
-     *
-     * @return true si se ha realizado una inserción masiva de personas, false
-     * en caso contrario.
+     * Cambia la vista actual del frame a la vista de tramitar vehículo para una persona.
+     * 
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona para la cual se tramita el vehículo.
      */
-    public boolean isSeHizoInsercion() {
-        return seHizoInsercion;
+    public void cambiarVistaVehiculoTramitar(ConsultarPersonaDTO personaDTO){
+        limpiarFrame();
+        VistaVehiculoTramitar vistaConfirmarLicencia = new VistaVehiculoTramitar(this, personaDTO);
+        ponerEnJFrame(vistaConfirmarLicencia);
+        panelActual = vistaConfirmarLicencia;
     }
 
-    /**
-     * Establece si se ha realizado una inserción masiva de personas.
+     /**
+     * Verifica si se está realizando un trámite de licencia.
      *
-     * Este método establece el estado de la inserción masiva de personas en el
-     * sistema.
-     *
-     * @param seHizoInsercion true si se ha realizado una inserción masiva de
-     * personas, false en caso contrario.
+     * @return true si se está realizando un trámite de licencia, false de lo contrario.
      */
-    public void setSeHizoInsercion(boolean seHizoInsercion) {
-        this.seHizoInsercion = seHizoInsercion;
+    public boolean isTramiteLicencia() {
+        return tramiteLicencia;
+    }
+
+     /**
+     * Establece si se está realizando un trámite de licencia.
+     *
+     * @param tramiteLicencia true si se está realizando un trámite de licencia, false de lo contrario.
+     */
+    public void setTramiteLicencia(boolean tramiteLicencia) {
+        this.tramiteLicencia = tramiteLicencia;
     }
 
 

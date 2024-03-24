@@ -6,12 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Clase que representa la expedición de placas en el sistema.
@@ -30,7 +31,15 @@ public class Placa extends Tramite implements Serializable {
     @Column (name = "numero",nullable = false, length = 7, unique = true)
     private String numero;
 
-    @ManyToOne (cascade = CascadeType.REMOVE)
+    @Column (name = "fecha_recepcion", nullable = true)
+    @Temporal (TemporalType.TIMESTAMP)
+    private Calendar fechaRecepcion;
+    
+    @Column (name = "estado", nullable = false)
+    @Enumerated (EnumType.STRING)
+    private EstadoPlaca estado;
+    
+    @ManyToOne (cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
     
@@ -75,4 +84,40 @@ public class Placa extends Tramite implements Serializable {
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+    /**
+     * Obtiene la fecha en la que se recibio la placa.
+     * @return La fecha en la que recibio la placa
+     */
+    public Calendar getFechaRecepcion() {
+        return fechaRecepcion;
+    }
+
+    /**
+     * Establece la fecha en la que se recibio la placa.
+     * @param fechaRecepcion La fecha en la que se recibio la placa.
+     */
+    public void setFechaRecepcion(Calendar fechaRecepcion) {
+        this.fechaRecepcion = fechaRecepcion;
+    }
+
+    /**
+     * Obtiene el estado de la placa.
+     * 
+     * @return El estado de la placa.
+     */
+    public EstadoPlaca getEstado() {
+        return estado;
+    }
+
+    /**
+     * Establece el estado de la placa.
+     * 
+     * @param estado El estado de la placa.
+     */
+    public void setEstado(EstadoPlaca estado) {
+        this.estado = estado;
+    }
+    
+    
 }
