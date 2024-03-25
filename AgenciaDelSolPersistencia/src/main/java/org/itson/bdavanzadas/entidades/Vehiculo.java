@@ -40,19 +40,19 @@ public class Vehiculo implements Serializable {
     @Column (name = "id_vehiculo")
     private Long id;
 
-    @Column (name = "marca", nullable = false, length = 50)
+    @Column (name = "marca", nullable = false, length = 30)
     private String marca;
     
-    @Column (name = "linea", nullable = false, length = 50)
+    @Column (name = "linea", nullable = false, length = 30)
     private String linea;
     
     @Column (name = "color", nullable = false, length = 20)
     private String color;
     
-    @Column (name = "numero_serie", nullable = false, length = 50, unique = true)
+    @Column (name = "numero_serie", nullable = false, length = 10, unique = true)
     private String numeroSerie;
     
-    @Column (name = "modelo", nullable = false, length = 5)
+    @Column (name = "modelo", nullable = false, length = 4)
     private String modelo;
     
     @OneToMany(mappedBy = "vehiculo")

@@ -1,7 +1,9 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import javax.swing.JPanel;
 
 /**
@@ -15,6 +17,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
     private boolean tramiteLicencia;
+    private boolean placaNueva;
 
     /**
      * Creates new form Ventana
@@ -163,6 +166,32 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaConfirmarLicencia);
         panelActual = vistaConfirmarLicencia;
     }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de agregar vehículo.
+     * 
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona del vehículo a agregar.
+     */
+    public void cambiarVistaAgregarVehiculo(ConsultarPersonaDTO personaDTO){
+        limpiarFrame();
+        VistaAgregarVehiculo vistaAgregarVehiculo = new VistaAgregarVehiculo(this, personaDTO);
+        ponerEnJFrame(vistaAgregarVehiculo);
+        panelActual = vistaAgregarVehiculo;
+    }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de información del trámite.
+     * 
+     * @param placaNuevaDTO Objeto dto que contiene toda la informacion del
+     * trámite de la placa
+     */
+    public void cambiarVistaTramitarPlaca(PlacaNuevaDTO placaNuevaDTO){
+        limpiarFrame();
+        VistaTramitarPlaca vistaTramitarPlaca = new VistaTramitarPlaca(this, placaNuevaDTO);
+        ponerEnJFrame(vistaTramitarPlaca);
+        panelActual = vistaTramitarPlaca;
+    }
 
      /**
      * Verifica si se está realizando un trámite de licencia.
@@ -182,6 +211,15 @@ public class Ventana extends javax.swing.JFrame {
         this.tramiteLicencia = tramiteLicencia;
     }
 
+    public boolean isPlacaNueva() {
+        return placaNueva;
+    }
+
+    public void setPlacaNueva(boolean placaNueva) {
+        this.placaNueva = placaNueva;
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

@@ -3,7 +3,9 @@ package org.itson.bdavanzadas.agenciadelsol;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.ILicenciaBO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.negocio.LicenciaBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -284,6 +286,8 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
             personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
             personaDTO.mayorEdad();
             cargarDatosRFC();
+            
+ 
             rfcValidado = true;
             
         } catch (ValidacionDTOException ve) {
@@ -307,7 +311,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
             if(ventana.isTramiteLicencia()){
                 ventana.cambiarVistaTramitarLicencia(personaDTO);
             }else{
-                ventana.cambiarVistaVehiculoTramitar(personaDTO);
+                verificaLicenciaVigente();
             }
         } else {
             new Aviso().mostrarAviso(ventana, "Primero busca a la persona válida para avazar");
@@ -370,5 +374,16 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblNombre.setText("-----");
         lblFechaNacimiento.setText("-----");
         lblTelefono.setText("-----");
+    }
+    
+    private void verificaLicenciaVigente() {
+        try {
+            new LicenciaBO().licenciaVigente(personaDTO);
+            ventana.cambiarVistaVehiculoTramitar(personaDTO);
+        } catch (ValidacionDTOException ex) {
+            limpiarDatos();
+            rfcValidado = false;
+            new Aviso().mostrarAviso(ventana, ex.getMessage());
+        }
     }
 }

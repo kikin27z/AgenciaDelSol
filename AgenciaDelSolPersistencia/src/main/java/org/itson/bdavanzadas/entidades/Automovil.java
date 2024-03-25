@@ -44,8 +44,8 @@ public class Automovil extends Vehiculo implements Serializable {
      * @param modelo El modelo del automóvil.
      * @param persona La persona asociada al automóvil.
      */
-    public Automovil(String marca, String linea, String color, String numero_serie, String modelo, Persona persona) {
-        super(marca, linea, color, numero_serie, modelo, persona);
+    public Automovil(String marca, String linea, String color, String numeroSerie, String modelo, Persona persona) {
+        super(marca, linea, color, numeroSerie, modelo, persona);
     }
 
     

@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.Automovil;
+import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
  *
@@ -30,14 +31,14 @@ public class VehiculosDAO implements IVehiculosDAO{
     }
     
     /**
-     * Agrega un automóvil a la base de datos.
+     * Agrega un vehiculo a la base de datos.
      * 
-     * @param automovil El automóvil que se va a agregar.
+     * @param vehiculo El vehiculo que se va a agregar.
      * @return El automóvil agregado.
      * @throws PersistenceException Si ocurre un error durante la persistencia.
      */
     @Override
-    public Automovil agregarAutomovil(Automovil automovil) throws PersistenceException {
+    public Vehiculo agregarAutomovil(Vehiculo vehiculo) throws PersistenceException {
         // Obtenemos acceso a la Fábrica de entityManagers
         EntityManager entityManager = conexion.crearConexion();
             
@@ -45,12 +46,12 @@ public class VehiculosDAO implements IVehiculosDAO{
         entityManager.getTransaction().begin();
         
         // Marca el jugador nuevo para guardarlo
-        entityManager.persist(automovil);
+        entityManager.persist(vehiculo);
         // Manda los cambios de la transacción
         entityManager.getTransaction().commit();
         
         entityManager.close();
-        return automovil;
+        return vehiculo;
     }
     
     

@@ -23,7 +23,7 @@ import org.itson.bdavanzadas.excepciones.PersistenciaException;
 public class PersonasBO implements IPersonasBO {
 
     private IPersonasDAO personasDAO;
-    static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
+    static final Logger logger = Logger.getLogger(PersonasBO.class.getName());
     IConexion conexion;
     Persona persona;
 

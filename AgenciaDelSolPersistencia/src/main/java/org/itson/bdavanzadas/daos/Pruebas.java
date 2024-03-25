@@ -13,6 +13,7 @@ import org.itson.bdavanzadas.entidades.Automovil;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
+import org.itson.bdavanzadas.entidades.Vehiculo;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
@@ -30,33 +31,48 @@ public class Pruebas {
             IPersonasDAO personaDao = new PersonasDAO(conexion);
             IVehiculosDAO vehiculoDAO = new VehiculosDAO(conexion);
             
-            Persona persona = new Persona();
-            persona.setRfc("KUBV931119SF4");
-        try {
-            persona = personaDao.consultarPersonaPorRfc(persona);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Placa placa = new Placa();
+            placa.setNumero("ABC-987");
+            Vehiculo vehiculo = placasDao.buscarVehiculo(placa);
             
-            Automovil auto = new Automovil("Nissan", "Sentra", "Negro", "7777", "2017", persona);
-            auto = vehiculoDAO.agregarAutomovil(auto);
-//            Automovil auto = new Automovil();
+            
+            
+            
+//            Persona persona = new Persona();
+//            persona.setRfc("KUBV931119SF4");
+//        try {
+//            persona = personaDao.consultarPersonaPorRfc(persona);
+//        } catch (PersistenciaException ex) {
+//            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//            
+//        Vehiculo vehi = new Automovil();
+//        
+        System.out.println(vehiculo.getClass().getName());
+        
+//            Automovil auto = new Automovil("Nissan", "Sentra", "Negro", "8888", "2017", persona);
+//            auto = vehiculoDAO.agregarAutomovil(auto);
+//            Automovil auto = new Automovil("7777");
 //            auto.setNumeroSerie("2222");
 //            auto = vehiculoDAO.buscarAutomovil(auto);
+//            Placa placa = new Placa();
+//            placa.setNumero("ABC-987");
+//            Placa placa2 = new Placa();
+//            placa2.setNumero("ABC-944");
+//            System.out.println(placasDao.existeNumero(placa));
+//            System.out.println(placasDao.existeNumero(placa2));
             
-            
-            
-            placasDao.desactivarPlacas(auto);
-            Placa placa = new Placa();
-            placa.setEstado(EstadoPlaca.HABILITADA);
-            placa.setVehiculo(auto);
-            placa.setCosto(200F);
-            placa.setFechaEmision(Calendar.getInstance());
-            placa.setNumero("ZRY-987");
-            placa.setPersona(persona);
-            placa.setVehiculo(auto);
-            
-            placasDao.agregarPlaca(placa);
+//            placasDao.desactivarPlacas(auto);
+//            Placa placa = new Placa();
+//            placa.setEstado(EstadoPlaca.HABILITADA);
+//            placa.setVehiculo(auto);
+//            placa.setCosto(200F);
+//            placa.setFechaEmision(Calendar.getInstance());
+//            placa.setNumero("ABC-987");
+//            placa.setPersona(persona);
+//            placa.setVehiculo(auto);
+//            
+//            placasDao.agregarPlaca(placa);
             
 //        try {
 //            // TODO code application logic here

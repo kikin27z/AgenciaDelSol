@@ -2,7 +2,6 @@ package com.itson.bdavanzadas.dtos;
 
 import java.util.Calendar;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
-import org.itson.bdavanzadas.entidades.Persona;
 
 /**
  * DTO que encapsula los datos necesarios para representar una licencia.
@@ -83,7 +82,7 @@ public class LicenciasDTO {
     }
 
     /**
-     * Establece la fecha de emisión del tramite/licencia.
+     * Establece la fecha de emisión del licencia.
      * 
      * @param fechaEmision La fecha de emisión de la licencia.
      */
@@ -92,7 +91,7 @@ public class LicenciasDTO {
     }
 
     /**
-     * Obtiene el costo del tramite/licencia.
+     * Obtiene el costo del licencia.
      * 
      * @return El costo de la licencia.
      */
@@ -126,8 +125,4 @@ public class LicenciasDTO {
     public void setPersona(ConsultarPersonaDTO persona) {
         this.persona = persona;
     }
-
-    
-    
-    
 }

@@ -35,11 +35,15 @@ public class Placa extends Tramite implements Serializable {
     @Temporal (TemporalType.TIMESTAMP)
     private Calendar fechaRecepcion;
     
-    @Column (name = "estado", nullable = false)
+    @Column (name = "estado", nullable = false, length = 15)
     @Enumerated (EnumType.STRING)
     private EstadoPlaca estado;
     
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @Column (name = "tipo_vehiculo", nullable = false, length = 50)
+    @Enumerated (EnumType.STRING)
+    private TVehiculo tipoVehiculo;
+    
+    @ManyToOne ()
     @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
     
@@ -118,6 +122,20 @@ public class Placa extends Tramite implements Serializable {
     public void setEstado(EstadoPlaca estado) {
         this.estado = estado;
     }
-    
-    
+
+    /**
+     * Obtiene el tipo de vehiculo.
+     * @return El tipo de vehiculo.
+     */
+    public TVehiculo getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    /**
+     * Establece el tipo de vehiculo.
+     * @param tipoVehiculo El tipo de vehiculo.
+     */
+    public void setTipoVehiculo(TVehiculo tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
 }

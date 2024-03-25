@@ -2,6 +2,7 @@ package org.itson.bdavanzadas.daos;
 
 import javax.persistence.PersistenceException;
 import org.itson.bdavanzadas.entidades.Automovil;
+import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
  * Esta interfaz define métodos para acceder y manipular datos relacionados con
@@ -13,13 +14,13 @@ import org.itson.bdavanzadas.entidades.Automovil;
  */
 public interface IVehiculosDAO {
     /**
-     * Agrega un automóvil a la base de datos.
+     * Agrega un vehiculo a la base de datos.
      * 
-     * @param automovil El automóvil que se va a agregar.
+     * @param vehiculo El vehiculo que se va a agregar.
      * @return El automóvil agregado.
      * @throws PersistenceException Si ocurre un error durante la persistencia.
      */
-    public Automovil agregarAutomovil(Automovil automovil) throws PersistenceException;
+    public Vehiculo agregarAutomovil(Vehiculo vehiculo) throws PersistenceException;
     
      /**
      * Busca un automóvil en la base de datos.

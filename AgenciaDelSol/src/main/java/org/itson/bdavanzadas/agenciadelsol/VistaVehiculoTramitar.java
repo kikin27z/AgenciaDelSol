@@ -2,13 +2,6 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
-import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
-import com.itson.bdavanzadas.negocio.IPersonasBO;
-import com.itson.bdavanzadas.negocio.PersonasBO;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Clase que representa la vista para tramitar una licencia para una persona en
@@ -21,9 +14,7 @@ import java.util.logging.Logger;
 public class VistaVehiculoTramitar extends javax.swing.JPanel {
 
     private Ventana ventana;
-    private IPersonasBO personasBO;
     private ConsultarPersonaDTO personaDTO;
-    private boolean rfcValidado;
 
     /**
      * Constructor de la clase VistaPersonaATramitar.
@@ -33,9 +24,8 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
      */
     public VistaVehiculoTramitar(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
-        this.personasBO = new PersonasBO();
         this.personaDTO = personaDTO;
-        this.rfcValidado = false;
+        ventana.setPlacaNueva(false);
         initComponents();
 
         limpiarDatos();
@@ -212,8 +202,8 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
 
         lblNumeroSerie.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblNumeroSerie.setForeground(new java.awt.Color(215, 70, 118));
-        lblNumeroSerie.setText("Número de serie:");
-        add(lblNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 215, 24));
+        lblNumeroSerie.setText("Número de placa del vehículo:");
+        add(lblNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 290, 24));
 
         lblColorInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblColorInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -334,7 +324,10 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
     }//GEN-LAST:event_cbxNumerosSerieActionPerformed
 
     private void btnRegistrarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVehiculoActionPerformed
-        
+        boolean respuesta = new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer registrar un vehículo nuevo?", "Registro vehículo nuevo");
+        if(respuesta){
+            ventana.cambiarVistaAgregarVehiculo(personaDTO);
+        }
     }//GEN-LAST:event_btnRegistrarVehiculoActionPerformed
 
 

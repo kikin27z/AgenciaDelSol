@@ -8,15 +8,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
-import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
-import org.itson.bdavanzadas.entidades.Licencia;
-import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
- *
+ * Esta clase proporciona métodos para interactuar con la entidad Placa en la base de datos.
+ * Permite agregar nuevas placas, desactivar placas asociadas a un vehículo, verificar la existencia de un número de placa
+ * y buscar un vehículo asociado a una placa.
+ * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
@@ -85,5 +85,43 @@ public class PlacasDAO implements IPlacasDAO{
         entityManager.close();
     }
 
+    /**
+     * Verifica si un número de placa ya existe en el sistema.
+     *
+     * @param placa La placa para la cual se verificará la existencia del número.
+     * @return true si el número de placa ya existe, false de lo contrario.
+     */
+    @Override
+    public boolean existeNumero(Placa placa) {
+       EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        // Definir una expresión de conteo
+        CriteriaQuery<Long> criteria = cb.createQuery(Long.class);
+        Root<Placa> rootCount = criteria.from(Placa.class);
+        criteria.select(cb.count(rootCount)).where(cb.equal(rootCount.get("numero"), placa.getNumero()));
+        Long countResult = entityManager.createQuery(criteria).getSingleResult();
 
+        // Si el conteo es mayor que 0, significa que hay al menos una placa con el número especificado
+        return countResult > 0;
+    }
+
+    /**
+     * Busca el vehículo asociado a una placa.
+     *
+     * @param placa La placa para la cual se buscará el vehículo.
+     * @return El vehículo asociado a la placa especificada.
+     */
+    @Override
+    public Vehiculo buscarVehiculo(Placa placa) {
+        EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Placa> criteria = cb.createQuery(Placa.class); 
+        Root<Placa> root = criteria.from(Placa.class);
+        criteria.select(root).where(cb.equal(root.get("numero"),placa.getNumero())); 
+        TypedQuery<Placa> query = entityManager.createQuery(criteria);
+        Placa placas = (Placa) query.getSingleResult(); 
+        
+        entityManager.close();
+        return placas.getVehiculo();
+    }
 }
