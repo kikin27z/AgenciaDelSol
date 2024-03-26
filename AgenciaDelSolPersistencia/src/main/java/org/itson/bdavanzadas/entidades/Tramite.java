@@ -142,7 +142,7 @@ public class Tramite implements Serializable {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
+    
     /**
      * Calcula y devuelve un valor hash basado en el ID del trámite.
      * 

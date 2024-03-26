@@ -2,6 +2,7 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import javax.swing.JPanel;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
@@ -39,7 +40,6 @@ public class Ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 580));
-        setPreferredSize(new java.awt.Dimension(1000, 580));
         setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,12 +174,19 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaTramitarLicencia);
         panelActual = vistaTramitarLicencia;
     }
-    
-    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO){
+
+    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO) {
         limpiarFrame();
         VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
         ponerEnJFrame(vistaConfirmarLicencia);
         panelActual = vistaConfirmarLicencia;
+    }
+
+    public void cambiarVistaPrevisionReporte(TramiteDTO tramiteDTO) {
+        limpiarFrame();
+        VistaPrevisionReporte vistaPrevisionReporte = new VistaPrevisionReporte(this, tramiteDTO);
+        ponerEnJFrame(vistaPrevisionReporte);
+        panelActual = vistaPrevisionReporte;
     }
 
     /**

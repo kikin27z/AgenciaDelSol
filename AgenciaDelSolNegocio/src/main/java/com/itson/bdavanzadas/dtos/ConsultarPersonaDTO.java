@@ -58,6 +58,14 @@ public class ConsultarPersonaDTO {
         this.discapacidad = discapacidad;
     }
 
+    public ConsultarPersonaDTO(String nombres, String apellidoPaterno, String apellidoMaterno) {
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+    }
+    
+    
+
     /**
      * Obtiene el RFC de la persona.
      * 

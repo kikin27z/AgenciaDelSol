@@ -56,7 +56,7 @@ public class PersonasBO implements IPersonasBO {
         }
     }
 
-        /**
+    /**
      * Consulta una persona en la base de datos por su RFC.
      *
      * Este método busca una persona en la base de datos utilizando el RFC
@@ -68,10 +68,11 @@ public class PersonasBO implements IPersonasBO {
      * persona a buscar.
      * @return ConsultarPersonaDTO con la información de la persona encontrada,
      * o null si no se encuentra o no cumple con los requisitos.
-     * @throws ValidacionDTOException arroja la excepción si el rfc no existe en la base de datos.
+     * @throws ValidacionDTOException arroja la excepción si el rfc no existe en
+     * la base de datos.
      */
     @Override
-    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException{
+    public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException {
         try {
             Persona personaBuscar = new Persona();
             personaBuscar.setRfc(personaDTO.getRfc());
@@ -86,7 +87,7 @@ public class PersonasBO implements IPersonasBO {
                     persona.getDiscapacidad()
             );
 
-                return personaEncontrada;
+            return personaEncontrada;
         } catch (PersistenciaException ex) {
             throw new ValidacionDTOException(ex.getMessage());
         }
@@ -94,7 +95,7 @@ public class PersonasBO implements IPersonasBO {
 
     /**
      * Verifica si existen registros de personas.
-     * 
+     *
      * @return true si hay registros de personas, false si la tabla está vacía.
      */
     @Override
