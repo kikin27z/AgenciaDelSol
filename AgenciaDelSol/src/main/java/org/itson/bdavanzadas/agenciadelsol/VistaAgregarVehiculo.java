@@ -5,6 +5,7 @@ import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.PlacasBO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -305,6 +306,7 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         cargarDatosVehiculo();
         try {
             validarDatos();
+            new PlacasBO().existeVehiculo(autoDTO);
             cargarDatosPlaca();
             ventana.cambiarVistaTramitarPlaca(placaDTO);
         } catch (ValidacionDTOException ex) {

@@ -3,6 +3,7 @@ package com.itson.bdavanzadas.negocio;
 import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
 import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.daos.PlacasDAO;
 import org.itson.bdavanzadas.daos.VehiculosDAO;
 import org.itson.bdavanzadas.entidades.Automovil;
+import org.itson.bdavanzadas.entidades.EstadoPlaca;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.TVehiculo;
@@ -71,32 +73,97 @@ public class PlacasBO implements  IPlacasBO{
             return null;
         }
         
+        VehiculoNuevoDTO vehiculoDTO = placaNuevaDTO.getVehiculo();
         
         switch (placaNuevaDTO.getTipoVehiculo()) {
             case "Automovil":
                 vehiculo = new Automovil();
-                placa.setTipoVehiculo(TVehiculo.AUTOMOVIL);
+                placa.setTipoVehiculo(TVehiculo.Automovil);
                 break;
         }
         
-        vehiculo.setColor(placaNuevaDTO.getVehiculo().getColor());
-        vehiculo.setMarca(placaNuevaDTO.getVehiculo().getMarca());
-        vehiculo.setModelo(placaNuevaDTO.getVehiculo().getModelo());
-        vehiculo.setNumeroSerie(placaNuevaDTO.getVehiculo().getNumeroSerie());
-        vehiculo.setLinea(placaNuevaDTO.getVehiculo().getLinea());
         vehiculo.setPersona(persona);
+        iniciarVehiculo(vehiculo, vehiculoDTO);
         
         vehiculo = vehiculoDAO.agregarAutomovil(vehiculo);
         
+        //Se asignan valores necesarios a la placa
         placa.setPersona(persona);
-        placa.setFechaEmision(Calendar.getInstance());
-        placa.setCosto(placaNuevaDTO.getCosto());
         placa.setVehiculo(vehiculo);
+        placa.setCosto(placaNuevaDTO.getCosto());
+        placa.setFechaEmision(Calendar.getInstance());
+        placa.setEstado(EstadoPlaca.HABILITADA);
         placa.setNumero(placaNuevaDTO.getNumero());
+        
+        //Se agrega a la base de datos
         placa = placasDAO.agregarPlaca(placa);
         placaNuevaDTO.setFechaEmision(placa.getFechaEmision());
-        
         return placaNuevaDTO;
+    }
+    
+    /**
+    * Inicializa un objeto Vehiculo con los datos proporcionados en un objeto VehiculoNuevoDTO.
+    * 
+    * @param vehiculo Objeto de tipo Vehiculo a inicializar.
+    * @param vehiculoDTO Objeto de tipo VehiculoNuevoDTO que contiene la información del vehículo.
+    */
+    private void iniciarVehiculo(Vehiculo vehiculo, VehiculoNuevoDTO vehiculoDTO){
+        vehiculo.setColor(vehiculoDTO.getColor());
+        vehiculo.setMarca(vehiculoDTO.getMarca());
+        vehiculo.setModelo(vehiculoDTO.getModelo());
+        vehiculo.setNumeroSerie(vehiculoDTO.getNumeroSerie());
+        vehiculo.setLinea(vehiculoDTO.getLinea());
+        
+    }
+    
+    /**
+    * Realiza el trámite para renovar la placa de un vehículo.
+    * 
+    * @param placaConsultadaDTO Objeto de tipo ConsultaPlacaDTO que contiene la información necesaria para el trámite.
+    * @return Objeto de tipo ConsultaPlacaDTO que contiene la información de la nueva placa generada.
+    */
+    @Override
+    public ConsultaPlacaDTO realizarTramitePlaca(ConsultaPlacaDTO placaConsultadaDTO) {
+        //Se busca el auto con el número de serie para renovar la placa
+        Vehiculo vehiculo = new Vehiculo(placaConsultadaDTO.getVehiculo().getNumeroSerie());
+        vehiculo = vehiculoDAO.buscarVehiculo(vehiculo);
+        
+        
+        Placa placa = new Placa();
+        //Se localiza a la persona para vincular los id a la placa
+        Persona persona = new Persona();
+        persona.setRfc(placaConsultadaDTO.getPersona().getRfc());
+        try {
+            persona = personaDAO.consultarPersonaPorRfc(persona);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PlacasBO.class.getName()).log(Level.SEVERE, "No se pudo encontrar a la persona intente de nuevo");
+            return null;
+        }
+        
+        //Se asignan valores necesarios a la placa
+        placa.setCosto(placaConsultadaDTO.getCosto());
+        placa.setEstado(EstadoPlaca.HABILITADA);
+        placa.setFechaEmision(Calendar.getInstance());
+        placa.setPersona(persona);
+        placa.setVehiculo(vehiculo);
+        placa.setNumero(placaConsultadaDTO.getNumero());
+        
+        switch (placaConsultadaDTO.getTipoVehiculo()) {
+            case "Automovil":
+                placa.setTipoVehiculo(TVehiculo.Automovil);
+                break;
+        }
+        
+        //Se desactivan las placas del vehiculo en cuestion
+        placasDAO.desactivarPlacas(vehiculo);
+        
+        //Se agrega a la base de datos
+        placa = placasDAO.agregarPlaca(placa);
+        
+        
+        
+        placaConsultadaDTO.setFechaEmision(placa.getFechaEmision());
+        return placaConsultadaDTO;
     }
     
     /**
@@ -121,7 +188,7 @@ public class PlacasBO implements  IPlacasBO{
     @Override
     public void calcularCostoVehiculoUsado(ConsultaPlacaDTO placaDTO) {
         switch (placaDTO.getTipoVehiculo()) {
-            case "AUTOMOVIL":
+            case "Automovil":
                 placaDTO.setCosto(1000F);
                 break;
         }  
@@ -136,9 +203,10 @@ public class PlacasBO implements  IPlacasBO{
     public String generaPlacaNueva() {
         String numero = generarNumeroPlaca();
         Placa placa = new Placa();
-        placa.setNumero("ABC-987");
+        placa.setNumero(numero);
         while(placasDAO.existeNumero(placa)){
             numero = generarNumeroPlaca();
+            placa.setNumero(numero);
         }
         
         logger.log(Level.INFO, "Se genero un nuevo numero de placa");
@@ -175,6 +243,58 @@ public class PlacasBO implements  IPlacasBO{
         // Concatenamos las letras, el guion y los números para formar la secuencia
         return sbLetras.toString() + "-" + sbNumeros.toString();
     } 
+
+    /**
+    * Verifica si ya existe un vehículo con el mismo número de serie en la base de datos.
+    * 
+    * @param vehiculoNuevoDTO Objeto de tipo VehiculoNuevoDTO que contiene la información del vehículo.
+    * @throws ValidacionDTOException Si ya existe un vehículo con el mismo número de serie.
+    */
+    @Override
+    public void existeVehiculo(VehiculoNuevoDTO vehiculoNuevoDTO) throws ValidacionDTOException{
+        Vehiculo vehiculo = new Vehiculo(vehiculoNuevoDTO.getNumeroSerie());
+        if(vehiculoDAO.existeNumeroSerie(vehiculo)){
+            logger.log(Level.INFO, "Ya existe el número de serie del vehículo");
+            throw new ValidacionDTOException("El número de serie ya existe en los registro, regrese y busque la placa");
+        }
+    }
+
+    /**
+    * Consulta la información de una placa por su número.
+    * 
+    * @param consultaPlacaDTO Objeto de tipo ConsultaPlacaDTO que contiene el número de placa a consultar.
+    * @return Objeto de tipo ConsultaPlacaDTO que contiene la información de la placa consultada.
+    * @throws ValidacionDTOException Si no existe la placa buscada o si la placa pertenece a otra persona.
+    */
+    @Override
+    public ConsultaPlacaDTO consultarPlacaPorNumero(ConsultaPlacaDTO consultaPlacaDTO) throws ValidacionDTOException {
+        Placa placa = new Placa();
+        placa.setNumero(consultaPlacaDTO.getNumero());
+        try {
+            placa = placasDAO.buscarPlaca(placa);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PlacasBO.class.getName()).log(Level.SEVERE, "No existe el número de placa buscado");
+            throw new ValidacionDTOException("Número de placa inesxistente");
+        }
+        
+        if(!placa.getPersona().getRfc().equals(consultaPlacaDTO.getPersona().getRfc())){
+            throw new ValidacionDTOException("Número de placa de otra persona");
+        }
+        
+        Vehiculo vehiculo = placa.getVehiculo();
+        
+        consultaPlacaDTO.setVehiculo(new VehiculoNuevoDTO());
+        consultaPlacaDTO.getVehiculo().setColor(vehiculo.getColor());
+        consultaPlacaDTO.getVehiculo().setMarca(vehiculo.getMarca());
+        consultaPlacaDTO.getVehiculo().setLinea(vehiculo.getLinea());
+        consultaPlacaDTO.getVehiculo().setModelo(vehiculo.getModelo());
+        consultaPlacaDTO.getVehiculo().setNumeroSerie(vehiculo.getNumeroSerie());
+        consultaPlacaDTO.setTipoVehiculo(placa.getTipoVehiculo().toString());
+        
+        return consultaPlacaDTO;
+    }
+
+    
 
     
 }

@@ -1,7 +1,14 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.avisos.Aviso;
+import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.IPlacasBO;
+import com.itson.bdavanzadas.negocio.PlacasBO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase que representa la vista para tramitar una licencia para una persona en
@@ -15,6 +22,9 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
 
     private Ventana ventana;
     private ConsultarPersonaDTO personaDTO;
+    private ConsultaPlacaDTO placaDTO;
+    private boolean numeroPlacaValidado;
+    private IPlacasBO placasBO;
 
     /**
      * Constructor de la clase VistaPersonaATramitar.
@@ -25,7 +35,9 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
     public VistaVehiculoTramitar(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
         this.personaDTO = personaDTO;
+        this.placasBO = new PlacasBO();
         ventana.setPlacaNueva(false);
+        numeroPlacaValidado = false;
         initComponents();
 
         limpiarDatos();
@@ -58,8 +70,7 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
         lblLogo2 = new javax.swing.JLabel();
         lblLogo3 = new javax.swing.JLabel();
         lblLogo4 = new javax.swing.JLabel();
-        cbxNumerosSerie = new javax.swing.JComboBox<>();
-        lblNumeroSerie = new javax.swing.JLabel();
+        lblNumeroPlacaTitulo = new javax.swing.JLabel();
         lblColorInfo = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblMarcaInfo = new javax.swing.JLabel();
@@ -73,6 +84,10 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
         iconPlaca = new javax.swing.JLabel();
         lblTramitarPlaca1 = new javax.swing.JLabel();
         lblCurpPersona1 = new javax.swing.JLabel();
+        txtNumeroPlaca = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        lblNumeroSerie = new javax.swing.JLabel();
+        lblColorInfo1 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -189,21 +204,10 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
         lblLogo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgReporte.png"))); // NOI18N
         add(lblLogo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 40, 40));
 
-        cbxNumerosSerie.setBackground(new java.awt.Color(247, 242, 244));
-        cbxNumerosSerie.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
-        cbxNumerosSerie.setForeground(new java.awt.Color(157, 134, 90));
-        cbxNumerosSerie.setFocusable(false);
-        cbxNumerosSerie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxNumerosSerieActionPerformed(evt);
-            }
-        });
-        add(cbxNumerosSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 215, 450, 40));
-
-        lblNumeroSerie.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        lblNumeroSerie.setForeground(new java.awt.Color(215, 70, 118));
-        lblNumeroSerie.setText("Número de placa del vehículo:");
-        add(lblNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 290, 24));
+        lblNumeroPlacaTitulo.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblNumeroPlacaTitulo.setForeground(new java.awt.Color(215, 70, 118));
+        lblNumeroPlacaTitulo.setText("Número de placa del vehículo:");
+        add(lblNumeroPlacaTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 185, 290, 24));
 
         lblColorInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblColorInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -234,7 +238,7 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
 
         lblLinea.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblLinea.setText("-----");
-        add(lblLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 410, 290, 20));
+        add(lblLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 410, 260, 20));
 
         lblLineaInfo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblLineaInfo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -263,6 +267,33 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
         lblCurpPersona1.setForeground(new java.awt.Color(215, 70, 118));
         lblCurpPersona1.setText("¿Registrar nuevo vehículo?");
         add(lblCurpPersona1, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 137, 247, 30));
+
+        txtNumeroPlaca.setBackground(new java.awt.Color(247, 242, 244));
+        txtNumeroPlaca.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtNumeroPlaca.setForeground(new java.awt.Color(143, 143, 143));
+        txtNumeroPlaca.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        add(txtNumeroPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 218, 440, 34));
+
+        btnBuscar.setBackground(new java.awt.Color(215, 70, 118));
+        btnBuscar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(253, 253, 253));
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(215, 70, 118), 2));
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 142, 45));
+
+        lblNumeroSerie.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNumeroSerie.setText("-----");
+        add(lblNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(624, 405, 230, 20));
+
+        lblColorInfo1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblColorInfo1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblColorInfo1.setText("Número serie:");
+        add(lblColorInfo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 405, 120, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaVehiculoTramitar.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
@@ -316,13 +347,19 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de confirmar.
      */
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
+        if (numeroPlacaValidado) {
+            ventana.cambiarVistaTramitarPlaca(placaDTO);
+        } else {
+            new Aviso().mostrarAviso(ventana, "Primero busca vehículo válido para avazar");
+        }
     }//GEN-LAST:event_btnConfirmarActionPerformed
-
-    private void cbxNumerosSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNumerosSerieActionPerformed
-
-    }//GEN-LAST:event_cbxNumerosSerieActionPerformed
-
+    
+    /**
+    * Este método se ejecuta cuando se hace clic en el botón de registrar vehículo en la
+    * interfaz gráfica.
+    *
+    * @param evt El evento de acción asociado al botón de registrar vehículo.
+    */
     private void btnRegistrarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVehiculoActionPerformed
         boolean respuesta = new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer registrar un vehículo nuevo?", "Registro vehículo nuevo");
         if(respuesta){
@@ -330,19 +367,46 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnRegistrarVehiculoActionPerformed
 
+    /**
+    * Método que se ejecuta al hacer clic en el botón "Buscar".
+    *
+    * Este método busca la información del vehículo según el número de placa
+    * ingresado en el campo de texto y la muestra en la interfaz gráfica.
+    *
+    * @param evt El evento de acción que desencadena este método (en este caso,
+    * hacer clic en el botón "Buscar").
+    */
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        placaDTO = new ConsultaPlacaDTO(txtNumeroPlaca.getText());
+        placaDTO.setPersona(personaDTO);
+        try {
+            placaDTO.validarNumeroPlaca();
+            placaDTO = placasBO.consultarPlacaPorNumero(placaDTO);
+            cargarDatosPlaca();
+            numeroPlacaValidado = true;
+
+        } catch (ValidacionDTOException ve) {
+            numeroPlacaValidado = false;
+            limpiarDatos();
+            new Aviso().mostrarAviso(ventana, ve.getMessage());
+            Logger.getLogger(VistaVehiculoTramitar.class.getName()).log(Level.SEVERE, "Número placa inválido");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
     private javax.swing.JButton btnRegistrarVehiculo;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
-    private javax.swing.JComboBox<String> cbxNumerosSerie;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel iconPlaca;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblColorInfo;
+    private javax.swing.JLabel lblColorInfo1;
     private javax.swing.JLabel lblConfirmacion;
     private javax.swing.JLabel lblCurpPersona1;
     private javax.swing.JLabel lblLinea;
@@ -358,6 +422,7 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
     private javax.swing.JLabel lblModelo;
     private javax.swing.JLabel lblModeloInfo;
     private javax.swing.JLabel lblModuloConsultas;
+    private javax.swing.JLabel lblNumeroPlacaTitulo;
     private javax.swing.JLabel lblNumeroSerie;
     private javax.swing.JLabel lblReportes;
     private javax.swing.JLabel lblTipo;
@@ -366,14 +431,39 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
     private javax.swing.JLabel lblTramitarPlaca1;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
+    private javax.swing.JTextField txtNumeroPlaca;
     // End of variables declaration//GEN-END:variables
 
     
+    /**
+    * Método que limpia los datos de la interfaz gráfica.
+    *
+    * Este método se utiliza para limpiar los campos de la interfaz gráfica
+    * después de realizar una búsqueda o cuando se necesita restablecer los datos.
+    */
     private void limpiarDatos(){
         lblMarca.setText("-----");
         lblModelo.setText("-----");
         lblColor.setText("-----");
         lblLinea.setText("-----");
         lblTipo.setText("-----");
+        lblNumeroSerie.setText("-----");
+        txtNumeroPlaca.setText("");
+    }
+
+    /**
+    * Método que carga los datos del vehículo consultado en la interfaz gráfica.
+    *
+    * Este método se utiliza para mostrar la información del vehículo consultado
+    * en los respectivos campos de la interfaz gráfica.
+    */
+    private void cargarDatosPlaca() {
+        VehiculoNuevoDTO vehiculoDTO = placaDTO.getVehiculo();
+        lblTipo.setText(placaDTO.getTipoVehiculo());
+        lblColor.setText(vehiculoDTO.getColor());
+        lblMarca.setText(vehiculoDTO.getMarca());
+        lblModelo.setText(vehiculoDTO.getModelo());
+        lblLinea.setText(vehiculoDTO.getLinea());
+        lblNumeroSerie.setText(vehiculoDTO.getNumeroSerie());
     }
 }

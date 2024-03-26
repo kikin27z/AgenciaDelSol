@@ -1,6 +1,6 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
+import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
@@ -147,11 +147,35 @@ public class Ventana extends javax.swing.JFrame {
      *
      * @param licenciaDTO Objeto LicenciasDTO que contiene la información de la licencia tramitada.
      */
-    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO){
+    public void cambiarVistaConfirmacionTramite(LicenciasDTO licenciaDTO){
         limpiarFrame();
-        VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
-        ponerEnJFrame(vistaConfirmarLicencia);
-        panelActual = vistaConfirmarLicencia;
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, licenciaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
+    }
+    
+    /**
+    * Cambia la vista actual del frame a la vista de confirmación de trámite de placa nueva.
+    *
+    * @param placaNuevaDTO Objeto PlacaNuevaDTO que contiene la información de la placa tramitada.
+    */
+    public void cambiarVistaConfirmacionTramite(PlacaNuevaDTO placaNuevaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, placaNuevaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
+    }
+    
+    /**
+    * Cambia la vista actual del frame a la vista de confirmación de trámite de consulta de placa.
+    *
+    * @param consultaPlacaDTO Objeto ConsultaPlacaDTO que contiene la información de la consulta de placa tramitada.
+    */
+    public void cambiarVistaConfirmacionTramite(ConsultaPlacaDTO consultaPlacaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, consultaPlacaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
     }
     
     /**
@@ -192,6 +216,19 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaTramitarPlaca);
         panelActual = vistaTramitarPlaca;
     }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de información del trámite.
+     * 
+     * @param consultaPlacaDTO Objeto dto que contiene toda la informacion del
+     * trámite de la placa.
+     */
+    public void cambiarVistaTramitarPlaca(ConsultaPlacaDTO consultaPlacaDTO){
+        limpiarFrame();
+        VistaTramitarPlaca vistaTramitarPlaca = new VistaTramitarPlaca(this, consultaPlacaDTO);
+        ponerEnJFrame(vistaTramitarPlaca);
+        panelActual = vistaTramitarPlaca;
+    }
 
      /**
      * Verifica si se está realizando un trámite de licencia.
@@ -211,16 +248,23 @@ public class Ventana extends javax.swing.JFrame {
         this.tramiteLicencia = tramiteLicencia;
     }
 
+    /**
+    * Verifica si se está tramitando una placa nueva.
+    *
+    * @return true si se está tramitando una placa nueva, false de lo contrario.
+    */
     public boolean isPlacaNueva() {
         return placaNueva;
     }
-
+    
+    /**
+    * Establece si se está tramitando una placa nueva.
+    *
+    * @param placaNueva true si se está tramitando una placa nueva, false de lo contrario.
+    */
     public void setPlacaNueva(boolean placaNueva) {
         this.placaNueva = placaNueva;
     }
-
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -2,6 +2,7 @@ package org.itson.bdavanzadas.daos;
 
 import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.Vehiculo;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * Esta interfaz define los métodos que deben ser implementados por cualquier clase que proporcione acceso a datos relacionados
@@ -37,10 +38,11 @@ public interface IPlacasDAO {
     public boolean existeNumero(Placa placa);
     
     /**
-     * Busca el vehículo asociado a una placa.
+     * Busca una placa en la base de datos utilizando su número.
      *
-     * @param placa La placa para la cual se buscará el vehículo.
-     * @return El vehículo asociado a la placa especificada.
+     * @param placa La placa con el número a buscar.
+     * @return La placa encontrada.
+     * @throws PersistenciaException Si no se encuentra la placa con el número especificado.
      */
-    public Vehiculo buscarVehiculo(Placa placa);
+    public Placa buscarPlaca(Placa placa) throws PersistenciaException;
 }

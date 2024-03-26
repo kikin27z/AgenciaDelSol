@@ -1,5 +1,8 @@
 package com.itson.bdavanzadas.dtos;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
 
 /**
@@ -28,6 +31,15 @@ public class ConsultaPlacaDTO {
     public ConsultaPlacaDTO() {
     }
 
+    /**
+     * Constructor que incializa el número de la placa.
+     * @param numero El número de la placa.
+     */
+    public ConsultaPlacaDTO(String numero) {
+        this.numero = numero;
+    }
+
+    
     
    /**
      * Obtiene la información del vehículo asociado a la placa.
@@ -173,5 +185,24 @@ public class ConsultaPlacaDTO {
         this.tipoVehiculo = tipoVehiculo;
     }
     
-    
+    /**
+     * Método para validar si existen campos vacíos en el DTO.
+     * 
+     * @throws ValidacionDTOException Si hay campos vacíos en el DTO.
+     */
+    public void validarNumeroPlaca() throws ValidacionDTOException{
+        if (this.numero == null || this.numero.isBlank()) {
+            throw new ValidacionDTOException("Llene el campo de número de placa.");
+        }
+        
+        String cadenaNumeroPlaca= "^[A-Z]{3}-[0-9]{3}$";
+
+        Pattern patronNumero = Pattern.compile(cadenaNumeroPlaca);
+
+        // Verifica el campo del automovil
+        Matcher matcherNumero = patronNumero.matcher(this.numero);
+        if (!matcherNumero.matches()) {
+            throw new ValidacionDTOException("El número de placa es inválido debe tener el siguiente formato AAA-000, 3 letras mayúsculas, un guión y 3 números.");
+        }
+    }
 }

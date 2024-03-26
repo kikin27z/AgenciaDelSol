@@ -3,6 +3,7 @@ package org.itson.bdavanzadas.daos;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,6 +12,7 @@ import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
 import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.Vehiculo;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * Esta clase proporciona métodos para interactuar con la entidad Placa en la base de datos.
@@ -106,22 +108,30 @@ public class PlacasDAO implements IPlacasDAO{
     }
 
     /**
-     * Busca el vehículo asociado a una placa.
+     * Busca una placa en la base de datos utilizando su número.
      *
-     * @param placa La placa para la cual se buscará el vehículo.
-     * @return El vehículo asociado a la placa especificada.
+     * @param placa La placa con el número a buscar.
+     * @return La placa encontrada.
+     * @throws PersistenciaException Si no se encuentra la placa con el número especificado.
      */
     @Override
-    public Vehiculo buscarVehiculo(Placa placa) {
+    public Placa buscarPlaca(Placa placa) throws PersistenciaException{
         EntityManager entityManager = conexion.crearConexion();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Placa> criteria = cb.createQuery(Placa.class); 
         Root<Placa> root = criteria.from(Placa.class);
         criteria.select(root).where(cb.equal(root.get("numero"),placa.getNumero())); 
         TypedQuery<Placa> query = entityManager.createQuery(criteria);
-        Placa placas = (Placa) query.getSingleResult(); 
+        Placa placas;
+        try {
+            placas = (Placa) query.getSingleResult();
+
+        } catch (NoResultException nre) {
+            throw new PersistenciaException("Número de placa inexistente");
+        } finally {
+            entityManager.close();
+        }
         
-        entityManager.close();
-        return placas.getVehiculo();
+        return placas;
     }
 }

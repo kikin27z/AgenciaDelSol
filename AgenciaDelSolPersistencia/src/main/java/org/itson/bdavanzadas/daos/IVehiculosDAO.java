@@ -1,7 +1,6 @@
 package org.itson.bdavanzadas.daos;
 
 import javax.persistence.PersistenceException;
-import org.itson.bdavanzadas.entidades.Automovil;
 import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
@@ -22,13 +21,22 @@ public interface IVehiculosDAO {
      */
     public Vehiculo agregarAutomovil(Vehiculo vehiculo) throws PersistenceException;
     
-     /**
-     * Busca un automóvil en la base de datos.
+  
+    /**
+     * Busca un vehículo en la base de datos utilizando el número de serie.
      * 
-     * @param automovil El automóvil que se va a buscar.
-     * @return El automóvil encontrado.
+     * @param vehiculo El vehículo con el número de serie a buscar.
+     * @return El vehículo encontrado.
      * @throws PersistenceException Si ocurre un error durante la búsqueda.
      */
-    public Automovil buscarAutomovil(Automovil automovil) throws PersistenceException;
+    public Vehiculo buscarVehiculo(Vehiculo vehiculo) throws PersistenceException;
+    
+     /**
+     * Verifica si ya existe un vehículo con el mismo número de serie en la base de datos.
+     * 
+     * @param vehiculo El vehículo con el número de serie a verificar.
+     * @return true si ya existe un vehículo con el mismo número de serie, false de lo contrario.
+     */
+    public boolean existeNumeroSerie(Vehiculo vehiculo);
     
 }

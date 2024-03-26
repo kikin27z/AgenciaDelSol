@@ -12,4 +12,3 @@ com\itson\bdavanzadas\negocio\IPersonasBO.class
 com\itson\bdavanzadas\avisos\IAviso.class
 com\itson\bdavanzadas\negocio\PlacasBO.class
 com\itson\bdavanzadas\negocio\LicenciaBO.class
-com\itson\bdavanzadas\negocio\Prueba.class

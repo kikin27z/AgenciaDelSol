@@ -9,5 +9,5 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum TVehiculo {
-    AUTOMOVIL
+    Automovil
 }

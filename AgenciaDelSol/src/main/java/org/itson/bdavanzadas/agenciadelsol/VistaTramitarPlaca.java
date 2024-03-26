@@ -9,6 +9,9 @@ import com.itson.bdavanzadas.negocio.PlacasBO;
 
 /**
  * Clase que representa la vista para los de la placa de un vehiculo a tramitar.
+ * Esta clase muestra la información relacionada con el trámite de la placa y permite al usuario llevar a cabo dicho trámite.
+ * La vista puede utilizarse tanto para tramitar una placa nueva como para consultar y tramitar una placa existente.
+ * Además, muestra información sobre el costo del trámite y los detalles del vehículo asociado a la placa.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -22,6 +25,12 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
     private IPlacasBO placasBO;
 
 
+    /**
+     * Constructor de la clase VistaTramitarPlaca para tramitar una placa nueva.
+     * 
+     * @param ventana La ventana principal de la aplicación.
+     * @param placaDTO El DTO de la placa a tramitar.
+     */
     public VistaTramitarPlaca(Ventana ventana, PlacaNuevaDTO placaDTO) {
         this.ventana = ventana;
         this.placaNuevaDTO = placaDTO;
@@ -29,6 +38,13 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
         initComponents();
         cargarDatos();
     }
+    
+    /**
+     * Constructor de la clase VistaTramitarPlaca para tramitar una placa nueva.
+     * 
+     * @param ventana La ventana principal de la aplicación.
+     * @param placaDTO El DTO de la placa a tramitar.
+     */
     public VistaTramitarPlaca(Ventana ventana, ConsultaPlacaDTO placaDTO) {
         this.ventana = ventana;
         this.placaConsultadaDTO = placaDTO;
@@ -372,7 +388,12 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
-
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Tramitar".
+     * Este método realiza el trámite de la placa y actualiza la base de datos si el usuario confirma.
+     *
+     * @param evt El evento de acción que desencadena este método.
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         if(ventana.isPlacaNueva()){
             ventana.cambiarVistaAgregarVehiculo(placaNuevaDTO.getPersona());
@@ -381,11 +402,20 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnVolverActionPerformed
 
-   
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Tramitar".
+     * Este método realiza el trámite de la placa y actualiza la base de datos si el usuario confirma.
+     *
+     * @param evt El evento de acción que desencadena este método.
+     */
     private void btnTramitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarActionPerformed
         if (new Aviso().mostrarConfirmacion(ventana, "¿Seguro de querer tramitar la placa?", "¿Quiére una nueva placa?")) {
             if(ventana.isPlacaNueva()){
                 placasBO.realizarTramitePlaca(placaNuevaDTO);
+                ventana.cambiarVistaConfirmacionTramite(placaNuevaDTO);
+            }else{
+                placasBO.realizarTramitePlaca(placaConsultadaDTO);
+                ventana.cambiarVistaConfirmacionTramite(placaConsultadaDTO);
             }
         }
     }//GEN-LAST:event_btnTramitarActionPerformed
@@ -435,19 +465,25 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
     private javax.swing.JLabel lblVigencia;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método para cargar los datos de la placa y el vehículo asociado a la interfaz gráfica.
+     * Este método se llama al inicializar la vista y muestra los detalles de la placa y el vehículo en los campos correspondientes.
+     */
     private void cargarDatos() {
         String tipoVehiculo;
+        String numeroPlaca = placasBO.generaPlacaNueva();
         // Dependiendo del tipo de dto se asigna la variable correspondie los valores.
         if(ventana.isPlacaNueva()){
             lblTipo.setText("Nuevo");
             placasBO.calcularCostoVehiculoNuevo(placaNuevaDTO);
-            placaNuevaDTO.setNumero(placasBO.generaPlacaNueva());
+            placaNuevaDTO.setNumero(numeroPlaca);
             autoDTO = placaNuevaDTO.getVehiculo();
             lblNumeroPlaca.setText(placaNuevaDTO.getNumero());
             tipoVehiculo = placaNuevaDTO.getTipoVehiculo();
         }else{
             lblTipo.setText("Usado");
             placasBO.calcularCostoVehiculoUsado(placaConsultadaDTO);
+            placaConsultadaDTO.setNumero(numeroPlaca);
             autoDTO = placaConsultadaDTO.getVehiculo();
             lblNumeroPlaca.setText(placaConsultadaDTO.getNumero());
             tipoVehiculo = placaConsultadaDTO.getTipoVehiculo();
