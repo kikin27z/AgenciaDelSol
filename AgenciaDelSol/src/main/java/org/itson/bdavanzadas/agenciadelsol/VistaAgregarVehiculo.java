@@ -1,5 +1,14 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.avisos.Aviso;
+import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.PlacasBO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -9,15 +18,25 @@ package org.itson.bdavanzadas.agenciadelsol;
 public class VistaAgregarVehiculo extends javax.swing.JPanel {
 
     private  Ventana ventana;
+    private ConsultarPersonaDTO personaDTO;
+    private VehiculoNuevoDTO autoDTO;
+    private PlacaNuevaDTO placaDTO;
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona para la cual se tramita el vehículo.
      */
-    public VistaAgregarVehiculo(Ventana ventana) {
+    public VistaAgregarVehiculo(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;
+        this.personaDTO = personaDTO;
+        this.autoDTO = new VehiculoNuevoDTO();
+        this.autoDTO.setPersona(personaDTO);
+        ventana.setPlacaNueva(true);
         initComponents();
+        cbxTipo.addItem("Automovil");
     }
 
     /** This method is called from within the constructor to
@@ -57,7 +76,7 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         lblTipo = new javax.swing.JLabel();
         cbxTipo = new javax.swing.JComboBox<>();
         btnVolver = new javax.swing.JButton();
-        btnVolver1 = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -105,7 +124,7 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        lblTitulo.setText("Agregar Vehículo");
+        lblTitulo.setText("Registrar vehículo");
         add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
@@ -168,11 +187,6 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         txtMarca.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtMarca.setForeground(new java.awt.Color(143, 143, 143));
         txtMarca.setBorder(null);
-        txtMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMarcaActionPerformed(evt);
-            }
-        });
         add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 308, 352, 34));
 
         lblLinea.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -184,11 +198,6 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         txtLinea.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtLinea.setForeground(new java.awt.Color(143, 143, 143));
         txtLinea.setBorder(null);
-        txtLinea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLineaActionPerformed(evt);
-            }
-        });
         add(txtLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(583, 308, 352, 34));
 
         lblModelo.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -215,18 +224,13 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
 
         lblTipo.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblTipo.setForeground(new java.awt.Color(215, 70, 118));
-        lblTipo.setText("Línea:");
+        lblTipo.setText("Tipo:");
         add(lblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, -1, 24));
 
         cbxTipo.setBackground(new java.awt.Color(247, 242, 244));
         cbxTipo.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
         cbxTipo.setForeground(new java.awt.Color(157, 134, 90));
         cbxTipo.setFocusable(false);
-        cbxTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTipoActionPerformed(evt);
-            }
-        });
         add(cbxTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 220, 360, 40));
 
         btnVolver.setBackground(new java.awt.Color(143, 143, 143));
@@ -234,14 +238,24 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
         btnVolver.setBorderPainted(false);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(633, 465, 142, 45));
 
-        btnVolver1.setBackground(new java.awt.Color(215, 70, 118));
-        btnVolver1.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnVolver1.setForeground(new java.awt.Color(253, 253, 253));
-        btnVolver1.setText("Agregar");
-        btnVolver1.setBorderPainted(false);
-        add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(793, 465, 142, 45));
+        btnRegistrar.setBackground(new java.awt.Color(215, 70, 118));
+        btnRegistrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnRegistrar.setForeground(new java.awt.Color(253, 253, 253));
+        btnRegistrar.setText("Agregar");
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+        add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(793, 465, 142, 45));
 
         fondo.setBackground(new java.awt.Color(102, 102, 102));
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaAgregarVehiculo.png"))); // NOI18N
@@ -284,26 +298,30 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
-    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMarcaActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        ventana.cambiarVistaVehiculoTramitar(personaDTO);
+    }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
-        
-    }//GEN-LAST:event_cbxTipoActionPerformed
-
-    private void txtLineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLineaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLineaActionPerformed
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        cargarDatosVehiculo();
+        try {
+            validarDatos();
+            new PlacasBO().existeVehiculo(autoDTO);
+            cargarDatosPlaca();
+            ventana.cambiarVistaTramitarPlaca(placaDTO);
+        } catch (ValidacionDTOException ex) {
+            new Aviso().mostrarInformacion(ventana, ex.getMessage(), "Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton btnVolver1;
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel lblColor;
@@ -330,4 +348,23 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
     private javax.swing.JTextField txtNumeroSerie;
     // End of variables declaration//GEN-END:variables
 
+    private void cargarDatosVehiculo(){
+        autoDTO.setLinea(txtLinea.getText());
+        autoDTO.setColor(txtColor.getText());
+        autoDTO.setModelo(txtModelo.getText());
+        autoDTO.setMarca(txtMarca.getText());
+        autoDTO.setNumeroSerie(txtNumeroSerie.getText());
+    }
+
+    private void validarDatos() throws ValidacionDTOException {
+        autoDTO.validarCamposVacios();
+        autoDTO.validaCampos();
+    }
+
+    private void cargarDatosPlaca() {
+        placaDTO = new PlacaNuevaDTO();
+        placaDTO.setPersona(personaDTO);
+        placaDTO.setTipoVehiculo(cbxTipo.getSelectedItem().toString());
+        placaDTO.setVehiculo(autoDTO);
+    }
 }

@@ -101,7 +101,7 @@ public class PersonasDAO implements IPersonasDAO {
         Calendar fecha5 = Calendar.getInstance();
         fecha5.set(Calendar.YEAR, 2004);
         fecha5.set(Calendar.MONTH, Calendar.JUNE); 
-        fecha5.set(Calendar.DAY_OF_MONTH, 16);
+        fecha5.set(Calendar.DAY_OF_MONTH, 15);
         Persona persona5 = new Persona("Victor Humberto", "Encinas", "Guzman", Discapacidad.NORMAL, fecha5, "MELM8305281H0", Encriptacion.encriptar("6646787333"));
         
         Calendar fecha6 = Calendar.getInstance();
@@ -192,7 +192,7 @@ public class PersonasDAO implements IPersonasDAO {
         fecha20.set(Calendar.YEAR, 1955);
         fecha20.set(Calendar.MONTH, Calendar.FEBRUARY); 
         fecha20.set(Calendar.DAY_OF_MONTH, 24);
-        Persona persona20 = new Persona("Steve", "Paul", "Jobs", Discapacidad.DISCAPACITADO, fecha20, "PAJO550224APP", Encriptacion.encriptar("6552349391"));
+        Persona persona20 = new Persona("Steve", "Jobs", "Paul", Discapacidad.DISCAPACITADO, fecha20, "PAJO550224APP", Encriptacion.encriptar("6552349391"));
         
         
         

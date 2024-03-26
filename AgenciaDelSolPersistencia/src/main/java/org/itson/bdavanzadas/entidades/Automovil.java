@@ -3,9 +3,6 @@ package org.itson.bdavanzadas.entidades;
 import java.io.Serializable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Clase que representa un automóvil en el sistema.
@@ -22,13 +19,33 @@ import javax.persistence.Id;
 @DiscriminatorValue ("Automovil")
 public class Automovil extends Vehiculo implements Serializable {
 
+    /**
+     * Constructor vacío de la clase Automovil.
+     */
     public Automovil() {
     }
 
-    
-    
-    public Automovil(String marca, String linea, String color, String numero_serie, String modelo, Persona persona) {
-        super(marca, linea, color, numero_serie, modelo, persona);
+    /**
+     * Constructor de la clase Automovil que inicializa el número de serie del automóvil.
+     * 
+     * @param numeroSerie El número de serie del automóvil.
+     */
+    public Automovil(String numeroSerie) {
+        super(numeroSerie);
+    }
+
+    /**
+     * Constructor de la clase Automovil que inicializa todos sus atributos.
+     * 
+     * @param marca La marca del automóvil.
+     * @param linea La línea del automóvil.
+     * @param color El color del automóvil.
+     * @param numeroSerie El número de serie del automóvil.
+     * @param modelo El modelo del automóvil.
+     * @param persona La persona asociada al automóvil.
+     */
+    public Automovil(String marca, String linea, String color, String numeroSerie, String modelo, Persona persona) {
+        super(marca, linea, color, numeroSerie, modelo, persona);
     }
 
     

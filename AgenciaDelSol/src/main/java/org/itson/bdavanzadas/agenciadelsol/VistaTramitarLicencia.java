@@ -403,7 +403,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
         }
         
         cargarDatosLicencia();
-        ventana.cambiarVistaConfirmacionTramiteLicencia(licenciaDTO);
+        ventana.cambiarVistaConfirmacionTramite(licenciaDTO);
     }//GEN-LAST:event_btnTramitarActionPerformed
 
 

@@ -30,42 +30,79 @@ public class VehiculosDAO implements IVehiculosDAO{
         this.conexion = conexion;
     }
     
-    
+    /**
+     * Agrega un vehiculo a la base de datos.
+     * 
+     * @param vehiculo El vehiculo que se va a agregar.
+     * @return El automóvil agregado.
+     * @throws PersistenceException Si ocurre un error durante la persistencia.
+     */
     @Override
-    public Automovil agregarAutomovil(Automovil automovil) throws PersistenceException {
+    public Vehiculo agregarAutomovil(Vehiculo vehiculo) throws PersistenceException {
         // Obtenemos acceso a la Fábrica de entityManagers
         EntityManager entityManager = conexion.crearConexion();
             
-        // Iniciamos una transaccion nueva
+//         Iniciamos una transaccion nueva
         entityManager.getTransaction().begin();
         
         // Marca el jugador nuevo para guardarlo
-        entityManager.persist(automovil);
+        entityManager.persist(vehiculo);
         // Manda los cambios de la transacción
         entityManager.getTransaction().commit();
         
         entityManager.close();
-        return automovil;
+        return vehiculo;
     }
-
+    
+    
+ 
+    /**
+     * Busca un vehículo en la base de datos utilizando el número de serie.
+     * 
+     * @param vehiculo El vehículo con el número de serie a buscar.
+     * @return El vehículo encontrado.
+     * @throws PersistenceException Si ocurre un error durante la búsqueda.
+     */
     @Override
     public Vehiculo buscarVehiculo(Vehiculo vehiculo) throws PersistenceException {
         EntityManager entityManager = conexion.crearConexion();
         //Objeto constructor de consultas
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         //Objeto consulta se está construyendo
-        CriteriaQuery<Automovil> criteria = builder.createQuery(Automovil.class);
+        CriteriaQuery<Vehiculo> criteria = builder.createQuery(Vehiculo.class);
         
-        Root<Automovil> root = criteria.from(Automovil.class);
+        Root<Vehiculo> root = criteria.from(Vehiculo.class);
         criteria.select(root).
                 where( builder.equal(root.get("numeroSerie"),vehiculo.getNumeroSerie()));
         
         //Consulta contruida
-        TypedQuery<Automovil> query = entityManager.createQuery(criteria);
+        TypedQuery<Vehiculo> query = entityManager.createQuery(criteria);
         
-        Automovil automovilBuscar = query.getSingleResult();
+        Vehiculo vehiculoBuscar = query.getSingleResult();
         entityManager.close();
-        return automovilBuscar;
+        return vehiculoBuscar;
+    }
+
+     /**
+     * Verifica si ya existe un vehículo con el mismo número de serie en la base de datos.
+     * 
+     * @param vehiculo El vehículo con el número de serie a verificar.
+     * @return true si ya existe un vehículo con el mismo número de serie, false de lo contrario.
+     */
+    @Override
+    public boolean existeNumeroSerie(Vehiculo vehiculo) {
+        EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Vehiculo> root = criteria.from(Vehiculo.class);
+        criteria.select(builder.count(root));
+        criteria.where(builder.equal(root.get("numeroSerie"), vehiculo.getNumeroSerie())); 
+        TypedQuery<Long> query = entityManager.createQuery(criteria);
+        Long count = query.getSingleResult();
+
+        entityManager.close();
+        return count > 0;
     }
 
 }

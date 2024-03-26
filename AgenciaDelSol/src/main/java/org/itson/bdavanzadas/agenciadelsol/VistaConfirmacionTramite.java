@@ -1,38 +1,73 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.text.SimpleDateFormat;
 import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
+
 
 /**
- *
+ * Clase que representa la vista de confirmación de trámite.
+ * Esta vista muestra la confirmación de un trámite, ya sea para una licencia,
+ * una placa de un vehiculo nuevo o uno usado.
+ * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
  */
-public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
+public class VistaConfirmacionTramite extends javax.swing.JPanel {
 
     private Ventana ventana;
     private IConexion conexion = new Conexion();
     private IPersonasBO personasBO = new PersonasBO();
     private LicenciasDTO licenciaDTO;
+    private PlacaNuevaDTO placaNuevaDTO;
+    private ConsultaPlacaDTO placaConsultaDTO;
 
     /**
-     * Constructor de la clase VistaInicio.
+     * Constructor para mostrar la confirmación de trámite de licencia.
      *
      * @param ventana La ventana principal de la aplicación.
+     * @param licenciaDTO Objeto LicenciasDTO que contiene la información de la licencia tramitada.
      */
-    public VistaConfirmacionTramiteLicencia(Ventana ventana, LicenciasDTO licenciaDTO) {
+    public VistaConfirmacionTramite(Ventana ventana, LicenciasDTO licenciaDTO) {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
         this.licenciaDTO = licenciaDTO;
         initComponents();
-        cargarDatos();
+        cargarDatosLicencia();
+    }
+    
+    /**
+     * Constructor para mostrar la confirmación de trámite de placa nueva.
+     *
+     * @param ventana La ventana principal de la aplicación.
+     * @param placaNuevaDTO Objeto PlacaNuevaDTO que contiene la información de la placa nueva tramitada.
+     */
+    public VistaConfirmacionTramite(Ventana ventana, PlacaNuevaDTO placaNuevaDTO) {
+        this.ventana = ventana;
+        this.personasBO = new PersonasBO();
+        this.placaNuevaDTO = placaNuevaDTO;
+        initComponents();
+        cargarDatosPlacaNueva();
+    }
+    
+     /**
+     * Constructor para mostrar la confirmación de trámite de placa nueva.
+     *
+     * @param ventana La ventana principal de la aplicación.
+     * @param placaConsultaDTO Objeto ConsultaPlacaDTO que contiene la información de la consulta de placa tramitada.
+     */
+    public VistaConfirmacionTramite(Ventana ventana, ConsultaPlacaDTO placaConsultaDTO) {
+        this.ventana = ventana;
+        this.personasBO = new PersonasBO();
+        this.placaConsultaDTO = placaConsultaDTO;
+        initComponents();
+        cargarDatosPlacaRenovada();
     }
 
     /**
@@ -118,6 +153,12 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Acción ejecutada al hacer clic en el botón "Aceptar".
+     * Este método cierra la vista de confirmación de trámite y vuelve a la vista principal.
+     *
+     * @param evt Evento de acción.
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -137,7 +178,12 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
     private javax.swing.JLabel lblTramiteEnCurso;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarDatos() {
+     /**
+     * Carga los datos de la licencia en la vista.
+     * Este método establece la fecha de emisión, el tipo de trámite, el nombre del solicitante
+     * y el costo de la licencia.
+     */
+    private void cargarDatosLicencia() {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fechaFormateada = formato.format(licenciaDTO.getFechaEmision().getTime());
         
@@ -149,7 +195,46 @@ public class VistaConfirmacionTramiteLicencia extends javax.swing.JPanel {
         String numeroFormateado = String.format("%.2f", licenciaDTO.getCosto());
 
         lblCostoTramite.setText("$" + numeroFormateado + " MXN");
+    }
+    
+    /**
+     * Carga los datos de la placa nueva en la vista para un auto nuevo.
+     * Este método establece la fecha de emisión, el tipo de trámite, el nombre del solicitante
+     * y el costo de la placa.
+     */
+    private void cargarDatosPlacaNueva() {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaFormateada = formato.format(placaNuevaDTO.getFechaEmision().getTime());
         
+        lblFechaTramite.setText(fechaFormateada);
+        lblTipoTramite.setText("Expedición de placa");
+        String nombreCompleto = placaNuevaDTO.getPersona().getNombres().concat(" "+placaNuevaDTO.getPersona().getApellidoPaterno() + " "
+                + placaNuevaDTO.getPersona().getApellidoMaterno());
+        lblNombreSolicitanteTramite.setText(nombreCompleto);
+        
+        String numeroFormateado = String.format("%.2f", placaNuevaDTO.getCosto());
+
+        lblCostoTramite.setText("$" + numeroFormateado + " MXN");
+    }
+    
+    /**
+     * Carga los datos de la placa nueva en un auto usado.
+     * Este método establece la fecha de emisión, el tipo de trámite, el nombre del solicitante
+     * y el costo de la placa.
+     */
+    private void cargarDatosPlacaRenovada() {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaFormateada = formato.format(placaConsultaDTO.getFechaEmision().getTime());
+        
+        lblFechaTramite.setText(fechaFormateada);
+        lblTipoTramite.setText("Expedición de placa");
+        String nombreCompleto = placaConsultaDTO.getPersona().getNombres().concat(" "+placaConsultaDTO.getPersona().getApellidoPaterno() + " "
+                + placaConsultaDTO.getPersona().getApellidoMaterno());
+        lblNombreSolicitanteTramite.setText(nombreCompleto);
+        
+        String numeroFormateado = String.format("%.2f", placaConsultaDTO.getCosto());
+
+        lblCostoTramite.setText("$" + numeroFormateado + " MXN");
     }
 
 }

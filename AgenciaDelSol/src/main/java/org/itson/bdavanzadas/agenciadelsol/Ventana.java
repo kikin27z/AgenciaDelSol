@@ -1,12 +1,12 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import javax.swing.JPanel;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
 
 /**
  * Clase que representa la ventana principal de la aplicación.
@@ -18,14 +18,13 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 public class Ventana extends javax.swing.JFrame {
 
     private JPanel panelActual;
-    private IPersonasBO personasBO;
-    private boolean seHizoInsercion;
+    private boolean tramiteLicencia;
+    private boolean placaNueva;
 
     /**
      * Creates new form Ventana
      */
     public Ventana() {
-        seHizoInsercion = false;
         initComponents();
     }
 
@@ -83,10 +82,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de inicio.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de inicio. Luego, coloca esta nueva
-     * vista en el frame y actualiza el panel actual al nuevo panel de inicio.
      */
     public void cambiarVistaInicio() {
         limpiarFrame();
@@ -97,11 +92,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista del módulo de reporte.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista del módulo de reporte. Luego, coloca
-     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
-     * del módulo de reporte.
      */
     public void cambiarVistaModuloReporte() {
         limpiarFrame();
@@ -112,11 +102,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista del módulo de consultas.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista del módulo de consultas. Luego,
-     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
-     * panel del módulo de consultas.
      */
     public void cambiarVistaModuloConsultas() {
         limpiarFrame();
@@ -127,11 +112,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de los trámites en curso.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de los trámites en curso. Luego,
-     * coloca esta nueva vista en el frame y actualiza el panel actual al nuevo
-     * panel de los trámites en curso.
      */
     public void cambiarVistaTramitesEnCurso() {
         limpiarFrame();
@@ -142,11 +122,6 @@ public class Ventana extends javax.swing.JFrame {
 
     /**
      * Cambia la vista actual del frame a la vista de persona a tramitar.
-     *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de persona a tramitar. Luego, coloca
-     * esta nueva vista en el frame y actualiza el panel actual al nuevo panel
-     * de persona a tramitar.
      */
     public void cambiarVistaPersonaATramitar() {
         limpiarFrame();
@@ -159,12 +134,6 @@ public class Ventana extends javax.swing.JFrame {
      * Cambia la vista actual del frame a la vista de tramitar licencia con la
      * información de una persona.
      *
-     * Este método elimina cualquier componente presente en el frame actual y
-     * crea una nueva instancia de la vista de tramitar licencia, pasando como
-     * parámetro la información de la persona proporcionada en un objeto
-     * ConsultarPersonaDTO. Luego, coloca esta nueva vista en el frame y
-     * actualiza el panel actual al nuevo panel de tramitar licencia.
-     *
      * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
      * de la persona para tramitar la licencia.
      */
@@ -174,48 +143,130 @@ public class Ventana extends javax.swing.JFrame {
         ponerEnJFrame(vistaTramitarLicencia);
         panelActual = vistaTramitarLicencia;
     }
-
-    public void cambiarVistaConfirmacionTramiteLicencia(LicenciasDTO licenciaDTO) {
+    
+     /**
+     * Cambia la vista actual del frame a la vista de confirmación de tramite de licencia.
+     *
+     * @param licenciaDTO Objeto LicenciasDTO que contiene la información de la licencia tramitada.
+     */
+    public void cambiarVistaConfirmacionTramite(LicenciasDTO licenciaDTO){
         limpiarFrame();
-        VistaConfirmacionTramiteLicencia vistaConfirmarLicencia = new VistaConfirmacionTramiteLicencia(this, licenciaDTO);
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, licenciaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
+    }
+    
+    /**
+    * Cambia la vista actual del frame a la vista de confirmación de trámite de placa nueva.
+    *
+    * @param placaNuevaDTO Objeto PlacaNuevaDTO que contiene la información de la placa tramitada.
+    */
+    public void cambiarVistaConfirmacionTramite(PlacaNuevaDTO placaNuevaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, placaNuevaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
+    }
+    
+    /**
+    * Cambia la vista actual del frame a la vista de confirmación de trámite de consulta de placa.
+    *
+    * @param consultaPlacaDTO Objeto ConsultaPlacaDTO que contiene la información de la consulta de placa tramitada.
+    */
+    public void cambiarVistaConfirmacionTramite(ConsultaPlacaDTO consultaPlacaDTO){
+        limpiarFrame();
+        VistaConfirmacionTramite vistaConfirmarTramite = new VistaConfirmacionTramite(this, consultaPlacaDTO);
+        ponerEnJFrame(vistaConfirmarTramite);
+        panelActual = vistaConfirmarTramite;
+    }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de tramitar vehículo para una persona.
+     * 
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona para la cual se tramita el vehículo.
+     */
+    public void cambiarVistaVehiculoTramitar(ConsultarPersonaDTO personaDTO){
+        limpiarFrame();
+        VistaVehiculoTramitar vistaConfirmarLicencia = new VistaVehiculoTramitar(this, personaDTO);
         ponerEnJFrame(vistaConfirmarLicencia);
         panelActual = vistaConfirmarLicencia;
     }
-
-    public void cambiarVistaPrevisionReporte(TramiteDTO tramiteDTO) {
+    
+    /**
+     * Cambia la vista actual del frame a la vista de agregar vehículo.
+     * 
+     * @param personaDTO Objeto ConsultarPersonaDTO que contiene la información
+     * de la persona del vehículo a agregar.
+     */
+    public void cambiarVistaAgregarVehiculo(ConsultarPersonaDTO personaDTO){
         limpiarFrame();
-        VistaPrevisionReporte vistaPrevisionReporte = new VistaPrevisionReporte(this, tramiteDTO);
-        ponerEnJFrame(vistaPrevisionReporte);
-        panelActual = vistaPrevisionReporte;
+        VistaAgregarVehiculo vistaAgregarVehiculo = new VistaAgregarVehiculo(this, personaDTO);
+        ponerEnJFrame(vistaAgregarVehiculo);
+        panelActual = vistaAgregarVehiculo;
+    }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de información del trámite.
+     * 
+     * @param placaNuevaDTO Objeto dto que contiene toda la informacion del
+     * trámite de la placa
+     */
+    public void cambiarVistaTramitarPlaca(PlacaNuevaDTO placaNuevaDTO){
+        limpiarFrame();
+        VistaTramitarPlaca vistaTramitarPlaca = new VistaTramitarPlaca(this, placaNuevaDTO);
+        ponerEnJFrame(vistaTramitarPlaca);
+        panelActual = vistaTramitarPlaca;
+    }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de información del trámite.
+     * 
+     * @param consultaPlacaDTO Objeto dto que contiene toda la informacion del
+     * trámite de la placa.
+     */
+    public void cambiarVistaTramitarPlaca(ConsultaPlacaDTO consultaPlacaDTO){
+        limpiarFrame();
+        VistaTramitarPlaca vistaTramitarPlaca = new VistaTramitarPlaca(this, consultaPlacaDTO);
+        ponerEnJFrame(vistaTramitarPlaca);
+        panelActual = vistaTramitarPlaca;
+    }
+
+     /**
+     * Verifica si se está realizando un trámite de licencia.
+     *
+     * @return true si se está realizando un trámite de licencia, false de lo contrario.
+     */
+    public boolean isTramiteLicencia() {
+        return tramiteLicencia;
+    }
+
+     /**
+     * Establece si se está realizando un trámite de licencia.
+     *
+     * @param tramiteLicencia true si se está realizando un trámite de licencia, false de lo contrario.
+     */
+    public void setTramiteLicencia(boolean tramiteLicencia) {
+        this.tramiteLicencia = tramiteLicencia;
     }
 
     /**
-     * Verifica si se ha realizado una inserción masiva de personas.
-     *
-     * Este método devuelve un valor booleano que indica si se ha realizado una
-     * inserción masiva de personas en el sistema.
-     *
-     * @return true si se ha realizado una inserción masiva de personas, false
-     * en caso contrario.
-     */
-    public boolean isSeHizoInsercion() {
-        return seHizoInsercion;
+    * Verifica si se está tramitando una placa nueva.
+    *
+    * @return true si se está tramitando una placa nueva, false de lo contrario.
+    */
+    public boolean isPlacaNueva() {
+        return placaNueva;
     }
-
+    
     /**
-     * Establece si se ha realizado una inserción masiva de personas.
-     *
-     * Este método establece el estado de la inserción masiva de personas en el
-     * sistema.
-     *
-     * @param seHizoInsercion true si se ha realizado una inserción masiva de
-     * personas, false en caso contrario.
-     */
-    public void setSeHizoInsercion(boolean seHizoInsercion) {
-        this.seHizoInsercion = seHizoInsercion;
+    * Establece si se está tramitando una placa nueva.
+    *
+    * @param placaNueva true si se está tramitando una placa nueva, false de lo contrario.
+    */
+    public void setPlacaNueva(boolean placaNueva) {
+        this.placaNueva = placaNueva;
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

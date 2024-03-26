@@ -3,10 +3,6 @@ package org.itson.bdavanzadas.agenciadelsol;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
-import org.itson.bdavanzadas.conexion.Conexion;
-import org.itson.bdavanzadas.conexion.IConexion;
-import org.itson.bdavanzadas.daos.IPersonasDAO;
-import org.itson.bdavanzadas.daos.PersonasDAO;
 
 /**
  *
@@ -18,8 +14,7 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
  */
 public class VistaInicio extends javax.swing.JPanel {
 
-    private Ventana ventana;
-    private IConexion conexion = new Conexion();
+    private final Ventana ventana;
     private IPersonasBO personasBO = new PersonasBO();
 
     /**
@@ -230,7 +225,7 @@ public class VistaInicio extends javax.swing.JPanel {
      * hacer clic en el botón "Trámites disponibles").
      */
     private void btnTramitesEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesEnCursoActionPerformed
-        if (ventana.isSeHizoInsercion()) {
+        if (personasBO.hayRegistros()) {
             ventana.cambiarVistaTramitesEnCurso();
         } else {
             new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
@@ -244,7 +239,7 @@ public class VistaInicio extends javax.swing.JPanel {
      * hacer clic en el botón "Módulo consultas").
      */
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
-        if (ventana.isSeHizoInsercion()) {
+        if (personasBO.hayRegistros()) {
             ventana.cambiarVistaModuloConsultas();
         } else {
             new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
@@ -258,7 +253,11 @@ public class VistaInicio extends javax.swing.JPanel {
      * hacer clic en el botón "Módulo reportes").
      */
     private void btnModuloReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloReportesActionPerformed
-        ventana.cambiarVistaModuloReporte();
+        if (personasBO.hayRegistros()) {
+            ventana.cambiarVistaModuloReporte();
+        } else {
+            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
+        }
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     /**
@@ -268,7 +267,12 @@ public class VistaInicio extends javax.swing.JPanel {
      * hacer clic en el botón "Trámites trámitar").
      */
     private void btnTramitarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarPlacaActionPerformed
-        // TODO add your handling code here:
+        if (personasBO.hayRegistros()) {
+            ventana.setTramiteLicencia(false);
+            ventana.cambiarVistaPersonaATramitar();
+        } else {
+            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
+        }
     }//GEN-LAST:event_btnTramitarPlacaActionPerformed
 
     /**
@@ -291,6 +295,7 @@ public class VistaInicio extends javax.swing.JPanel {
      */
     private void btnTramitarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitarLicenciaActionPerformed
         if (personasBO.hayRegistros()) {
+            ventana.setTramiteLicencia(true);
             ventana.cambiarVistaPersonaATramitar();
         } else {
             new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");

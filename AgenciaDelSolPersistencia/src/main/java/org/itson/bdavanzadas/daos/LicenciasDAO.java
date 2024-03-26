@@ -11,6 +11,7 @@ import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.EstadoLicencia;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * Esta clase implementa la interfaz ILicenciasDAO y proporciona métodos para
@@ -24,7 +25,7 @@ import org.itson.bdavanzadas.entidades.Persona;
 public class LicenciasDAO implements ILicenciasDAO {
 
     final IConexion conexion;
-    static final Logger logger = Logger.getLogger(PersonasDAO.class.getName());
+    static final Logger logger = Logger.getLogger(LicenciasDAO.class.getName());
 
     /**
      * Constructor de la clase LicenciasDAO.
@@ -82,7 +83,34 @@ public class LicenciasDAO implements ILicenciasDAO {
             }
         entityManager.getTransaction().commit();
         entityManager.close();
-        }
     }
+
+    /**
+     * Verifica si una persona tiene una licencia vigente en el sistema.
+     *
+     * @param persona La persona de la cual se va a verificar la licencia.
+     * @throws PersistenciaException Si ocurre un error durante la verificación.
+     */
+    @Override
+    public void tieneLicenciaVigente(Persona persona) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Licencia> criteria = cb.createQuery(Licencia.class); 
+        Root<Licencia> root = criteria.from(Licencia.class);
+        criteria.select(root)
+                .where(cb.equal(root.get("persona").get("rfc"),persona.getRfc()))
+                .orderBy(cb.desc(root.get("fechaEmision"))); 
+        TypedQuery<Licencia> query = entityManager.createQuery(criteria);
+        List<Licencia> licencias = query.getResultList(); 
+        
+        //Commienza a cambiar el estado de las licencias previas
+            for (Licencia licencia : licencias) {
+                if(licencia.getEstado().equals(EstadoLicencia.ACTIVA)){
+                    return;
+                }
+            }
+            throw new PersistenciaException("No tiene licencias vigentes para tramitar una placa");
+    }
+}
 
 

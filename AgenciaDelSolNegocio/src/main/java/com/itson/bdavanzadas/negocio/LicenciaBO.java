@@ -1,6 +1,8 @@
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.bdavanzadas.conexion.Conexion;
@@ -73,5 +75,25 @@ public class LicenciaBO implements ILicenciaBO{
             licenciasDAO.tramitarLicencias(licencia);
             
             return licenciaDTO;
+    }
+
+    /**
+     * Verifica si una persona tiene una licencia vigente.
+     * 
+     * @param personaDTO El DTO que contiene la información de la persona cuya licencia se verificará.
+     * @throws ValidacionDTOException Si la persona no tiene una licencia vigente.
+     */
+    @Override
+    public void licenciaVigente(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException{
+        Persona persona = new Persona();
+        persona.setRfc(personaDTO.getRfc());
+        
+        try {
+            licenciasDAO.tieneLicenciaVigente(persona);
+        } catch (PersistenciaException pe) {
+            
+            Logger.getLogger(LicenciaBO.class.getName()).log(Level.SEVERE, "Persona sin licencia vigente para tramitar placas");
+            throw new ValidacionDTOException("Esta persona no tiene licencia vigente para tramitar una placa");
+        }
     }
 }

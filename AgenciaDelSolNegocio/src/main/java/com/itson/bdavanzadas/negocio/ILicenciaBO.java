@@ -1,6 +1,8 @@
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.LicenciasDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 
 /**
  * Interfaz que define el contrato para la lógica de negocio relacionada con las licencias.
@@ -19,4 +21,12 @@ public interface ILicenciaBO {
      * @return El DTO que representa la licencia tramitada.
      */
     public LicenciasDTO realizarTramite(LicenciasDTO licenciaDTO);
+    
+    /**
+     * Verifica si una persona tiene una licencia vigente.
+     * 
+     * @param personaDTO El DTO que contiene la información de la persona cuya licencia se verificará.
+     * @throws ValidacionDTOException Si la persona no tiene una licencia vigente.
+     */
+    public void licenciaVigente(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException;
 }

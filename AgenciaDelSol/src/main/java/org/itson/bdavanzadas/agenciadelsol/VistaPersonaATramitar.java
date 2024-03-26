@@ -3,7 +3,9 @@ package org.itson.bdavanzadas.agenciadelsol;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.ILicenciaBO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
+import com.itson.bdavanzadas.negocio.LicenciaBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -202,7 +204,7 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         txtRfcPersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtRfcPersona.setForeground(new java.awt.Color(143, 143, 143));
         txtRfcPersona.setBorder(null);
-        add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 218, 440, 34));
+        add(txtRfcPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 218, 440, 34));
 
         lblTelefono.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblTelefono.setText("-----");
@@ -284,6 +286,8 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
             personaDTO = personasBO.consultarPersonaPorRfc(personaDTO);
             personaDTO.mayorEdad();
             cargarDatosRFC();
+            
+ 
             rfcValidado = true;
             
         } catch (ValidacionDTOException ve) {
@@ -304,7 +308,11 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
      */
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         if (rfcValidado) {
-            ventana.cambiarVistaTramitarLicencia(personaDTO);
+            if(ventana.isTramiteLicencia()){
+                ventana.cambiarVistaTramitarLicencia(personaDTO);
+            }else{
+                verificaLicenciaVigente();
+            }
         } else {
             new Aviso().mostrarAviso(ventana, "Primero busca a la persona válida para avazar");
         }
@@ -341,6 +349,10 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
     private javax.swing.JTextField txtRfcPersona;
     // End of variables declaration//GEN-END:variables
 
+    /**
+    * Este método actualiza los campos de nombre, fecha de nacimiento y teléfono con
+    * la información de la persona encontrada.
+    */
     private void cargarDatosRFC() {
         lblNombre.setText(personaDTO.getNombres() + " " + personaDTO.getApellidoPaterno());
 
@@ -354,10 +366,25 @@ public class VistaPersonaATramitar extends javax.swing.JPanel {
         lblTelefono.setText(personaDTO.getTelefono());
     }
 
-    
+    /**
+    * Este método restablece los campos de texto y las etiquetas a sus valores predeterminados.
+    * Se utiliza cuando se desea limpiar la interfaz después de una búsqueda o acción.
+    */
     private void limpiarDatos(){
+        txtRfcPersona.setText("");
         lblNombre.setText("-----");
         lblFechaNacimiento.setText("-----");
         lblTelefono.setText("-----");
+    }
+    
+    private void verificaLicenciaVigente() {
+        try {
+            new LicenciaBO().licenciaVigente(personaDTO);
+            ventana.cambiarVistaVehiculoTramitar(personaDTO);
+        } catch (ValidacionDTOException ex) {
+            limpiarDatos();
+            rfcValidado = false;
+            new Aviso().mostrarAviso(ventana, ex.getMessage());
+        }
     }
 }

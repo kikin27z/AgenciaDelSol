@@ -2,6 +2,7 @@ package org.itson.bdavanzadas.daos;
 
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  * Esta interfaz define métodos para acceder y manipular datos relacionados con
@@ -30,4 +31,12 @@ public interface ILicenciasDAO {
      * @param persona La persona para la cual se desactivarán las licencias.
      */
     public void desactivarLicencias(Persona persona);
+    
+    /**
+     * Verifica si una persona tiene una licencia vigente en el sistema.
+     *
+     * @param persona La persona de la cual se va a verificar la licencia.
+     * @throws PersistenciaException Si ocurre un error durante la verificación.
+     */
+    public void tieneLicenciaVigente(Persona persona) throws PersistenciaException;
 }
