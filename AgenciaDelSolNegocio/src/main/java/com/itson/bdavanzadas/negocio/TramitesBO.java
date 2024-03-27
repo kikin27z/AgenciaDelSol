@@ -17,6 +17,7 @@ import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
+import org.itson.bdavanzadas.entidades.TipoTramite;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -32,7 +33,7 @@ public class TramitesBO implements ITramitesBO {
 
     private ITramitesDAO tramitesDAO;
     static final Logger logger = Logger.getLogger(TramitesDAO.class.getName());
-    IConexion conexion;
+    private IConexion conexion;
 
     /**
      * Constructor de la clase TramitesBO. inicializa la conexión a la base de
@@ -56,7 +57,7 @@ public class TramitesBO implements ITramitesBO {
      * la base de datos.
      */
     @Override
-    public List<TramiteDTO> consultarTramites(TramiteDTO tramiteDTO) throws ValidacionDTOException {
+    public List<TramiteDTO> consultarTramites(TramiteDTO tramiteDTO){
         try {
             Tramite tramiteBuscar = new Tramite();
             tramiteBuscar.setFechaEmision(tramiteDTO.getFechaEmision());
@@ -71,89 +72,34 @@ public class TramitesBO implements ITramitesBO {
                             tramite.getPersona().getApellidoPaterno(),
                             tramite.getPersona().getApellidoMaterno()
                     );
-                    tramitesDTOEncontrados.add(new TramiteDTO(tramite.getFechaEmision(), consultarPersona));
+
+                    TramiteDTO tramiteDTOEncontrado = new TramiteDTO();
+                    tramiteDTOEncontrado.setFechaEmision(tramite.getFechaEmision());
+                    tramiteDTOEncontrado.setPersona(consultarPersona);
+
+                    // Utilizamos un switch para asignar el tipo de trámite
+                    switch (tramiteDTO.getTipoTramite()) {
+                        case "Licencia":
+                            tramiteDTOEncontrado.setTipoTramite(String.valueOf(TipoTramite.Licencia));
+                            break;
+                        case "Placa":
+                            tramiteDTOEncontrado.setTipoTramite(String.valueOf(TipoTramite.Placa));
+                            break;
+
+                    }
+
+                    tramitesDTOEncontrados.add(new TramiteDTO(
+                            tramite.getFechaEmision(), 
+                            consultarPersona, 
+                            tramiteDTO.getTipoTramite()
+                    ));
                 });
             }
             return tramitesDTOEncontrados;
         } catch (PersistenciaException ex) {
-            throw new ValidacionDTOException(ex.getMessage());
+            Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, "No fue posible consultar la lista de tramites");
+            return null;
         }
     }
 
-//            if (!tramitesEncontrados.isEmpty()) {
-//                List<ConsultarPersonaDTO> personasEncontradas = new ArrayList<>();
-//
-//                for (Tramite tramite : tramitesEncontrados) {
-//
-//                    ConsultarPersonaDTO personaDTO = new ConsultarPersonaDTO(
-//                            tramite.getPersona().getNombres(),
-//                            tramite.getPersona().getApellidoPaterno(),
-//                            tramite.getPersona().getApellidoMaterno()
-//                    );
-//                    personasEncontradas.add(personaDTO);
-//
-//                    TramiteDTO tramiteDTOEncontrado = new TramiteDTO();
-//                    tramiteDTOEncontrado.setFechaEmision(tramite.getFechaEmision());
-//                    tramiteDTOEncontrado.setPersona(personaDTO);
-//
-//                    tramitesEncontrados.add(tramiteDTOEncontrado);
-//                }
-    /**
-     * Consulta los trámites que coinciden con los criterios especificados en el
-     * objeto TramiteDTO.
-     *
-     * @param tramite
-     * @param tramiteDTO El objeto TramiteDTO que contiene los criterios de
-     * consulta, incluyendo la fecha de emisión, la persona asociada al trámite,
-     * etc.
-     * @return Una lista de objetos TramiteDTO que representan los trámites
-     * encontrados.
-     * @throws ValidacionDTOException Si ocurre un error durante la consulta en
-     * la base de datos.
-     */
-    //    public List<TramiteDTO> consultarTramites(TramiteDTO tramiteDTO) throws ValidacionDTOException {
-    //        try {
-    //            Tramite tramiteBuscar = new Tramite();
-    //            tramiteBuscar.setFechaEmision(tramiteDTO.getFechaEmision());
-    //            tramiteBuscar.setPersona(tramiteDTO.getPersona());
-    //            List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramites(tramiteBuscar);
-    //
-    //            // Lista para almacenar los resultados encontrados
-    //            List<TramiteDTO> tramitesDTO = new ArrayList<>();
-    //
-    //            for (Tramite tramite : tramitesEncontrados) {
-    //                String tipo = null;
-    //                if (tramite instanceof Placa) {
-    //                    tipo = "Placa";
-    //                } else if (tramite instanceof Licencia) {
-    //                    tipo = "Licencia";
-    //                }
-    //                TramiteDTO tramiteDTOResultado = new TramiteDTO(
-    //                        tramite.getFechaEmision(),
-    //                        tramite.getCosto(),
-    //                        tramite.getPersona(),
-    //                        tipo
-    //                );
-    //                tramitesDTO.add(tramiteDTOResultado);
-    //            }
-    //
-    //            return tramitesDTO;
-    //        } catch (PersistenciaException ex) {
-    //            throw new ValidacionDTOException(ex.getMessage());
-    //        }
-    //    }
-//    public TramiteDTO convertirTramiteATramiteDTO(Tramite tramite) {
-//        ConsultarPersonaDTO personaDTO = new ConsultarPersonaDTO(
-//                tramite.getPersona().getNombres(),
-//                tramite.getPersona().getApellidoPaterno(),
-//                tramite.getPersona().getApellidoMaterno()
-//        );
-//
-//        return new TramiteDTO(
-//                tramite.getFechaEmision(),
-//                tramite.getCosto(),
-//                personaDTO,
-//                ""
-//        );
-//    }
 }

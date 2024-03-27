@@ -20,7 +20,6 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 public class VistaPrevisionReporte extends javax.swing.JPanel {
 
     private Ventana ventana;
-    private IConexion conexion = new Conexion();
     private IPersonasBO personasBO = new PersonasBO();
 
     /**
@@ -192,11 +191,7 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
      * hacer clic en el botón "Trámites disponibles").
      */
     private void btnTramitesEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesEnCursoActionPerformed
-        if (ventana.isSeHizoInsercion()) {
-            ventana.cambiarVistaTramitesEnCurso();
-        } else {
-            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
-        }
+        ventana.cambiarVistaTramitesEnCurso();
     }//GEN-LAST:event_btnTramitesEnCursoActionPerformed
 
     /**
@@ -206,11 +201,7 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
      * hacer clic en el botón "Módulo consultas").
      */
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
-        if (ventana.isSeHizoInsercion()) {
-            ventana.cambiarVistaModuloConsultas();
-        } else {
-            new Aviso().mostrarAviso(ventana, "Haga inserción masiva primero");
-        }
+        ventana.cambiarVistaModuloConsultas();
     }//GEN-LAST:event_btnModuloConsultasActionPerformed
 
     /**

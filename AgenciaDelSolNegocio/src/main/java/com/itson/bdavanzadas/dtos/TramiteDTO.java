@@ -15,6 +15,7 @@ public class TramiteDTO {
     private Calendar fechaEmision;
     private Float costo;
     private ConsultarPersonaDTO persona;
+    private String tipoTramite;
 
     /**
      * Constructor vacío de la clase TramiteDTO.
@@ -35,27 +36,10 @@ public class TramiteDTO {
      * @param persona La persona asociada al trámite.
      * @param tipo El tipo de trámite.
      */
-    public TramiteDTO(Calendar fechaEmision, ConsultarPersonaDTO persona) {
+    public TramiteDTO(Calendar fechaEmision, ConsultarPersonaDTO persona, String tipoTramite) {
         this.fechaEmision = fechaEmision;
         this.persona = persona;
-
-    }
-
-    /**
-     * Constructor de la clase TramiteDTO.
-     *
-     * Crea un nuevo objeto TramiteDTO con la fecha de emisión, el costo, la
-     * persona y el tipo especificados.
-     *
-     * @param fechaEmision La fecha de emisión del trámite.
-     * @param costo El costo del trámite.
-     * @param persona La persona asociada al trámite.
-     * @param tipo El tipo de trámite.
-     */
-    public TramiteDTO(Calendar fechaEmision, Float costo, ConsultarPersonaDTO persona) {
-        this.fechaEmision = fechaEmision;
-        this.costo = costo;
-        this.persona = persona;
+        this.tipoTramite = tipoTramite;
 
     }
 
@@ -111,6 +95,14 @@ public class TramiteDTO {
      */
     public void setPersona(ConsultarPersonaDTO persona) {
         this.persona = persona;
+    }
+
+    public String getTipoTramite() {
+        return tipoTramite;
+    }
+
+    public void setTipoTramite(String tipoTramite) {
+        this.tipoTramite = tipoTramite;
     }
 
 }

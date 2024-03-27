@@ -3,9 +3,17 @@ package org.itson.bdavanzadas.agenciadelsol;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.ITramitesBO;
+import com.itson.bdavanzadas.negocio.TramitesBO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import org.itson.bdavanzadas.entidades.Persona;
@@ -21,6 +29,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private Ventana ventana;
     DefaultTableModel modeloTabla = new DefaultTableModel();
     private TramiteDTO tramiteDTO;
+    private ITramitesBO tramitesBO;
     private boolean isChecked = false;
 
     /**
@@ -30,10 +39,12 @@ public class VistaModuloReporte extends javax.swing.JPanel {
      */
     public VistaModuloReporte(Ventana ventana) {
         this.ventana = ventana;
+        this.tramitesBO = new TramitesBO();
         this.tramiteDTO = new TramiteDTO();
         initComponents();
+        actualizarTabla();
         limpiarTabla();
-        txtTipoReporte.setEditable(false);
+        cmbTipoReporte.setEnabled(false);
         txtNombrePersona.setEditable(false);
         dpPeriodoInicio.setEnabled(false);
         dpPeriodoFin.setEnabled(false);
@@ -48,6 +59,38 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
                 modeloTabla.removeRow(i);
             }
+        }
+    }
+
+    private void actualizarTabla() {
+        List<TramiteDTO> tramites;
+        try {
+            tramites = tramitesBO.consultarTramites(tramiteDTO);
+            try {
+                DefaultTableModel personasCoincidentes = new DefaultTableModel();
+                personasCoincidentes.addColumn("Tipo reporte");
+                personasCoincidentes.addColumn("Fecha de emision");
+                personasCoincidentes.addColumn("Costo");
+                personasCoincidentes.addColumn("Nombre");
+
+                for (TramiteDTO tramite : tramites) {
+                    Object[] fila = {
+                        tramite.getTipoTramite(),
+                        tramite.getFechaEmision(),
+                        tramite.getCosto(),
+                        tramite.getPersona()
+                    };
+
+                    personasCoincidentes.addRow(fila);
+                }
+
+                tblPersonasCoincidentes.setModel(personasCoincidentes);
+
+            } catch (PersistenceException ex) {
+                Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ValidacionDTOException ex) {
+            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -81,7 +124,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         lblPeriodo = new javax.swing.JLabel();
         lblNombrePersona = new javax.swing.JLabel();
         btnFiltrar = new javax.swing.JButton();
-        txtTipoReporte = new javax.swing.JTextField();
         txtNombrePersona = new javax.swing.JTextField();
         lblCheck1 = new javax.swing.JLabel();
         lblCheck2 = new javax.swing.JLabel();
@@ -89,6 +131,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         btnVolver = new javax.swing.JButton();
         dpPeriodoInicio = new com.github.lgooddatepicker.components.DatePicker();
         dpPeriodoFin = new com.github.lgooddatepicker.components.DatePicker();
+        cmbTipoReporte = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersonasCoincidentes = new javax.swing.JTable();
@@ -219,16 +262,10 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 164, 142, 45));
 
-        txtTipoReporte.setBackground(new java.awt.Color(247, 242, 244));
-        txtTipoReporte.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtTipoReporte.setForeground(new java.awt.Color(143, 143, 143));
-        txtTipoReporte.setBorder(null);
-        add(txtTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 242, 142, 34));
-
-        txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
+        txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setBorder(null);
+        txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
         add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 245, 200, 30));
 
         lblCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -266,6 +303,10 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         add(dpPeriodoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 239, 190, 40));
         add(dpPeriodoFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(783, 239, 190, 40));
 
+        cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Placa", "Licencia" }));
+        cmbTipoReporte.setSelectedIndex(-1);
+        add(cmbTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 239, 150, 40));
+
         btnGenerarReporte.setFont(new java.awt.Font("Amazon Ember", 0, 19)); // NOI18N
         btnGenerarReporte.setForeground(new java.awt.Color(253, 253, 253));
         btnGenerarReporte.setText("Generar reporte");
@@ -292,8 +333,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 330, 720, 130));
 
-        fondo.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaModuloReporte.png"))); // NOI18N
+        fondo.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -342,12 +383,12 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         if (!isChecked) {
             lblCheck1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
             isChecked = true;
-            txtTipoReporte.setEditable(true); // Habilita la edición cuando isChecked es true
+            cmbTipoReporte.setEnabled(true); // Habilita la edición cuando isChecked es true
         } else {
             // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
             lblCheck1.setIcon(null); // Esto eliminará la imagen actual
             isChecked = false;
-            txtTipoReporte.setEditable(false); // Deshabilita la edición cuando isChecked es false
+            cmbTipoReporte.setEnabled(false); // Deshabilita la edición cuando isChecked es false
         }
     }//GEN-LAST:event_lblCheck1MouseClicked
 
@@ -365,7 +406,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             for (int i = 0; i < tblPersonasCoincidentes.getColumnCount(); i++) {
                 datosFila[i] = tblPersonasCoincidentes.getValueAt(filaSeleccionada, i);
             }
-            
+
+            tramiteDTO.setTipoTramite(datosFila[0].toString());
+
             tramiteDTO.setFechaEmision((Calendar) datosFila[1]);
 
             tramiteDTO.setPersona(new ConsultarPersonaDTO(datosFila[2].toString()));
@@ -422,6 +465,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JComboBox<String> cmbTipoReporte;
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoFin;
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoInicio;
     private javax.swing.JLabel fondo;
@@ -447,7 +491,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private javax.swing.JLabel lblTramitesPendientes;
     private javax.swing.JTable tblPersonasCoincidentes;
     private javax.swing.JTextField txtNombrePersona;
-    private javax.swing.JTextField txtTipoReporte;
     // End of variables declaration//GEN-END:variables
 
 }

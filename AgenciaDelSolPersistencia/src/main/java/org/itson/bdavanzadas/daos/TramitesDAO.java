@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -60,33 +61,44 @@ public class TramitesDAO implements ITramitesDAO {
      */
     public List<Tramite> consultarTramites(Tramite tramite) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Tramite> criteriaQuery = criteriaBuilder.createQuery(Tramite.class);
-        Root<Tramite> root = criteriaQuery.from(Tramite.class);
-        Join<Tramite, Persona> personaJoin = root.join("persona");
+        List<Tramite> tramites = null;
 
-        // Construir el predicado para filtrar por tipo de trámite
-        Predicate tipoPlacaPredicate = criteriaBuilder.equal(root.type(), Placa.class);
-        Predicate tipoLicenciaPredicate = criteriaBuilder.equal(root.type(), Licencia.class);
-        Predicate tipoPredicate = criteriaBuilder.or(tipoPlacaPredicate, tipoLicenciaPredicate);
+        try {
+            Query query = entityManager.createQuery("SELECT t FROM Tramite t WHERE t.persona = :persona");
+            query.setParameter("persona", tramite.getPersona());
+            tramites = query.getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar los trámites: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
 
-        // Construir el predicado para filtrar por nombre de persona
-        Predicate nombrePredicate = criteriaBuilder.like(personaJoin.get("nombres"), "%" + tramite.getPersona().getNombres() + "%");
-
-        // Construir el predicado para filtrar por fecha de emisión
-        Predicate fechaPredicate = criteriaBuilder.between(root.get("fechaEmision"), tramite.getFechaEmision(), Calendar.getInstance());
-
-        // Combinar los predicados
-        Predicate finalPredicate = criteriaBuilder.and(tipoPredicate, nombrePredicate, fechaPredicate);
-
-        criteriaQuery.select(root)
-                .where(finalPredicate)
-                .orderBy(criteriaBuilder.desc(root.get("fechaEmision")));
-
-        List<Tramite> tramites = entityManager.createQuery(criteriaQuery).getResultList();
-        entityManager.close();
         return tramites;
-
     }
 
+//     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Tramite> criteriaQuery = criteriaBuilder.createQuery(Tramite.class);
+//        Root<Tramite> root = criteriaQuery.from(Tramite.class);
+//        Join<Tramite, Persona> personaJoin = root.join("persona");
+//
+//        // Construir el predicado para filtrar por tipo de trámite
+//        Predicate tipoPlacaPredicate = criteriaBuilder.equal(root.type(), Placa.class);
+//        Predicate tipoLicenciaPredicate = criteriaBuilder.equal(root.type(), Licencia.class);
+//        Predicate tipoPredicate = criteriaBuilder.or(tipoPlacaPredicate, tipoLicenciaPredicate);
+//
+//        // Construir el predicado para filtrar por nombre de persona
+//        Predicate nombrePredicate = criteriaBuilder.like(personaJoin.get("nombres"), "%" + tramite.getPersona().getNombres() + "%");
+//
+//        // Construir el predicado para filtrar por fecha de emisión
+//        Predicate fechaPredicate = criteriaBuilder.between(root.get("fechaEmision"), tramite.getFechaEmision(), Calendar.getInstance());
+//
+//        // Combinar los predicados
+//        Predicate finalPredicate = criteriaBuilder.and(tipoPredicate, nombrePredicate, fechaPredicate);
+//
+//        criteriaQuery.select(root)
+//                .where(finalPredicate)
+//                .orderBy(criteriaBuilder.desc(root.get("fechaEmision")));
+//
+//        List<Tramite> tramites = entityManager.createQuery(criteriaQuery).getResultList();
+//        entityManager.close();
 }

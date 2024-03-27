@@ -37,6 +37,10 @@ public class Pruebas {
             
             Placa placa1 = new Placa();
             
+            ITramitesDAO tramitesDAO = new TramitesDAO(conexion);
+            
+            
+            
 //            placasDao.buscarVehiculo(placa1);
         
     }
