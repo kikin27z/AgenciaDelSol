@@ -17,10 +17,8 @@ public interface ITramitesBO {
      * Consulta los trámites según los criterios especificados en el objeto
      * TramiteDTO.
      *
-     * @param tramiteDTO Objeto TramiteDTO que contiene los criterios de
-     * consulta.
      * @return Una lista de TramiteDTO que representan los trámites encontrados.
      * @throws ValidacionDTOException Si ocurre un error durante la consulta.
      */
-    public List<TramiteDTO> consultarTramites(TramiteDTO tramiteDTO) throws ValidacionDTOException;
+    public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
 }

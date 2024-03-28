@@ -40,60 +40,29 @@ public class TramitesBO implements ITramitesBO {
      * datos y el objeto de acceso a datos (DAO) correspondiente.
      */
     public TramitesBO() {
-        this.tramitesDAO = new TramitesDAO(conexion);
         this.conexion = new Conexion();
+        this.tramitesDAO = new TramitesDAO(conexion);
     }
 
     /**
      * Consulta los trámites que coinciden con los criterios especificados en el
      * objeto TramiteDTO.
      *
-     * @param tramiteDTO El objeto TramiteDTO que contiene los criterios de
-     * consulta, incluyendo la fecha de emisión, la persona asociada al trámite,
-     * etc.
      * @return Una lista de objetos TramiteDTO que representan los trámites
      * encontrados.
-     * @throws ValidacionDTOException Si ocurre un error durante la consulta en
-     * la base de datos.
      */
     @Override
-    public List<TramiteDTO> consultarTramites(TramiteDTO tramiteDTO){
+    public List<TramiteDTO> consultarTramites(){
         try {
-            Tramite tramiteBuscar = new Tramite();
-            tramiteBuscar.setFechaEmision(tramiteDTO.getFechaEmision());
-
-            List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramites(tramiteBuscar);
+            List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramites();
             List<TramiteDTO> tramitesDTOEncontrados = new LinkedList<>();
-
-            if (!tramitesEncontrados.isEmpty()) {
-                tramitesEncontrados.forEach(tramite -> {
-                    ConsultarPersonaDTO consultarPersona = new ConsultarPersonaDTO(
-                            tramite.getPersona().getNombres(),
-                            tramite.getPersona().getApellidoPaterno(),
-                            tramite.getPersona().getApellidoMaterno()
-                    );
-
-                    TramiteDTO tramiteDTOEncontrado = new TramiteDTO();
-                    tramiteDTOEncontrado.setFechaEmision(tramite.getFechaEmision());
-                    tramiteDTOEncontrado.setPersona(consultarPersona);
-
-                    // Utilizamos un switch para asignar el tipo de trámite
-                    switch (tramiteDTO.getTipoTramite()) {
-                        case "Licencia":
-                            tramiteDTOEncontrado.setTipoTramite(String.valueOf(TipoTramite.Licencia));
-                            break;
-                        case "Placa":
-                            tramiteDTOEncontrado.setTipoTramite(String.valueOf(TipoTramite.Placa));
-                            break;
-
-                    }
-
-                    tramitesDTOEncontrados.add(new TramiteDTO(
-                            tramite.getFechaEmision(), 
-                            consultarPersona, 
-                            tramiteDTO.getTipoTramite()
-                    ));
-                });
+            
+            for (Tramite tramitesEncontrado : tramitesEncontrados) {
+                TramiteDTO tramite = new TramiteDTO(
+                        tramitesEncontrado.getFechaEmision(), 
+                        tramitesEncontrado.getCosto(), 
+                        tramitesEncontrado.getTipo());
+                tramitesDTOEncontrados.add(tramite);
             }
             return tramitesDTOEncontrados;
         } catch (PersistenciaException ex) {

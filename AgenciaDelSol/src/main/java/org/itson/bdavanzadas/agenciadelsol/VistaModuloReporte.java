@@ -43,7 +43,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.tramiteDTO = new TramiteDTO();
         initComponents();
         actualizarTabla();
-        limpiarTabla();
+//        limpiarTabla();
         cmbTipoReporte.setEnabled(false);
         txtNombrePersona.setEditable(false);
         dpPeriodoInicio.setEnabled(false);
@@ -65,20 +65,20 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private void actualizarTabla() {
         List<TramiteDTO> tramites;
         try {
-            tramites = tramitesBO.consultarTramites(tramiteDTO);
+            tramites = tramitesBO.consultarTramites();
             try {
                 DefaultTableModel personasCoincidentes = new DefaultTableModel();
                 personasCoincidentes.addColumn("Tipo reporte");
                 personasCoincidentes.addColumn("Fecha de emision");
                 personasCoincidentes.addColumn("Costo");
-                personasCoincidentes.addColumn("Nombre");
+//                personasCoincidentes.addColumn("Nombre");
 
                 for (TramiteDTO tramite : tramites) {
                     Object[] fila = {
                         tramite.getTipoTramite(),
                         tramite.getFechaEmision(),
-                        tramite.getCosto(),
-                        tramite.getPersona()
+                        tramite.getCosto()
+//                        tramite.getPersona()
                     };
 
                     personasCoincidentes.addRow(fila);

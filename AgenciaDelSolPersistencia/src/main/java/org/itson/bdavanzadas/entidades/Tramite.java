@@ -49,6 +49,8 @@ public class Tramite implements Serializable {
     @JoinColumn (name = "id_persona", nullable = false)
     private Persona persona;
     
+    private String tipo;
+    
     /**
      * Constructor vacío de la clase Tramite.
      */
@@ -142,7 +144,25 @@ public class Tramite implements Serializable {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-    
+
+    /**
+     * Establece el tipo del trámite.
+     * 
+     * @return tipo de tramite.
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Establece el costo del trámite.
+     * 
+     * @param tipo El tipo del trámite.
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     /**
      * Calcula y devuelve un valor hash basado en el ID del trámite.
      * 

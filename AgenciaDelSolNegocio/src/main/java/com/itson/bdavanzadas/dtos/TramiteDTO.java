@@ -33,12 +33,12 @@ public class TramiteDTO {
      * tipo especificados.
      *
      * @param fechaEmision La fecha de emisión del trámite.
-     * @param persona La persona asociada al trámite.
-     * @param tipo El tipo de trámite.
+     * @param costo El costro del tramite realizado.
+     * @param tipoTramite el tipo de tramite realizado.
      */
-    public TramiteDTO(Calendar fechaEmision, ConsultarPersonaDTO persona, String tipoTramite) {
+    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite) {
         this.fechaEmision = fechaEmision;
-        this.persona = persona;
+        this.costo = costo;
         this.tipoTramite = tipoTramite;
 
     }

@@ -10,6 +10,7 @@ package org.itson.bdavanzadas.agenciadelsol;
 public class VistaModuloConsultas extends javax.swing.JPanel {
 
     private Ventana ventana;
+    private boolean isChecked = false;
 
     /**
      * Constructor de la clase VistaInicio.
@@ -19,6 +20,9 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
     public VistaModuloConsultas(Ventana ventana) {
         this.ventana = ventana;
         initComponents();
+        txtNombrePersona.setEnabled(false);
+        dpFechaNacimiento.setEnabled(false);
+        txtRfc.setEnabled(false);
     }
 
     /**
@@ -52,10 +56,14 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         lblCheck1 = new javax.swing.JLabel();
         lblCheck2 = new javax.swing.JLabel();
         lblCheck3 = new javax.swing.JLabel();
+        dpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         txtNombrePersona = new javax.swing.JTextField();
-        txtFechaNacimiento = new javax.swing.JTextField();
-        txtCurp = new javax.swing.JTextField();
+        txtRfc = new javax.swing.JTextField();
+        btnSeleccionar = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
         btnFiltrar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPersonas = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -156,36 +164,73 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         lblNombrePersona.setText("Nombre de la persona:");
         add(lblNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 209, 200, 24));
 
-        lblFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        lblFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 18)); // NOI18N
         lblFechaNacimiento.setForeground(new java.awt.Color(215, 70, 118));
         lblFechaNacimiento.setText("Fecha de nacimiento:");
-        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(471, 211, 221, 24));
+        add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 180, 24));
 
         lblCurp.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblCurp.setForeground(new java.awt.Color(215, 70, 118));
-        lblCurp.setText("CURP:");
-        add(lblCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 211, 185, 24));
+        lblCurp.setText("RFC:");
+        add(lblCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 211, 40, 24));
+
+        lblCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCheck1MouseClicked(evt);
+            }
+        });
         add(lblCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 213, 20, 20));
-        add(lblCheck2, new org.netbeans.lib.awtextra.AbsoluteConstraints(666, 213, 20, 20));
-        add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(771, 213, 20, 20));
+
+        lblCheck2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCheck2MouseClicked(evt);
+            }
+        });
+        add(lblCheck2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 213, 20, 20));
+
+        lblCheck3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCheck3MouseClicked(evt);
+            }
+        });
+        add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 213, 20, 20));
+        add(dpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 241, 200, 36));
 
         txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
         txtNombrePersona.setBorder(null);
-        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 245, 236, 30));
+        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 241, 245, 36));
 
-        txtFechaNacimiento.setBackground(new java.awt.Color(247, 242, 244));
-        txtFechaNacimiento.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtFechaNacimiento.setForeground(new java.awt.Color(143, 143, 143));
-        txtFechaNacimiento.setBorder(null);
-        add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 244, 192, 32));
+        txtRfc.setBackground(new java.awt.Color(247, 242, 244));
+        txtRfc.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
+        txtRfc.setForeground(new java.awt.Color(143, 143, 143));
+        txtRfc.setBorder(null);
+        add(txtRfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(712, 241, 228, 35));
 
-        txtCurp.setBackground(new java.awt.Color(247, 242, 244));
-        txtCurp.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
-        txtCurp.setForeground(new java.awt.Color(143, 143, 143));
-        txtCurp.setBorder(null);
-        add(txtCurp, new org.netbeans.lib.awtextra.AbsoluteConstraints(718, 244, 219, 32));
+        btnSeleccionar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnSeleccionar.setForeground(new java.awt.Color(253, 253, 253));
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.setBorder(null);
+        btnSeleccionar.setContentAreaFilled(false);
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
+        add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 484, 186, 45));
+
+        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
+        btnVolver.setText("Volver");
+        btnVolver.setBorder(null);
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(587, 484, 142, 45));
 
         btnFiltrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnFiltrar.setForeground(new java.awt.Color(253, 253, 253));
@@ -198,6 +243,21 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
             }
         });
         add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 164, 142, 45));
+
+        tblPersonas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Discapacitado", "Fecha Nacimiento", "RFC"
+            }
+        ));
+        jScrollPane1.setViewportView(tblPersonas);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 780, 190));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaModuloConsulta.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
@@ -249,17 +309,75 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de filtrar.
      */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked
+        // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
+        if (!isChecked) {
+            lblCheck2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
+            isChecked = true;
+            dpFechaNacimiento.setEnabled(true); // Habilita la edición cuando isChecked es true
+        } else {
+            // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
+            lblCheck2.setIcon(null); // Esto eliminará la imagen actual
+            isChecked = false;
+            dpFechaNacimiento.setEnabled(false); // Deshabilita la edición cuando isChecked es false
+            dpFechaNacimiento.setText("");
+        }
+    }//GEN-LAST:event_lblCheck2MouseClicked
+
+    private void lblCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck1MouseClicked
+        // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
+        if (!isChecked) {
+            lblCheck1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
+            isChecked = true;
+            txtNombrePersona.setEnabled(true); // Habilita la edición cuando isChecked es true
+        } else {
+            // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
+            lblCheck1.setIcon(null); // Esto eliminará la imagen actual
+            isChecked = false;
+            txtNombrePersona.setEnabled(false); // Deshabilita la edición cuando isChecked es false
+            txtNombrePersona.setText("");
+        }
+    }//GEN-LAST:event_lblCheck1MouseClicked
+
+    private void lblCheck3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck3MouseClicked
+        // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
+        if (!isChecked) {
+            lblCheck3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
+            isChecked = true;
+            txtRfc.setEnabled(true); // Habilita la edición cuando isChecked es true
+        } else {
+            // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
+            lblCheck3.setIcon(null); // Esto eliminará la imagen actual
+            isChecked = false;
+            txtRfc.setEnabled(false); // Deshabilita la edición cuando isChecked es false
+            txtRfc.setText("");
+        }
+
+    }//GEN-LAST:event_lblCheck3MouseClicked
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloReportes;
+    private javax.swing.JButton btnSeleccionar;
     private javax.swing.JButton btnTramitesDisponibles;
     private javax.swing.JButton btnTramitesEnCurso;
+    private javax.swing.JButton btnVolver;
+    private com.github.lgooddatepicker.components.DatePicker dpFechaNacimiento;
     private javax.swing.JLabel fondo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCheck1;
     private javax.swing.JLabel lblCheck2;
@@ -278,9 +396,9 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
-    private javax.swing.JTextField txtCurp;
-    private javax.swing.JTextField txtFechaNacimiento;
+    private javax.swing.JTable tblPersonas;
     private javax.swing.JTextField txtNombrePersona;
+    private javax.swing.JTextField txtRfc;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -53,27 +53,42 @@ public class TramitesDAO implements ITramitesDAO {
     /**
      * Consulta los trámites según los criterios especificados.
      *
-     * @param tramite El objeto tramite que contiene los criterios de consulta.
      * @return Una lista de trámites que coinciden con los criterios de
      * consulta.
      * @throws PersistenciaException Si ocurre un error durante la consulta en
      * la base de datos.
      */
-    public List<Tramite> consultarTramites(Tramite tramite) throws PersistenciaException {
+    @Override
+    public List<Tramite> consultarTramites() throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
-        List<Tramite> tramites = null;
+        List<Object[]> resultados = null;
+        List<Tramite> historialTramites = new ArrayList<>();
 
         try {
-            Query query = entityManager.createQuery("SELECT t FROM Tramite t WHERE t.persona = :persona");
-            query.setParameter("persona", tramite.getPersona());
-            tramites = query.getResultList();
+            Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision FROM Tramite t");
+            resultados = query.getResultList();
+            for (Object[] resultado : resultados) {
+            String tipo = (String) resultado[0]; // Suponiendo que el tipo es un String
+            Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
+            Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
+            
+            // Crear un nuevo objeto Tramite con los valores obtenidos
+            Tramite tramite = new Tramite();
+            tramite.setTipo(tipo);
+            tramite.setCosto(costo);
+            tramite.setFechaEmision(fechaEmision);
+            
+            historialTramites.add(tramite);
+        }
         } catch (Exception e) {
             throw new PersistenciaException("Error al consultar los trámites: " + e.getMessage());
         } finally {
             entityManager.close();
         }
 
-        return tramites;
+        
+        
+        return historialTramites;
     }
 
 //     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

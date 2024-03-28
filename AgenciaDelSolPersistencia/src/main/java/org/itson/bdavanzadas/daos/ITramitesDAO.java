@@ -21,12 +21,11 @@ public interface ITramitesDAO {
     /**
      * Realiza una consulta de los tramites según el criterio especificado.
      *
-     * @param tramite Objeto Tramite que contiene los criterios de búsqueda.
      * @return Una lista de objetos Tramite que cumplen con los criterios de
      * búsqueda especificados.
      * @throws PersistenciaException Si ocurre algún error durante la consulta
      * en la persistencia de datos.
      */
-    public List<Tramite> consultarTramites(Tramite tramite) throws PersistenciaException;
+    public List<Tramite> consultarTramites() throws PersistenciaException;
 
 }

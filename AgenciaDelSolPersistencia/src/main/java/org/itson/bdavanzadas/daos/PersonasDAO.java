@@ -235,18 +235,19 @@ public class PersonasDAO implements IPersonasDAO {
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
 
-            try{
-                Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
-                query.setParameter("rfc", persona.getRfc());
-                Persona personaConsultada = (Persona) query.getSingleResult();
-                return  personaConsultada;
-            }catch(NoResultException nre){
-                throw new PersistenciaException("RFC inválido, persona inexistente");
-            }finally{
-                entityManager.close();  
-            }
-            
+        try {
+            Query query = entityManager.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+            query.setParameter("rfc", persona.getRfc());
+            Persona personaConsultada = (Persona) query.getSingleResult();
+            return personaConsultada;
+        } catch (NoResultException nre) {
+            throw new PersistenciaException("RFC inválido, persona inexistente");
+        } finally {
+            entityManager.close();
+        }
     }
+    
+    
 
      /**
      * Verifica si existen registros de personas.
