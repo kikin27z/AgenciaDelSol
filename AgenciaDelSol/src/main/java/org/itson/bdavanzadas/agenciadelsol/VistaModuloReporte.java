@@ -71,14 +71,16 @@ public class VistaModuloReporte extends javax.swing.JPanel {
                 personasCoincidentes.addColumn("Tipo reporte");
                 personasCoincidentes.addColumn("Fecha de emision");
                 personasCoincidentes.addColumn("Costo");
-//                personasCoincidentes.addColumn("Nombre");
+                personasCoincidentes.addColumn("Nombre");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 for (TramiteDTO tramite : tramites) {
                     Object[] fila = {
                         tramite.getTipoTramite(),
-                        tramite.getFechaEmision(),
-                        tramite.getCosto()
-//                        tramite.getPersona()
+                        dateFormat.format(tramite.getFechaEmision().getTime()),
+                        "$" + tramite.getCosto() + " MXN", 
+                        tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() 
                     };
 
                     personasCoincidentes.addRow(fila);

@@ -65,18 +65,20 @@ public class TramitesDAO implements ITramitesDAO {
         List<Tramite> historialTramites = new ArrayList<>();
 
         try {
-            Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision FROM Tramite t");
+            Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision, t.persona FROM Tramite t");
             resultados = query.getResultList();
             for (Object[] resultado : resultados) {
             String tipo = (String) resultado[0]; // Suponiendo que el tipo es un String
             Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
             Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
+            Persona persona = (Persona) resultado[3];
             
             // Crear un nuevo objeto Tramite con los valores obtenidos
             Tramite tramite = new Tramite();
             tramite.setTipo(tipo);
             tramite.setCosto(costo);
             tramite.setFechaEmision(fechaEmision);
+            tramite.setPersona(persona);
             
             historialTramites.add(tramite);
         }

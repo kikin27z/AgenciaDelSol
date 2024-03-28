@@ -52,16 +52,18 @@ public class TramitesBO implements ITramitesBO {
      * encontrados.
      */
     @Override
-    public List<TramiteDTO> consultarTramites(){
+    public List<TramiteDTO> consultarTramites() {
         try {
             List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramites();
             List<TramiteDTO> tramitesDTOEncontrados = new LinkedList<>();
-            
+
             for (Tramite tramitesEncontrado : tramitesEncontrados) {
                 TramiteDTO tramite = new TramiteDTO(
-                        tramitesEncontrado.getFechaEmision(), 
-                        tramitesEncontrado.getCosto(), 
-                        tramitesEncontrado.getTipo());
+                        tramitesEncontrado.getFechaEmision(),
+                        tramitesEncontrado.getCosto(),
+                        tramitesEncontrado.getTipo(),
+                        fromPersona(tramitesEncontrado.getPersona()));
+
                 tramitesDTOEncontrados.add(tramite);
             }
             return tramitesDTOEncontrados;
@@ -69,6 +71,15 @@ public class TramitesBO implements ITramitesBO {
             Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, "No fue posible consultar la lista de tramites");
             return null;
         }
+    }
+
+    // Método para convertir Persona a ConsultarPersonaDTO
+    private static ConsultarPersonaDTO fromPersona(Persona persona) {
+        return new ConsultarPersonaDTO(
+                persona.getNombres(),
+                persona.getApellidoPaterno(),
+                persona.getApellidoMaterno()
+        );
     }
 
 }

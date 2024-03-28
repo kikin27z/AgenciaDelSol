@@ -36,11 +36,11 @@ public class TramiteDTO {
      * @param costo El costro del tramite realizado.
      * @param tipoTramite el tipo de tramite realizado.
      */
-    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite) {
+    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite, ConsultarPersonaDTO persona) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
         this.tipoTramite = tipoTramite;
-
+        this.persona = persona;
     }
 
     /**
