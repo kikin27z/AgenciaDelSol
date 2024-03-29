@@ -27,6 +27,15 @@ public class VehiculoNuevoDTO {
     public VehiculoNuevoDTO() {
     }
 
+    public VehiculoNuevoDTO(String numeroSerie, String color, String marca, String modelo, String linea, ConsultarPersonaDTO persona) {
+        this.numeroSerie = numeroSerie;
+        this.color = color;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.persona = persona;
+    }
+
     /**
      * Obtiene el número de serie del vehículo.
      * 

@@ -2,11 +2,14 @@ package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,16 +50,20 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             for (TramiteDTO tramite : tramites) {
+                NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "MX"));
+                String costoFormateado = formatoMoneda.format(tramite.getCosto());
                 Object[] fila = {
                     tramite.getTipoTramite(),
                     dateFormat.format(tramite.getFechaEmision().getTime()),
-                    "$" + tramite.getCosto() + " MXN"
+                    costoFormateado + " MXN"
                 };
 
                 personasCoincidentes.addRow(fila);
             }
 
             tblTramites.setModel(personasCoincidentes);
+            tblTramites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Solo se puede seleccionar una fila a la vez
+            tblTramites.setDefaultEditor(Object.class, null); // Deshabilita la edición de celdas
 
         } catch (PersistenceException ex) {
             Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);

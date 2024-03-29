@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,6 +52,7 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         txtNombrePersona.setEnabled(false);
         dpFechaNacimiento.setEnabled(false);
         txtRfc.setEnabled(false);
+        
     }
     
      /**
@@ -104,7 +106,8 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
             }
 
             tblPersonas.setModel(personasTabla);
-
+            tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Solo se puede seleccionar una fila a la vez
+            tblPersonas.setDefaultEditor(Object.class, null); // Deshabilita la edición de celdas
         } catch (PersistenceException ex) {
             Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -282,9 +285,9 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         add(dpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 241, 200, 36));
 
         txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
+        txtNombrePersona.setBorder(null);
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
-        txtNombrePersona.setBorder(null);
         add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 241, 245, 36));
 
         txtRfc.setBackground(new java.awt.Color(247, 242, 244));
@@ -293,11 +296,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         txtRfc.setBorder(null);
         add(txtRfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(712, 241, 228, 35));
 
-        btnSeleccionar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnSeleccionar.setForeground(new java.awt.Color(253, 253, 253));
         btnSeleccionar.setText("Seleccionar");
         btnSeleccionar.setBorder(null);
         btnSeleccionar.setContentAreaFilled(false);
+        btnSeleccionar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnSeleccionar.setForeground(new java.awt.Color(253, 253, 253));
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSeleccionarActionPerformed(evt);
@@ -317,11 +320,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(587, 484, 142, 45));
 
-        btnFiltrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnFiltrar.setForeground(new java.awt.Color(253, 253, 253));
         btnFiltrar.setText("Filtrar");
         btnFiltrar.setBorder(null);
         btnFiltrar.setContentAreaFilled(false);
+        btnFiltrar.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnFiltrar.setForeground(new java.awt.Color(253, 253, 253));
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFiltrarActionPerformed(evt);
@@ -339,7 +342,15 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
             new String [] {
                 "Nombre", "Discapacitado", "Fecha Nacimiento", "RFC"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblPersonas);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 780, 190));

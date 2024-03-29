@@ -28,6 +28,16 @@ public class PlacaNuevaDTO {
     public PlacaNuevaDTO() {
     }
 
+    public PlacaNuevaDTO(VehiculoNuevoDTO vehiculo, Calendar fechaRecepcion, Calendar fechaEmision, String numero, EstadoPlaca estado, Float costo, ConsultarPersonaDTO persona, String tipoVehiculo) {
+        this.vehiculo = vehiculo;
+        this.fechaRecepcion = fechaRecepcion;
+        this.fechaEmision = fechaEmision;
+        this.numero = numero;
+        this.estado = estado;
+        this.costo = costo;
+        this.persona = persona;
+        this.tipoVehiculo = tipoVehiculo;
+    }
     
     /**
      * Obtiene el vehículo asociado a la placa.

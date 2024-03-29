@@ -1,5 +1,6 @@
 package org.itson.bdavanzadas.daos;
 
+import java.util.List;
 import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.Vehiculo;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
@@ -45,4 +46,20 @@ public interface IPlacasDAO {
      * @throws PersistenciaException Si no se encuentra la placa con el número especificado.
      */
     public Placa buscarPlaca(Placa placa) throws PersistenciaException;
+    
+    /**
+     * Busca todas las placas las cuales no se hayan entregado.
+     * @return lista de placas sin entregar.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
+    public List<Placa> consultarPlacasSiEmision()throws PersistenciaException;
+    
+    /**
+     * Establece la fecha de recepción en una placa específica.
+     *
+     * @param numeroPlaca El número de la placa para la cual se establecerá la
+     * fecha de recepción.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
+    public void establecerFechaRecepcion(String numeroPlaca) throws PersistenciaException;
 }

@@ -2,9 +2,12 @@ package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
 import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +17,7 @@ import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.daos.PlacasDAO;
 import org.itson.bdavanzadas.daos.VehiculosDAO;
 import org.itson.bdavanzadas.entidades.Automovil;
+import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
@@ -294,7 +298,101 @@ public class PlacasBO implements  IPlacasBO{
         return consultaPlacaDTO;
     }
 
+    /**
+    * Consulta la información de una placa por su número.
+    * Sin validar rfc`s.
+    * 
+    * @param consultaPlacaDTO Objeto de tipo ConsultaPlacaDTO que contiene el número de placa a consultar.
+    * @return Objeto de tipo ConsultaPlacaDTO que contiene la información de la placa consultada.
+    * @throws ValidacionDTOException Si no existe la placa buscada o si la placa pertenece a otra persona.
+    */
+    @Override
+    public ConsultaPlacaDTO consultarPlacaPorNumeroSinValidacion(ConsultaPlacaDTO consultaPlacaDTO) throws ValidacionDTOException {
+        Placa placa = new Placa();
+        placa.setNumero(consultaPlacaDTO.getNumero());
+        try {
+            placa = placasDAO.buscarPlaca(placa);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PlacasBO.class.getName()).log(Level.SEVERE, "No existe el número de placa buscado");
+            throw new ValidacionDTOException("Número de placa inesxistente");
+        }
+        
+        Vehiculo vehiculo = placa.getVehiculo();
+        
+        consultaPlacaDTO.setVehiculo(new VehiculoNuevoDTO());
+        consultaPlacaDTO.getVehiculo().setColor(vehiculo.getColor());
+        consultaPlacaDTO.getVehiculo().setMarca(vehiculo.getMarca());
+        consultaPlacaDTO.getVehiculo().setLinea(vehiculo.getLinea());
+        consultaPlacaDTO.getVehiculo().setModelo(vehiculo.getModelo());
+        consultaPlacaDTO.getVehiculo().setNumeroSerie(vehiculo.getNumeroSerie());
+        consultaPlacaDTO.setTipoVehiculo(placa.getTipoVehiculo().toString());
+        consultaPlacaDTO.setFechaEmision(placa.getFechaEmision());
+        consultaPlacaDTO.setFechaRecepcion(placa.getFechaRecepcion());
+        consultaPlacaDTO.setCosto(placa.getCosto());
+        ConsultarPersonaDTO persona = new ConsultarPersonaDTO(
+                placa.getPersona().getNombres(), 
+                placa.getPersona().getApellidoPaterno(), 
+                placa.getPersona().getApellidoMaterno()
+        );
+        consultaPlacaDTO.setPersona(persona);
+        
+        
+        return consultaPlacaDTO;
+    }
     
+    @Override
+    public List<PlacaNuevaDTO> consultarPlacasSiEmision() {
+        List<Placa> placasEncontradas;
+        try {
+            placasEncontradas = placasDAO.consultarPlacasSiEmision();
+            List<PlacaNuevaDTO> placas = new LinkedList<>();
+            for (Placa placasEncontrada : placasEncontradas) {
+                ConsultarPersonaDTO persona = new ConsultarPersonaDTO(
+                        placasEncontrada.getPersona().getRfc(),
+                        placasEncontrada.getPersona().getNombres(),
+                        placasEncontrada.getPersona().getApellidoPaterno(),
+                        placasEncontrada.getPersona().getApellidoMaterno(),
+                        placasEncontrada.getPersona().getFechaNacimiento(),
+                        placasEncontrada.getPersona().getTelefono(),
+                        placasEncontrada.getPersona().getDiscapacidad()
+                );
 
+                VehiculoNuevoDTO vehhiculo = new VehiculoNuevoDTO(
+                        placasEncontrada.getVehiculo().getNumeroSerie(),
+                        placasEncontrada.getVehiculo().getColor(),
+                        placasEncontrada.getVehiculo().getMarca(),
+                        placasEncontrada.getVehiculo().getModelo(),
+                        placasEncontrada.getVehiculo().getLinea(),
+                        persona
+                );
+
+                PlacaNuevaDTO placa = new PlacaNuevaDTO(
+                        vehhiculo,
+                        placasEncontrada.getFechaRecepcion(),
+                        placasEncontrada.getFechaEmision(),
+                        placasEncontrada.getNumero(),
+                        placasEncontrada.getEstado(),
+                        placasEncontrada.getCosto(),
+                        persona,
+                        placasEncontrada.getTipoVehiculo().toString()
+                );
+                
+                placas.add(placa);
+            }
+            return placas;
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PlacasBO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public void establecerFechaRecepcion(String numeroPlaca) {
+        try {
+            placasDAO.establecerFechaRecepcion(numeroPlaca);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(PlacasBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

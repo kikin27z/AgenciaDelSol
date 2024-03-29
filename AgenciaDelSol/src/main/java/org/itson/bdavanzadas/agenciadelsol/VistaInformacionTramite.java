@@ -1,5 +1,16 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
+import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import com.itson.bdavanzadas.negocio.IPlacasBO;
+import com.itson.bdavanzadas.negocio.PlacasBO;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -9,15 +20,26 @@ package org.itson.bdavanzadas.agenciadelsol;
 public class VistaInformacionTramite extends javax.swing.JPanel {
 
     private  Ventana ventana;
+    private IPlacasBO placasBO;
+    private PlacaNuevaDTO placa;
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
      */
-    public VistaInformacionTramite(Ventana ventana) {
+    public VistaInformacionTramite(Ventana ventana, PlacaNuevaDTO placa) {
         this.ventana = ventana;
+        this.placa = placa;
+        this.placasBO = new PlacasBO();
         initComponents();
+        txtNombrePersona.setText(placa.getPersona().getNombres()+" "+placa.getPersona().getApellidoPaterno()+" "+placa.getPersona().getApellidoMaterno());
+        txtTipo.setText(placa.getTipoVehiculo());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        txtFechaEmision.setText(dateFormat.format(placa.getFechaEmision().getTime()));
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "MX"));
+        String costoFormateado = formatoMoneda.format(placa.getCosto());
+        txtCosto.setText(costoFormateado+" MXN");
     }
 
     /** This method is called from within the constructor to
@@ -51,12 +73,10 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
         lblTipoTramite = new javax.swing.JLabel();
         lblFechaEmision = new javax.swing.JLabel();
         lblCosto = new javax.swing.JLabel();
-        lblDescripcionTramite = new javax.swing.JLabel();
-        txtTipoTramite = new javax.swing.JTextField();
+        txtTipo = new javax.swing.JTextField();
         txtNombrePersona = new javax.swing.JTextField();
         txtFechaEmision = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
-        txaDescripcionTramite = new javax.swing.JTextArea();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -107,6 +127,11 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
         btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(569, 463, 142, 45));
 
         lblConfirmarEntrega.setFont(new java.awt.Font("Amazon Ember", 0, 14)); // NOI18N
@@ -116,6 +141,11 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
         add(lblConfirmarEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(749, 467, 100, 38));
 
         btnConfirmarEntrega.setBackground(new java.awt.Color(215, 70, 118));
+        btnConfirmarEntrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarEntregaActionPerformed(evt);
+            }
+        });
         add(btnConfirmarEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(729, 463, 142, 45));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
@@ -170,7 +200,7 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
 
         lblTipoTramite.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblTipoTramite.setForeground(new java.awt.Color(215, 70, 118));
-        lblTipoTramite.setText("Tipo trámite:");
+        lblTipoTramite.setText("Tipo:");
         add(lblTipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 182, 116, 22));
 
         lblFechaEmision.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -183,45 +213,31 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
         lblCosto.setText("Costo:");
         add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(565, 273, 168, 22));
 
-        lblDescripcionTramite.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
-        lblDescripcionTramite.setForeground(new java.awt.Color(215, 70, 118));
-        lblDescripcionTramite.setText("Descripción trámite:");
-        add(lblDescripcionTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 351, 322, 24));
-
-        txtTipoTramite.setBackground(new java.awt.Color(247, 242, 244));
-        txtTipoTramite.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
-        txtTipoTramite.setForeground(new java.awt.Color(143, 143, 143));
-        txtTipoTramite.setBorder(null);
-        add(txtTipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(665, 212, 198, 30));
+        txtTipo.setBackground(new java.awt.Color(247, 242, 244));
+        txtTipo.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
+        txtTipo.setForeground(new java.awt.Color(143, 143, 143));
+        txtTipo.setBorder(null);
+        add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 209, 209, 35));
 
         txtNombrePersona.setBackground(new java.awt.Color(247, 242, 244));
         txtNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
         txtNombrePersona.setBorder(null);
-        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 210, 420, 32));
+        add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 207, 442, 35));
 
         txtFechaEmision.setBackground(new java.awt.Color(247, 242, 244));
         txtFechaEmision.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
         txtFechaEmision.setForeground(new java.awt.Color(143, 143, 143));
         txtFechaEmision.setBorder(null);
-        add(txtFechaEmision, new org.netbeans.lib.awtextra.AbsoluteConstraints(212, 302, 315, 32));
+        add(txtFechaEmision, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 299, 343, 35));
 
         txtCosto.setBackground(new java.awt.Color(247, 242, 244));
         txtCosto.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
         txtCosto.setForeground(new java.awt.Color(143, 143, 143));
         txtCosto.setBorder(null);
-        add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(575, 306, 287, -1));
+        add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(568, 303, 300, 31));
 
-        txaDescripcionTramite.setBackground(new java.awt.Color(247, 242, 244));
-        txaDescripcionTramite.setColumns(20);
-        txaDescripcionTramite.setFont(new java.awt.Font("Amazon Ember Light", 0, 19)); // NOI18N
-        txaDescripcionTramite.setForeground(new java.awt.Color(143, 143, 143));
-        txaDescripcionTramite.setLineWrap(true);
-        txaDescripcionTramite.setRows(5);
-        txaDescripcionTramite.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(143, 143, 143), 2, true));
-        add(txaDescripcionTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 381, 674, 40));
-
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVentanaInformacionTramite.png"))); // NOI18N
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVistaInformacionTramite.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
     
@@ -261,6 +277,22 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        ventana.cambiarVistaTramitesEnCurso();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnConfirmarEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarEntregaActionPerformed
+        placasBO.establecerFechaRecepcion(placa.getNumero());
+        ConsultaPlacaDTO placaConsultar = new ConsultaPlacaDTO(placa.getNumero());
+        placaConsultar.setPersona(placa.getPersona());
+        try {
+            ConsultaPlacaDTO placaConsultada = placasBO.consultarPlacaPorNumeroSinValidacion(placaConsultar);
+            ventana.cambiarVistaConfirmacionRecepcion(placaConsultada);
+        } catch (ValidacionDTOException ex) {
+            Logger.getLogger(VistaInformacionTramite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConfirmarEntregaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmarEntrega;
@@ -272,7 +304,6 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel lblConfirmarEntrega;
     private javax.swing.JLabel lblCosto;
-    private javax.swing.JLabel lblDescripcionTramite;
     private javax.swing.JLabel lblFechaEmision;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
@@ -287,11 +318,10 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
-    private javax.swing.JTextArea txaDescripcionTramite;
     private javax.swing.JTextField txtCosto;
     private javax.swing.JTextField txtFechaEmision;
     private javax.swing.JTextField txtNombrePersona;
-    private javax.swing.JTextField txtTipoTramite;
+    private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 
 }

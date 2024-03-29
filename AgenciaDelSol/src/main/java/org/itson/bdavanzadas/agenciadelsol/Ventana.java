@@ -102,6 +102,20 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaHistorialTramites;
     }
 
+    public void cambiarVistaInfomacionTramites(PlacaNuevaDTO placa){
+        limpiarFrame();
+        VistaInformacionTramite vistaInformacionTramite = new VistaInformacionTramite(this, placa);
+        ponerEnJFrame(vistaInformacionTramite);
+        panelActual = vistaInformacionTramite;
+    }
+    
+    public void cambiarVistaConfirmacionRecepcion(ConsultaPlacaDTO placaConsultada){
+        limpiarFrame();
+        vistaConfirmacionRecepcion vistaConfirmacionRecepcion = new vistaConfirmacionRecepcion(this, placaConsultada);
+        ponerEnJFrame(vistaConfirmacionRecepcion);
+        panelActual = vistaConfirmacionRecepcion;
+    }
+    
     /**
      * Cambia la vista actual del frame a la vista del módulo de reporte.
      */

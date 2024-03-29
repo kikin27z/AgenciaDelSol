@@ -1,12 +1,16 @@
 package org.itson.bdavanzadas.daos;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.entidades.EstadoPlaca;
@@ -133,5 +137,57 @@ public class PlacasDAO implements IPlacasDAO{
         }
         
         return placas;
+    }
+
+    /**
+     * Busca todas las placas las cuales no se hayan entregado.
+     * @return lista de placas sin entregar.
+     * @throws PersistenciaException Si no ocurre un error en la consulta.
+     */
+    @Override
+    public List<Placa> consultarPlacasSiEmision() throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Placa> query = builder.createQuery(Placa.class);
+        Root<Placa> root = query.from(Placa.class);
+
+        // Crear el predicado para filtrar las placas sin fecha de emisión
+        Predicate predicate = builder.isNull(root.get("fechaRecepcion"));
+
+        // Agregar el predicado a la consulta
+        query.where(predicate);
+
+        // Ejecutar la consulta
+        Query q = entityManager.createQuery(query);
+        return q.getResultList();
+    }
+
+    /**
+     * Establece la fecha de recepción en una placa específica.
+     *
+     * @param numeroPlaca El número de la placa para la cual se establecerá la
+     * fecha de recepción.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
+    @Override
+    public void establecerFechaRecepcion(String numeroPlaca) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        try {
+            entityManager.getTransaction().begin();
+
+            Query query = entityManager.createQuery("UPDATE Placa p SET p.fechaRecepcion = :fechaRecepcion WHERE p.numero = :numeroPlaca");
+            query.setParameter("fechaRecepcion", Calendar.getInstance());
+            query.setParameter("numeroPlaca", numeroPlaca);
+            query.executeUpdate();
+
+            entityManager.getTransaction().commit();
+            logger.log(Level.INFO, "Se recibio la placa");
+
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            logger.log(Level.SEVERE, "Error al establecer fecha de recepción en placa");
+        } finally {
+            entityManager.close();
+        }
     }
 }

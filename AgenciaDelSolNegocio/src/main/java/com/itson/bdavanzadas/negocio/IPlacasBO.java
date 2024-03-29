@@ -4,6 +4,7 @@ import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
 import com.itson.bdavanzadas.dtos.VehiculoNuevoDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import java.util.List;
 
 /**
  * Esta interfaz define los métodos que deben ser implementados por las clases que manejan las placas de vehículos.
@@ -66,4 +67,28 @@ public interface IPlacasBO {
     * @throws ValidacionDTOException Si no existe la placa buscada o si la placa pertenece a otra persona.
     */
     public ConsultaPlacaDTO consultarPlacaPorNumero(ConsultaPlacaDTO consultaPlacaDTO) throws ValidacionDTOException;
+    
+    /**
+    * Consulta la información de una placa por su número.
+    * No valida rfc`s.
+    * 
+    * @param consultaPlacaDTO Objeto de tipo ConsultaPlacaDTO que contiene el número de placa a consultar.
+    * @return Objeto de tipo ConsultaPlacaDTO que contiene la información de la placa consultada.
+    * @throws ValidacionDTOException Si no existe la placa buscada o si la placa pertenece a otra persona.
+    */
+    public ConsultaPlacaDTO consultarPlacaPorNumeroSinValidacion(ConsultaPlacaDTO consultaPlacaDTO) throws ValidacionDTOException;
+    
+    /**
+     * Consulta las placas sin fecha de emisión.
+     * @return lista de placas nuevas sin fecha de emisión.
+     */
+    public List<PlacaNuevaDTO> consultarPlacasSiEmision();
+    
+    /**
+     * Modifica la fecha de recepcion de una placa ya previamente seleccionada,
+     * por lo cual solo envia su numero de placa para encontrarla.
+     *
+     * @param numeroPlaca numero de placa a solicitar.
+     */
+    public void establecerFechaRecepcion(String numeroPlaca);
 }
