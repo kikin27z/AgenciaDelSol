@@ -35,6 +35,7 @@ public class TramiteDTO {
      * @param fechaEmision La fecha de emisión del trámite.
      * @param costo El costro del tramite realizado.
      * @param tipoTramite el tipo de tramite realizado.
+     * @param persona
      */
     public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite, ConsultarPersonaDTO persona) {
         this.fechaEmision = fechaEmision;
@@ -43,6 +44,22 @@ public class TramiteDTO {
         this.persona = persona;
     }
 
+    /**
+     * Constructor de la clase TramiteDTO.
+     *
+     * Crea un nuevo objeto TramiteDTO con la fecha de emisión, el costo y el
+     * tipo especificados.
+     * 
+     * @param fechaEmision
+     * @param costo
+     * @param tipoTramite
+     */
+    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite) {
+        this.fechaEmision = fechaEmision;
+        this.costo = costo;
+        this.tipoTramite = tipoTramite;
+    }
+    
     /**
      * Obtiene la fecha de emisión del trámite.
      *
@@ -97,10 +114,18 @@ public class TramiteDTO {
         this.persona = persona;
     }
 
+    /**
+     * Obtiene el tipo de tramite.
+     * @return
+     */
     public String getTipoTramite() {
         return tipoTramite;
     }
 
+    /**
+     * Establece el tipo de tramite.
+     * @param tipoTramite
+     */
     public void setTipoTramite(String tipoTramite) {
         this.tipoTramite = tipoTramite;
     }

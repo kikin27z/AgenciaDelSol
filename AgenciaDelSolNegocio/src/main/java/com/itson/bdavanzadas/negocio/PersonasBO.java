@@ -3,6 +3,8 @@ package com.itson.bdavanzadas.negocio;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.bdavanzadas.conexion.Conexion;
@@ -10,6 +12,7 @@ import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
 import org.itson.bdavanzadas.encriptar.Encriptacion;
+import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -94,6 +97,32 @@ public class PersonasBO implements IPersonasBO {
     }
 
     /**
+     *
+     * @return
+     */
+    @Override
+    public List<ConsultarPersonaDTO> consultarPersonas() {
+        List<ConsultarPersonaDTO> personasConsultadas = new ArrayList<>();
+        try {
+            List<Persona> personasEncontradas = personasDAO.consultarPersonas();
+            for (Persona personasEncontrada : personasEncontradas) {
+                ConsultarPersonaDTO personaN = new ConsultarPersonaDTO(
+                        personasEncontrada.getRfc(),
+                        personasEncontrada.getNombres(),
+                        personasEncontrada.getApellidoMaterno(), 
+                        personasEncontrada.getApellidoPaterno(), 
+                        personasEncontrada.getFechaNacimiento(), 
+                        personasEncontrada.getDiscapacidad()
+                );
+                personasConsultadas.add(personaN);
+            }
+        } catch (PersistenciaException e) {
+            Logger.getLogger(PersonasBO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return personasConsultadas;
+    }
+
+    /**
      * Verifica si existen registros de personas.
      *
      * @return true si hay registros de personas, false si la tabla está vacía.
@@ -102,4 +131,5 @@ public class PersonasBO implements IPersonasBO {
     public boolean hayRegistros() {
         return personasDAO.hayRegistros();
     }
+
 }

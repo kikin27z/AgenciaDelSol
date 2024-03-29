@@ -1,5 +1,6 @@
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.List;
@@ -23,4 +24,11 @@ public interface ITramitesBO {
     public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
 
     public List<TramiteDTO> consultarTramitesPorTipo(String tipo) throws ValidacionDTOException;
+    
+    /**
+     * Consulta los tramites de una persona en especifico.
+     * @param personaDTO persona a la cual consultaremos
+     * @return lista de tramites de la persona.
+     */
+    public List<TramiteDTO> consultarTramitesPersona(ConsultarPersonaDTO personaDTO);
 }

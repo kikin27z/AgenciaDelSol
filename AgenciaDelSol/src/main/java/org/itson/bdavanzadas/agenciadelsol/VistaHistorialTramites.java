@@ -1,5 +1,14 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itson.bdavanzadas.dtos.TramiteDTO;
+import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author José Karim Franco Valencia - 245138
@@ -8,18 +17,52 @@ package org.itson.bdavanzadas.agenciadelsol;
  */
 public class VistaHistorialTramites extends javax.swing.JPanel {
 
-    private  Ventana ventana;
+    private Ventana ventana;
+    private List<TramiteDTO> tramites;
+    private DefaultTableModel modeloTabla = new DefaultTableModel();
     
     /**
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
+     * @param tramites tramites que mostrara la pantalla.
      */
-    public VistaHistorialTramites(Ventana ventana) {
+    public VistaHistorialTramites(Ventana ventana, List<TramiteDTO> tramites) {
         this.ventana = ventana;
+        this.tramites = tramites;
         initComponents();
+        actualizarTabla();
     }
 
+    /** 
+     * Metodo que actualiza la tabla de la ventana.
+     */
+    private void actualizarTabla() {
+        try {
+            DefaultTableModel personasCoincidentes = new DefaultTableModel();
+            personasCoincidentes.addColumn("Tipo");
+            personasCoincidentes.addColumn("Fecha Emisión");
+            personasCoincidentes.addColumn("Costo");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            for (TramiteDTO tramite : tramites) {
+                Object[] fila = {
+                    tramite.getTipoTramite(),
+                    dateFormat.format(tramite.getFechaEmision().getTime()),
+                    "$" + tramite.getCosto() + " MXN"
+                };
+
+                personasCoincidentes.addRow(fila);
+            }
+
+            tblTramites.setModel(personasCoincidentes);
+
+        } catch (PersistenceException ex) {
+            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -46,6 +89,8 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
         lblLogo4 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
         btnInicio = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblTramites = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(247, 242, 244));
@@ -141,12 +186,37 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
         btnVolver.setText("Volver");
         btnVolver.setBorder(null);
         btnVolver.setContentAreaFilled(false);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(593, 484, 142, 45));
 
         btnInicio.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
         btnInicio.setText("Ir a inicio");
         btnInicio.setContentAreaFilled(false);
+        btnInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioActionPerformed(evt);
+            }
+        });
         add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(753, 484, 142, 45));
+
+        tblTramites.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tipo", "Costo", "Fecha Emisión"
+            }
+        ));
+        jScrollPane1.setViewportView(tblTramites);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 800, 300));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgVentanaHistorialTramites.png"))); // NOI18N
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
@@ -185,8 +255,26 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
      * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Módulo reportes").
      */
     private void btnModuloReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloReportesActionPerformed
-        ventana.cambiarVistaModuloReporte();
+        ventana.cambiarVistaModuloConsultas();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
+
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Ir a inicio".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Ir a inicio").
+     */
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        ventana.cambiarVistaInicio();
+    }//GEN-LAST:event_btnInicioActionPerformed
+
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Volver".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Volver").
+     */
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        ventana.cambiarVistaModuloConsultas();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,6 +285,7 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel fondo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
@@ -208,6 +297,7 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;
+    private javax.swing.JTable tblTramites;
     // End of variables declaration//GEN-END:variables
 
 }

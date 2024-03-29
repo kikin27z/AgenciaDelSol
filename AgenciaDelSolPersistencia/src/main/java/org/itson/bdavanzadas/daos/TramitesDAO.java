@@ -123,4 +123,60 @@ public class TramitesDAO implements ITramitesDAO {
         return tramitesPorTipo;
     }
 
+
+        return historialTramites;
+    }
+
+//     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Tramite> criteriaQuery = criteriaBuilder.createQuery(Tramite.class);
+//        Root<Tramite> root = criteriaQuery.from(Tramite.class);
+//        Join<Tramite, Persona> personaJoin = root.join("persona");
+//
+//        // Construir el predicado para filtrar por tipo de trámite
+//        Predicate tipoPlacaPredicate = criteriaBuilder.equal(root.type(), Placa.class);
+//        Predicate tipoLicenciaPredicate = criteriaBuilder.equal(root.type(), Licencia.class);
+//        Predicate tipoPredicate = criteriaBuilder.or(tipoPlacaPredicate, tipoLicenciaPredicate);
+//
+//        // Construir el predicado para filtrar por nombre de persona
+//        Predicate nombrePredicate = criteriaBuilder.like(personaJoin.get("nombres"), "%" + tramite.getPersona().getNombres() + "%");
+//
+//        // Construir el predicado para filtrar por fecha de emisión
+//        Predicate fechaPredicate = criteriaBuilder.between(root.get("fechaEmision"), tramite.getFechaEmision(), Calendar.getInstance());
+//
+//        // Combinar los predicados
+//        Predicate finalPredicate = criteriaBuilder.and(tipoPredicate, nombrePredicate, fechaPredicate);
+//
+//        criteriaQuery.select(root)
+//                .where(finalPredicate)
+//                .orderBy(criteriaBuilder.desc(root.get("fechaEmision")));
+//
+//        List<Tramite> tramites = entityManager.createQuery(criteriaQuery).getResultList();
+//        entityManager.close();
+
+    /**
+     * Realiza una consulta en base una persona, para asi obtener el historial
+     * de sus tramites.
+     * @param persona Persona a la cual se le consultaran sus tramites.
+     * @return lista de tramites consultados.
+     * @throws PersistenciaException Si ocurre algún error durante la consulta
+     * en la persistencia de datos.
+     */
+    @Override
+    public List<Tramite> consultatTramitesPersona(Persona persona) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        List<Tramite> tramites = null;
+        try {
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Tramite> criteria = cb.createQuery(Tramite.class);
+            Root<Tramite> root = criteria.from(Tramite.class);
+            criteria.select(root).where(cb.equal(root.get("persona").get("rfc"), persona.getRfc()));
+            TypedQuery<Tramite> query = entityManager.createQuery(criteria);
+            tramites = query.getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar los trámites de la persona: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        } 
+        return tramites;
+    }
 }
