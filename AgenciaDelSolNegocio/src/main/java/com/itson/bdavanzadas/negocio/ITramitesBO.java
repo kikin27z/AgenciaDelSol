@@ -21,4 +21,6 @@ public interface ITramitesBO {
      * @throws ValidacionDTOException Si ocurre un error durante la consulta.
      */
     public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
+
+    public List<TramiteDTO> consultarTramitesPorTipo(String tipo) throws ValidacionDTOException;
 }

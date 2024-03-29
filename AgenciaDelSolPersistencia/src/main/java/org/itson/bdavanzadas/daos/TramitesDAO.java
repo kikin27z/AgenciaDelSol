@@ -68,54 +68,59 @@ public class TramitesDAO implements ITramitesDAO {
             Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision, t.persona FROM Tramite t");
             resultados = query.getResultList();
             for (Object[] resultado : resultados) {
-            String tipo = (String) resultado[0]; // Suponiendo que el tipo es un String
-            Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
-            Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
-            Persona persona = (Persona) resultado[3];
-            
-            // Crear un nuevo objeto Tramite con los valores obtenidos
-            Tramite tramite = new Tramite();
-            tramite.setTipo(tipo);
-            tramite.setCosto(costo);
-            tramite.setFechaEmision(fechaEmision);
-            tramite.setPersona(persona);
-            
-            historialTramites.add(tramite);
-        }
+                String tipo = (String) resultado[0]; // Suponiendo que el tipo es un String
+                Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
+                Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
+                Persona persona = (Persona) resultado[3];
+
+                // Crear un nuevo objeto Tramite con los valores obtenidos
+                Tramite tramite = new Tramite();
+                tramite.setTipo(tipo);
+                tramite.setCosto(costo);
+                tramite.setFechaEmision(fechaEmision);
+                tramite.setPersona(persona);
+
+                historialTramites.add(tramite);
+            }
         } catch (Exception e) {
             throw new PersistenciaException("Error al consultar los trámites: " + e.getMessage());
         } finally {
             entityManager.close();
         }
-
-        
-        
         return historialTramites;
     }
 
-//     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Tramite> criteriaQuery = criteriaBuilder.createQuery(Tramite.class);
-//        Root<Tramite> root = criteriaQuery.from(Tramite.class);
-//        Join<Tramite, Persona> personaJoin = root.join("persona");
-//
-//        // Construir el predicado para filtrar por tipo de trámite
-//        Predicate tipoPlacaPredicate = criteriaBuilder.equal(root.type(), Placa.class);
-//        Predicate tipoLicenciaPredicate = criteriaBuilder.equal(root.type(), Licencia.class);
-//        Predicate tipoPredicate = criteriaBuilder.or(tipoPlacaPredicate, tipoLicenciaPredicate);
-//
-//        // Construir el predicado para filtrar por nombre de persona
-//        Predicate nombrePredicate = criteriaBuilder.like(personaJoin.get("nombres"), "%" + tramite.getPersona().getNombres() + "%");
-//
-//        // Construir el predicado para filtrar por fecha de emisión
-//        Predicate fechaPredicate = criteriaBuilder.between(root.get("fechaEmision"), tramite.getFechaEmision(), Calendar.getInstance());
-//
-//        // Combinar los predicados
-//        Predicate finalPredicate = criteriaBuilder.and(tipoPredicate, nombrePredicate, fechaPredicate);
-//
-//        criteriaQuery.select(root)
-//                .where(finalPredicate)
-//                .orderBy(criteriaBuilder.desc(root.get("fechaEmision")));
-//
-//        List<Tramite> tramites = entityManager.createQuery(criteriaQuery).getResultList();
-//        entityManager.close();
+    @Override
+    public List<Tramite> consultarTramitesPorTipo(String tipo) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        List<Object[]> resultados = null;
+        List<Tramite> tramitesPorTipo = new ArrayList<>();
+
+        try {
+            Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision, t.persona FROM Tramite t WHERE t.tipo = :tipo");
+            query.setParameter("tipo", tipo);
+            resultados = query.getResultList();
+            for (Object[] resultado : resultados) {
+                String tipoResultado = (String) resultado[0]; // Suponiendo que el tipo es un String
+                Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
+                Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
+                Persona persona = (Persona) resultado[3];
+
+                // Crear un nuevo objeto Tramite con los valores obtenidos
+                Tramite tramite = new Tramite();
+                tramite.setTipo(tipoResultado);
+                tramite.setCosto(costo);
+                tramite.setFechaEmision(fechaEmision);
+                tramite.setPersona(persona);
+
+                tramitesPorTipo.add(tramite);
+            }
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar los trámites por tipo: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+        return tramitesPorTipo;
+    }
+
 }

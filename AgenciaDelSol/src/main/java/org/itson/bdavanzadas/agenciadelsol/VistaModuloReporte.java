@@ -79,15 +79,15 @@ public class VistaModuloReporte extends javax.swing.JPanel {
                     Object[] fila = {
                         tramite.getTipoTramite(),
                         dateFormat.format(tramite.getFechaEmision().getTime()),
-                        "$" + tramite.getCosto() + " MXN", 
-                        tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() 
+                        "$" + tramite.getCosto() + " MXN",
+                        tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno()
                     };
 
                     personasCoincidentes.addRow(fila);
                 }
 
                 tblPersonasCoincidentes.setModel(personasCoincidentes);
-
+                
             } catch (PersistenceException ex) {
                 Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
             }

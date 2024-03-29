@@ -219,7 +219,7 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
     }//GEN-LAST:event_btnExportarPDFActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnVolverActionPerformed
 
 

@@ -27,5 +27,7 @@ public interface ITramitesDAO {
      * en la persistencia de datos.
      */
     public List<Tramite> consultarTramites() throws PersistenciaException;
+    
+    public List<Tramite> consultarTramitesPorTipo(String tipo) throws PersistenciaException;
 
 }
