@@ -7,6 +7,9 @@ import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.ITramitesBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -31,6 +34,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private TramiteDTO tramiteDTO;
     private ITramitesBO tramitesBO;
     private boolean isChecked = false;
+    private List<TramiteDTO> tramites;
+    private String tipo;
 
     /**
      * Constructor de la clase VistaModuloReporte.
@@ -41,10 +46,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.ventana = ventana;
         this.tramitesBO = new TramitesBO();
         this.tramiteDTO = new TramiteDTO();
+        this.tramites = tramitesBO.consultarTramitesPorTipo(tipo);
         initComponents();
-        actualizarTabla();
-//        limpiarTabla();
-        cmbTipoReporte.setEnabled(false);
+        actualizarTabla(tramites);
         txtNombrePersona.setEditable(false);
         dpPeriodoInicio.setEnabled(false);
         dpPeriodoFin.setEnabled(false);
@@ -62,8 +66,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }
 
-    private void actualizarTabla() {
-        List<TramiteDTO> tramites;
+    private void actualizarTabla(List<TramiteDTO> tramites) {
+//        List<TramiteDTO> tramites;
         try {
             tramites = tramitesBO.consultarTramites();
             try {
@@ -87,13 +91,14 @@ public class VistaModuloReporte extends javax.swing.JPanel {
                 }
 
                 tblPersonasCoincidentes.setModel(personasCoincidentes);
-                
+
             } catch (PersistenceException ex) {
                 Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (ValidacionDTOException ex) {
             Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -127,7 +132,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         lblNombrePersona = new javax.swing.JLabel();
         btnFiltrar = new javax.swing.JButton();
         txtNombrePersona = new javax.swing.JTextField();
-        lblCheck1 = new javax.swing.JLabel();
         lblCheck2 = new javax.swing.JLabel();
         lblCheck3 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
@@ -270,13 +274,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
         add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 245, 200, 30));
 
-        lblCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCheck1MouseClicked(evt);
-            }
-        });
-        add(lblCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 217, 19, 19));
-
         lblCheck2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCheck2MouseClicked(evt);
@@ -305,8 +302,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         add(dpPeriodoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 239, 190, 40));
         add(dpPeriodoFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(783, 239, 190, 40));
 
-        cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Placa", "Licencia" }));
-        cmbTipoReporte.setSelectedIndex(-1);
+        cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No especificado", "Placa", "Licencia" }));
         add(cmbTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 239, 150, 40));
 
         btnGenerarReporte.setFont(new java.awt.Font("Amazon Ember", 0, 19)); // NOI18N
@@ -380,22 +376,55 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
-    private void lblCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck1MouseClicked
-        // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
-        if (!isChecked) {
-            lblCheck1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
-            isChecked = true;
-            cmbTipoReporte.setEnabled(true); // Habilita la edición cuando isChecked es true
-        } else {
-            // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
-            lblCheck1.setIcon(null); // Esto eliminará la imagen actual
-            isChecked = false;
-            cmbTipoReporte.setEnabled(false); // Deshabilita la edición cuando isChecked es false
-        }
-    }//GEN-LAST:event_lblCheck1MouseClicked
-
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-
+        try {
+            String tipoReporte = cmbTipoReporte.getSelectedItem().toString();
+            String nombrePersona = txtNombrePersona.getText().trim();
+            LocalDate periodoInicio = dpPeriodoInicio.getDate();
+            LocalDate periodoFin = dpPeriodoFin.getDate();
+            
+            List<TramiteDTO> tramitesFiltrados = new ArrayList<>();
+            tramites = tramitesBO.consultarTramites();
+            
+            if (tramites == null) {
+                
+                System.err.println("La lista de tramites es null. Revisar el método consultarTramites().");
+                return;
+            }
+            
+            if (tipoReporte.equals("No especificado")) {
+                
+                tramitesFiltrados.addAll(tramites);
+            } else {
+                
+                for (TramiteDTO tramite : tramites) {
+                    if (tramite.getTipoTramite().equals(tipoReporte)) {
+                        tramitesFiltrados.add(tramite);
+                    }
+                }
+            }
+            
+            // Filtrar los tramites por nombre de persona y periodo de fechas
+            List<TramiteDTO> tramitesCoincidentes = new ArrayList<>();
+            for (TramiteDTO tramite : tramitesFiltrados) {
+                boolean coincideNombre = tramite.getPersona().getNombres().equalsIgnoreCase(nombrePersona)
+                        || tramite.getPersona().getApellidoPaterno().equalsIgnoreCase(nombrePersona)
+                        || tramite.getPersona().getApellidoMaterno().equalsIgnoreCase(nombrePersona);
+                boolean coincideFechas = (periodoInicio == null || tramite.getFechaEmision().toInstant()
+                        .atZone(ZoneId.systemDefault()).toLocalDate().isAfter(periodoInicio))
+                        && (periodoFin == null || tramite.getFechaEmision().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().isBefore(periodoFin.plusDays(1)));
+                
+                if (coincideNombre && coincideFechas) {
+                    tramitesCoincidentes.add(tramite);
+                }
+            }
+            
+            limpiarTabla();
+            actualizarTabla(tramitesCoincidentes);
+        } catch (ValidacionDTOException ex) {
+            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
@@ -473,7 +502,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private javax.swing.JLabel fondo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
-    private javax.swing.JLabel lblCheck1;
     private javax.swing.JLabel lblCheck2;
     private javax.swing.JLabel lblCheck3;
     private javax.swing.JLabel lblLogo;
