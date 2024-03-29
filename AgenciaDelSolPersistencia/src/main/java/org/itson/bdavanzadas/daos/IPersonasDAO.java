@@ -1,5 +1,6 @@
 package org.itson.bdavanzadas.daos;
 
+import java.util.List;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -38,9 +39,16 @@ public interface IPersonasDAO {
      */
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException;
   
-     /**
+    /**
+     * Realiza una consulta de personas en general.
+     * @return regresa una lista de personas registradas en la base de datos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    public List<Persona> consultarPersonas() throws PersistenciaException;
+    
+    /**
      * Verifica si existen registros de personas.
-     * 
+     *
      * @return true si hay registros de personas, false si la tabla está vacía.
      */
     public boolean hayRegistros();

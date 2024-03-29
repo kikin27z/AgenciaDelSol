@@ -5,6 +5,7 @@
 package org.itson.bdavanzadas.daos;
 
 import java.util.List;
+import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -27,5 +28,15 @@ public interface ITramitesDAO {
      * en la persistencia de datos.
      */
     public List<Tramite> consultarTramites() throws PersistenciaException;
+    
+    /**
+     * Realiza una consulta en base una persona, para asi obtener el historial
+     * de sus tramites.
+     * @param persona Persona a la cual se le consultaran sus tramites.
+     * @return lista de tramites consultados.
+     * @throws PersistenciaException Si ocurre algún error durante la consulta
+     * en la persistencia de datos.
+     */
+    public List<Tramite> consultatTramitesPersona(Persona persona) throws PersistenciaException;
 
 }

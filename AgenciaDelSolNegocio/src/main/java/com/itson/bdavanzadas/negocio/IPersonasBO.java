@@ -2,6 +2,7 @@ package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
+import java.util.List;
 
 
 /**
@@ -41,6 +42,14 @@ public interface IPersonasBO {
      */
     public ConsultarPersonaDTO consultarPersonaPorRfc(ConsultarPersonaDTO personaDTO) throws ValidacionDTOException;
 
+    /**
+     * Consulta una lista de personas en la base de datos.
+     * 
+     * Este metodo busca devolver los registros existentes de personas en la base de datos.
+     * @return lista de personas.
+     */
+    public List<ConsultarPersonaDTO> consultarPersonas();
+            
     /**
      * Verifica si existen registros de personas.
      * 
