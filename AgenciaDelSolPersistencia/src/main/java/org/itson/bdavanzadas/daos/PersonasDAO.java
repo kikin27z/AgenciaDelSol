@@ -1,7 +1,6 @@
 package org.itson.bdavanzadas.daos;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -248,29 +247,7 @@ public class PersonasDAO implements IPersonasDAO {
         }
     }
     
-    /**
-     * Realiza una consulta de personas en general.
-     * @return regresa una lista de personas registradas en la base de datos.
-     * @throws PersistenciaException Si ocurre un error durante la consulta.
-     */
-    @Override
-    public List<Persona> consultarPersonas() throws PersistenciaException {
-        EntityManager entityManager = conexion.crearConexion();
-        List<Persona> personas = null;
-        
-        try {
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Persona> query = builder.createQuery(Persona.class);
-            Root<Persona> root = query.from(Persona.class);
-            query.select(root);
-            personas = entityManager.createQuery(query).getResultList();
-        } catch (Exception e) {
-            throw new  PersistenciaException("Error al consultar personas: "+ e);
-        } finally {
-           entityManager.close();
-        }
-        return personas;
-    }
+    
 
      /**
      * Verifica si existen registros de personas.
@@ -291,6 +268,4 @@ public class PersonasDAO implements IPersonasDAO {
         entityManager.close();
         return count != 0;
     }
-
-    
 }

@@ -1,25 +1,5 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-import com.itson.bdavanzadas.avisos.Aviso;
-import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
-import com.itson.bdavanzadas.dtos.TramiteDTO;
-import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
-import com.itson.bdavanzadas.negocio.IPersonasBO;
-import com.itson.bdavanzadas.negocio.ITramitesBO;
-import com.itson.bdavanzadas.negocio.PersonasBO;
-import com.itson.bdavanzadas.negocio.TramitesBO;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.PersistenceException;
-import javax.swing.table.DefaultTableModel;
-
 /**
  * Clase que representa la vista del módulo de consultas en la aplicación.
  * 
@@ -30,10 +10,6 @@ import javax.swing.table.DefaultTableModel;
 public class VistaModuloConsultas extends javax.swing.JPanel {
 
     private Ventana ventana;
-    private DefaultTableModel modeloTabla = new DefaultTableModel();
-    private IPersonasBO personasBO;
-    private ITramitesBO tramitesBO;
-    List<ConsultarPersonaDTO> personas;
     private boolean isChecked = false;
 
     /**
@@ -43,71 +19,10 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      */
     public VistaModuloConsultas(Ventana ventana) {
         this.ventana = ventana;
-        this.tramitesBO = new TramitesBO();
-        this.personasBO = new PersonasBO();
-        this.personas = personasBO.consultarPersonas();
         initComponents();
-        actualizarTabla(personas);
         txtNombrePersona.setEnabled(false);
         dpFechaNacimiento.setEnabled(false);
         txtRfc.setEnabled(false);
-    }
-    
-     /**
-     * Metodo para limpiar la tabla de Reportes.
-     */
-    private void limpiarTabla() {
-        modeloTabla = (DefaultTableModel) tblPersonas.getModel();
-        if (modeloTabla.getRowCount() > 0) {
-            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
-                modeloTabla.removeRow(i);
-            }
-        }
-    }
-    
-    /** 
-     * Metodo que actualiza la tabla de personas, mostrando los datos necesarios.
-     * @param personas lista de personas a plasmar.
-     */
-    private void actualizarTabla(List<ConsultarPersonaDTO> personas) {
-        try {
-            DefaultTableModel personasTabla = new DefaultTableModel();
-            personasTabla.addColumn("Nombre");
-            personasTabla.addColumn("Discapacitado");
-            personasTabla.addColumn("Fecha Nacimiento");
-            personasTabla.addColumn("RFC");
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            Calendar fechaActual = Calendar.getInstance();
-
-            for (ConsultarPersonaDTO persona : personas) {
-                Calendar fechaNacimiento = persona.getFechaNacimiento();
-                int edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
-
-                if (fechaNacimiento.get(Calendar.MONTH) < fechaActual.get(Calendar.MONTH)
-                        || (fechaNacimiento.get(Calendar.MONTH) == fechaActual.get(Calendar.MONTH)
-                        && fechaNacimiento.get(Calendar.DAY_OF_MONTH) <= fechaActual.get(Calendar.DAY_OF_MONTH))) {
-                    edad++;
-                }
-                if (edad >= 18) {
-                    String fechaFormateada = dateFormat.format(fechaNacimiento.getTime());
-                    Object[] fila = {
-                        persona.getNombres() + " " + persona.getApellidoPaterno(),
-                        persona.getDiscapacidad(),
-                        fechaFormateada,
-                        persona.getRfc()
-                    };
-
-                    personasTabla.addRow(fila); 
-                }
-            }
-
-            tblPersonas.setModel(personasTabla);
-
-        } catch (PersistenceException ex) {
-            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -394,64 +309,9 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de filtrar.
      */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        // Verificar si el campo de texto txtNombrePersona no está vacío
-        String nombrePersona = txtNombrePersona.getText().trim();
-        if (!nombrePersona.isEmpty()) {
-            // Crear una lista para almacenar las personas que coincidan con el nombre
-            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
-
-            // Recorrer la lista de personas y agregar las que coincidan con el nombre
-            for (ConsultarPersonaDTO persona : personas) {
-                String nombreCompleto = persona.getNombres().toLowerCase() + " " + persona.getApellidoPaterno().toLowerCase();
-                if (nombreCompleto.contains(nombrePersona.toLowerCase())) {
-                    personasFiltradas.add(persona);
-                }
-            }
-
-            // Limpiar la tabla y luego actualizala con las personas filtradas
-            limpiarTabla();
-            actualizarTabla(personasFiltradas);
-        } else if (dpFechaNacimiento.getDate() != null) {
-            LocalDate fechaSeleccionada = dpFechaNacimiento.getDate();
-
-            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
-
-            for (ConsultarPersonaDTO persona : personas) {
-                Calendar fechaNacimiento = persona.getFechaNacimiento();
-                LocalDate fechaNacimientoLocalDate = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-                if (fechaNacimientoLocalDate.isEqual(fechaSeleccionada)) {
-                    personasFiltradas.add(persona);
-                }
-            }
-
-            limpiarTabla();
-            actualizarTabla(personasFiltradas);
-        } else if (!txtRfc.getText().isEmpty()) {
-            String rfc = txtRfc.getText().trim();
-
-            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
-
-            for (ConsultarPersonaDTO persona : personas) {
-                if (persona.getRfc().equalsIgnoreCase(rfc)) {
-                    personasFiltradas.add(persona);
-                }
-            }
-            
-            limpiarTabla();
-            actualizarTabla(personasFiltradas);
-        } else {
-            // Regresar a la tabla de personas si no hay nada seleccionado
-            limpiarTabla();
-            actualizarTabla(personas);
-        }
+        
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
-    /**
-     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "Fecha nacimiento".
-     * 
-     * @param evt El evento de acción que desencadena este método.
-     */
     private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -467,11 +327,6 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
-    /**
-     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "Nombre de la persona".
-     * 
-     * @param evt El evento de acción que desencadena este método.
-     */
     private void lblCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck1MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -487,11 +342,6 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck1MouseClicked
 
-    /**
-     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "RFC".
-     * 
-     * @param evt El evento de acción que desencadena este método.
-     */
     private void lblCheck3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck3MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -508,40 +358,12 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
 
     }//GEN-LAST:event_lblCheck3MouseClicked
 
-    /**
-     * Método que se ejecuta al hacer clic en el botón "Volver".
-     * 
-     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Volver").
-     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        ventana.cambiarVistaInicio();
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    /**
-     * Método que se ejecuta al hacer clic en el botón "Seleccionar".
-     * 
-     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Seleccionar).
-     */
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        int filaSeleccionada = tblPersonas.getSelectedRow();
-
-        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
-            Object[] datosFila = new Object[tblPersonas.getColumnCount()];
-
-            for (int i = 0; i < tblPersonas.getColumnCount(); i++) {
-                datosFila[i] = tblPersonas.getValueAt(filaSeleccionada, i);
-            }
-            
-            // De la fila seleccionada toma el campo del rfc y se lo coloca a una personaDTO
-            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
-            // Con la personaDTO generada consultamos los tramites de la persona
-            List<TramiteDTO> tramites = tramitesBO.consultarTramitesPersona(persona);
-        
-            ventana.cambiarVistaHistorialTramites(tramites);
-        } else {
-            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
-            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
 

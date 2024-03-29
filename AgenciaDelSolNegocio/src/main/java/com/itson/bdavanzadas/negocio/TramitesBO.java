@@ -104,31 +104,4 @@ public class TramitesBO implements ITramitesBO {
         );
     }
 
-    /**
-     * Consulta los tramites de una persona en especifico.
-     * @param personaDTO persona a la cual consultaremos
-     * @return lista de tramites de la persona.
-     */
-    @Override
-    public List<TramiteDTO> consultarTramitesPersona(ConsultarPersonaDTO personaDTO) {
-        Persona persona = new Persona();
-        persona.setRfc(personaDTO.getRfc());
-        try {
-            List<Tramite> tramitesEncontrados = tramitesDAO.consultatTramitesPersona(persona);
-            List<TramiteDTO> tramitesDTO = new LinkedList<>();
-            for (Tramite tramiteEncontrado : tramitesEncontrados) {
-                TramiteDTO tramite = new TramiteDTO(
-                        tramiteEncontrado.getFechaEmision(), 
-                        tramiteEncontrado.getCosto(), 
-                        tramiteEncontrado.getTipo()
-                );
-                tramitesDTO.add(tramite);
-            }
-            return tramitesDTO; 
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, null, "No fue posible consultar la lista de tramites");
-            return null;
-        }
-    }
-
 }
