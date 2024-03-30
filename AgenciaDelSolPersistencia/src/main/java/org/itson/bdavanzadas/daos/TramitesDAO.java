@@ -90,37 +90,4 @@ public class TramitesDAO implements ITramitesDAO {
         return historialTramites;
     }
 
-    @Override
-    public List<Tramite> consultarTramitesPorTipo(String tipo) throws PersistenciaException {
-        EntityManager entityManager = conexion.crearConexion();
-        List<Object[]> resultados = null;
-        List<Tramite> tramitesPorTipo = new ArrayList<>();
-
-        try {
-            Query query = entityManager.createQuery("SELECT t.tipo, t.costo, t.fechaEmision, t.persona FROM Tramite t WHERE t.tipo = :tipo");
-            query.setParameter("tipo", tipo);
-            resultados = query.getResultList();
-            for (Object[] resultado : resultados) {
-                String tipoResultado = (String) resultado[0]; // Suponiendo que el tipo es un String
-                Float costo = (Float) resultado[1]; // Suponiendo que el costo es un Float
-                Calendar fechaEmision = (Calendar) resultado[2]; // Suponiendo que la fecha de emisión es un Calendar
-                Persona persona = (Persona) resultado[3];
-
-                // Crear un nuevo objeto Tramite con los valores obtenidos
-                Tramite tramite = new Tramite();
-                tramite.setTipo(tipoResultado);
-                tramite.setCosto(costo);
-                tramite.setFechaEmision(fechaEmision);
-                tramite.setPersona(persona);
-
-                tramitesPorTipo.add(tramite);
-            }
-        } catch (Exception e) {
-            throw new PersistenciaException("Error al consultar los trámites por tipo: " + e.getMessage());
-        } finally {
-            entityManager.close();
-        }
-        return tramitesPorTipo;
-    }
-
 }

@@ -1,11 +1,17 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.ITramitesBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -19,7 +25,11 @@ import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
-import org.itson.bdavanzadas.entidades.Persona;
+//import org.itson.bdavanzadas.entidades.Persona;
+//import com.itextpdf.text.Document;
+//import com.itextpdf.text.DocumentException;
+//import com.itextpdf.text.Paragraph;
+//import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
@@ -46,7 +56,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.ventana = ventana;
         this.tramitesBO = new TramitesBO();
         this.tramiteDTO = new TramiteDTO();
-        this.tramites = tramitesBO.consultarTramitesPorTipo(tipo);
+        try {
+            this.tramites = tramitesBO.consultarTramites();
+        } catch (ValidacionDTOException ex) {
+            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
         actualizarTabla(tramites);
         txtNombrePersona.setEditable(false);
@@ -67,35 +81,30 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     }
 
     private void actualizarTabla(List<TramiteDTO> tramites) {
-//        List<TramiteDTO> tramites;
+
         try {
-            tramites = tramitesBO.consultarTramites();
-            try {
-                DefaultTableModel personasCoincidentes = new DefaultTableModel();
-                personasCoincidentes.addColumn("Tipo reporte");
-                personasCoincidentes.addColumn("Fecha de emision");
-                personasCoincidentes.addColumn("Costo");
-                personasCoincidentes.addColumn("Nombre");
+            DefaultTableModel personasCoincidentes = new DefaultTableModel();
+            personasCoincidentes.addColumn("Tipo reporte");
+            personasCoincidentes.addColumn("Fecha de emision");
+            personasCoincidentes.addColumn("Costo");
+            personasCoincidentes.addColumn("Nombre");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                for (TramiteDTO tramite : tramites) {
-                    Object[] fila = {
-                        tramite.getTipoTramite(),
-                        dateFormat.format(tramite.getFechaEmision().getTime()),
-                        "$" + tramite.getCosto() + " MXN",
-                        tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno()
-                    };
+            for (TramiteDTO tramite : tramites) {
+                Object[] fila = {
+                    tramite.getTipoTramite(),
+                    dateFormat.format(tramite.getFechaEmision().getTime()),
+                    "$" + tramite.getCosto() + " MXN",
+                    tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno()
+                };
 
-                    personasCoincidentes.addRow(fila);
-                }
-
-                tblPersonasCoincidentes.setModel(personasCoincidentes);
-
-            } catch (PersistenceException ex) {
-                Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+                personasCoincidentes.addRow(fila);
             }
-        } catch (ValidacionDTOException ex) {
+
+            tblPersonasCoincidentes.setModel(personasCoincidentes);
+
+        } catch (PersistenceException ex) {
             Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -377,55 +386,65 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        try {
-            String tipoReporte = cmbTipoReporte.getSelectedItem().toString();
-            String nombrePersona = txtNombrePersona.getText().trim();
-            LocalDate periodoInicio = dpPeriodoInicio.getDate();
-            LocalDate periodoFin = dpPeriodoFin.getDate();
-            
-            List<TramiteDTO> tramitesFiltrados = new ArrayList<>();
-            tramites = tramitesBO.consultarTramites();
-            
-            if (tramites == null) {
-                
-                System.err.println("La lista de tramites es null. Revisar el método consultarTramites().");
-                return;
-            }
-            
-            if (tipoReporte.equals("No especificado")) {
-                
-                tramitesFiltrados.addAll(tramites);
-            } else {
-                
-                for (TramiteDTO tramite : tramites) {
-                    if (tramite.getTipoTramite().equals(tipoReporte)) {
-                        tramitesFiltrados.add(tramite);
-                    }
+
+        List<TramiteDTO> tramitesFiltrados = new ArrayList<>();
+
+        // Filtrar por tipo
+        if (cmbTipoReporte.getSelectedItem() != null) {
+            String tipoReporte = cmbTipoReporte.getSelectedItem().toString().trim();
+            for (TramiteDTO tramite : tramites) {
+                String tipo = tramite.getTipoTramite();
+
+                if (tipoReporte.equals("No especificado")) {
+                    tramitesFiltrados.add(tramite);
+                } else if (tipoReporte.equals("Placa") && tipo.equals("Expedición de placas")) {
+                    tramitesFiltrados.add(tramite);
+                } else if (tipoReporte.equals("Licencia") && tipo.equals("Expedición de Licencia")) {
+                    tramitesFiltrados.add(tramite);
                 }
             }
-            
-            // Filtrar los tramites por nombre de persona y periodo de fechas
-            List<TramiteDTO> tramitesCoincidentes = new ArrayList<>();
-            for (TramiteDTO tramite : tramitesFiltrados) {
-                boolean coincideNombre = tramite.getPersona().getNombres().equalsIgnoreCase(nombrePersona)
-                        || tramite.getPersona().getApellidoPaterno().equalsIgnoreCase(nombrePersona)
-                        || tramite.getPersona().getApellidoMaterno().equalsIgnoreCase(nombrePersona);
-                boolean coincideFechas = (periodoInicio == null || tramite.getFechaEmision().toInstant()
-                        .atZone(ZoneId.systemDefault()).toLocalDate().isAfter(periodoInicio))
-                        && (periodoFin == null || tramite.getFechaEmision().toInstant()
-                                .atZone(ZoneId.systemDefault()).toLocalDate().isBefore(periodoFin.plusDays(1)));
-                
-                if (coincideNombre && coincideFechas) {
-                    tramitesCoincidentes.add(tramite);
-                }
-            }
-            
-            limpiarTabla();
-            actualizarTabla(tramitesCoincidentes);
-        } catch (ValidacionDTOException ex) {
-            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            // Si no se selecciona ningún tipo de trámite, mantener todos los trámites
+            tramitesFiltrados.addAll(tramites);
         }
 
+        //Filtrar por persona
+        if (txtNombrePersona.getText() != null && !txtNombrePersona.getText().isEmpty()) {
+            String nombrePersona = txtNombrePersona.getText().toLowerCase();
+
+            List<TramiteDTO> tramitesPorPersona = new ArrayList<>();
+
+            for (TramiteDTO tramite : tramitesFiltrados) {
+                ConsultarPersonaDTO personaTramite = tramite.getPersona();
+                String nombreCompleto = personaTramite.getNombres().toLowerCase() + " " + personaTramite.getApellidoPaterno().toLowerCase();
+
+                if (nombreCompleto.contains(nombrePersona)) {
+                    tramitesPorPersona.add(tramite);
+                }
+            }
+            tramitesFiltrados = tramitesPorPersona;
+        }
+        // Filtrar por fechas si se han seleccionado
+        if (dpPeriodoInicio.getDate() != null && dpPeriodoFin.getDate() != null) {
+            LocalDate periodoInicio = dpPeriodoInicio.getDate();
+            LocalDate periodoFin = dpPeriodoFin.getDate();
+
+            List<TramiteDTO> tramitesPorFecha = new ArrayList<>();
+
+            for (TramiteDTO tramite : tramitesFiltrados) {
+                Calendar fechaEmision = tramite.getFechaEmision();
+                LocalDate fechaEmisionLocalDate = fechaEmision.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                if (fechaEmisionLocalDate.isEqual(periodoInicio) || fechaEmisionLocalDate.isEqual(periodoFin)
+                        || (fechaEmisionLocalDate.isAfter(periodoInicio) && fechaEmisionLocalDate.isBefore(periodoFin))) {
+                    tramitesPorFecha.add(tramite);
+                }
+            }
+
+            tramitesFiltrados = tramitesPorFecha;
+        }
+        limpiarTabla();
+        actualizarTabla(tramitesFiltrados);
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
@@ -442,11 +461,41 @@ public class VistaModuloReporte extends javax.swing.JPanel {
 
             tramiteDTO.setFechaEmision((Calendar) datosFila[1]);
 
-            tramiteDTO.setPersona(new ConsultarPersonaDTO(datosFila[2].toString()));
+            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[2].toString());
 
-            tramiteDTO.setCosto(Float.valueOf(datosFila[3].toString())); // Suponiendo que la columna 3 es para costo
+            tramiteDTO.setCosto(Float.valueOf(datosFila[3].toString()));
 
             ventana.cambiarVistaPrevisionReporte(tramiteDTO);
+
+            // Crear un nuevo documento PDF
+            Document documento = new Document();
+
+            try {
+                // Especificar la ruta y nombre del archivo PDF a generar
+                PdfWriter.getInstance(documento, new FileOutputStream("TramiteReporte.pdf"));
+
+                // Abrir el documento para comenzar a escribir
+                documento.open();
+
+                // Crear un formato de fecha para formatear la fecha de emisión
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+                // Agregar contenido al PDF
+                documento.add(new Paragraph("Reporte de Trámite"));
+                documento.add(new Paragraph("Tipo de trámite: " + tramiteDTO.getTipoTramite()));
+                documento.add(new Paragraph("Fecha de emisión: " + dateFormat.format(tramiteDTO.getFechaEmision().getTime())));
+                documento.add(new Paragraph("Costo: $" + tramiteDTO.getCosto() + " MXN"));
+                documento.add(new Paragraph("Nombre de persona: " + tramiteDTO.getPersona().getNombres() + " " + tramiteDTO.getPersona().getApellidoPaterno()));
+
+                // Cerrar el documento después de agregar todo el contenido
+                documento.close();
+
+                // Mostrar un mensaje de éxito o realizar otra acción
+                new Aviso().mostrarAviso(ventana, "Reporte generado correctamente en reporte.pdf");
+            } catch (DocumentException | FileNotFoundException ex) {
+                Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } else {
             // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
             new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
@@ -464,6 +513,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             lblCheck2.setIcon(null); // Esto eliminará la imagen actual
             isChecked = false;
             txtNombrePersona.setEditable(false); // Deshabilita la edición cuando isChecked es false
+            txtNombrePersona.setText("");
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
@@ -480,6 +530,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             isChecked = false;
             dpPeriodoInicio.setEnabled(false); // Habilita la edición cuando isChecked es true
             dpPeriodoFin.setEnabled(false); // Habilita la edición cuando isChecked es true
+            dpPeriodoInicio.setText("");
+            dpPeriodoFin.setText("");
         }
     }//GEN-LAST:event_lblCheck3MouseClicked
 

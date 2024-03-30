@@ -28,6 +28,4 @@ public interface ITramitesDAO {
      */
     public List<Tramite> consultarTramites() throws PersistenciaException;
     
-    public List<Tramite> consultarTramitesPorTipo(String tipo) throws PersistenciaException;
-
 }

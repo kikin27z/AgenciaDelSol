@@ -73,28 +73,6 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
-    @Override
-    public List<TramiteDTO> consultarTramitesPorTipo(String tipo) {
-        try {
-            List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramitesPorTipo(tipo);
-            List<TramiteDTO> tramitesDTOEncontrados = new LinkedList<>();
-
-            for (Tramite tramitesEncontrado : tramitesEncontrados) {
-                TramiteDTO tramite = new TramiteDTO(
-                        tramitesEncontrado.getFechaEmision(),
-                        tramitesEncontrado.getCosto(),
-                        tramitesEncontrado.getTipo(),
-                        fromPersona(tramitesEncontrado.getPersona()));
-
-                tramitesDTOEncontrados.add(tramite);
-            }
-            return tramitesDTOEncontrados;
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, "No fue posible consultar la lista de tramites por tipo");
-            return null;
-        }
-    }
-
     // Método para convertir Persona a ConsultarPersonaDTO
     private static ConsultarPersonaDTO fromPersona(Persona persona) {
         return new ConsultarPersonaDTO(

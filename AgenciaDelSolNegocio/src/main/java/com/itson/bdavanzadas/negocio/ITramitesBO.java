@@ -22,5 +22,4 @@ public interface ITramitesBO {
      */
     public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
 
-    public List<TramiteDTO> consultarTramitesPorTipo(String tipo);
 }
