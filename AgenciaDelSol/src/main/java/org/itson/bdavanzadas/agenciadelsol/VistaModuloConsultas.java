@@ -31,6 +31,10 @@ import javax.swing.table.DefaultTableModel;
 public class VistaModuloConsultas extends javax.swing.JPanel {
 
     private Ventana ventana;
+    private DefaultTableModel modeloTabla = new DefaultTableModel();
+    private IPersonasBO personasBO;
+    private ITramitesBO tramitesBO;
+    List<ConsultarPersonaDTO> personas;
     private boolean isChecked = false;
 
     /**
@@ -40,7 +44,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      */
     public VistaModuloConsultas(Ventana ventana) {
         this.ventana = ventana;
+        this.tramitesBO = new TramitesBO();
+        this.personasBO = new PersonasBO();
+        this.personas = personasBO.consultarPersonas();
         initComponents();
+        actualizarTabla(personas);
         txtNombrePersona.setEnabled(false);
         dpFechaNacimiento.setEnabled(false);
         txtRfc.setEnabled(false);
@@ -397,9 +405,64 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      * @param evt El evento de acción asociado al botón de filtrar.
      */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        
+        // Verificar si el campo de texto txtNombrePersona no está vacío
+        String nombrePersona = txtNombrePersona.getText().trim();
+        if (!nombrePersona.isEmpty()) {
+            // Crear una lista para almacenar las personas que coincidan con el nombre
+            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
+
+            // Recorrer la lista de personas y agregar las que coincidan con el nombre
+            for (ConsultarPersonaDTO persona : personas) {
+                String nombreCompleto = persona.getNombres().toLowerCase() + " " + persona.getApellidoPaterno().toLowerCase();
+                if (nombreCompleto.contains(nombrePersona.toLowerCase())) {
+                    personasFiltradas.add(persona);
+                }
+            }
+
+            // Limpiar la tabla y luego actualizala con las personas filtradas
+            limpiarTabla();
+            actualizarTabla(personasFiltradas);
+        } else if (dpFechaNacimiento.getDate() != null) {
+            LocalDate fechaSeleccionada = dpFechaNacimiento.getDate();
+
+            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
+
+            for (ConsultarPersonaDTO persona : personas) {
+                Calendar fechaNacimiento = persona.getFechaNacimiento();
+                LocalDate fechaNacimientoLocalDate = fechaNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                if (fechaNacimientoLocalDate.isEqual(fechaSeleccionada)) {
+                    personasFiltradas.add(persona);
+                }
+            }
+
+            limpiarTabla();
+            actualizarTabla(personasFiltradas);
+        } else if (!txtRfc.getText().isEmpty()) {
+            String rfc = txtRfc.getText().trim();
+
+            List<ConsultarPersonaDTO> personasFiltradas = new ArrayList<>();
+
+            for (ConsultarPersonaDTO persona : personas) {
+                if (persona.getRfc().equalsIgnoreCase(rfc)) {
+                    personasFiltradas.add(persona);
+                }
+            }
+            
+            limpiarTabla();
+            actualizarTabla(personasFiltradas);
+        } else {
+            // Regresar a la tabla de personas si no hay nada seleccionado
+            limpiarTabla();
+            actualizarTabla(personas);
+        }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "Fecha nacimiento".
+     * 
+     * @param evt El evento de acción que desencadena este método.
+     */
     private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -415,6 +478,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
+    /**
+     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "Nombre de la persona".
+     * 
+     * @param evt El evento de acción que desencadena este método.
+     */
     private void lblCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck1MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -430,6 +498,11 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck1MouseClicked
 
+    /**
+     * Método que se ejecuta al hacer clic en el label que refrencia un check para el campo "RFC".
+     * 
+     * @param evt El evento de acción que desencadena este método.
+     */
     private void lblCheck3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck3MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -446,12 +519,40 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
 
     }//GEN-LAST:event_lblCheck3MouseClicked
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Volver".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Volver").
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Seleccionar".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Seleccionar).
+     */
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = tblPersonas.getSelectedRow();
+
+        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
+            Object[] datosFila = new Object[tblPersonas.getColumnCount()];
+
+            for (int i = 0; i < tblPersonas.getColumnCount(); i++) {
+                datosFila[i] = tblPersonas.getValueAt(filaSeleccionada, i);
+            }
+            
+            // De la fila seleccionada toma el campo del rfc y se lo coloca a una personaDTO
+            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
+            // Con la personaDTO generada consultamos los tramites de la persona
+            List<TramiteDTO> tramites = tramitesBO.consultarTramitesPersona(persona);
+        
+            ventana.cambiarVistaHistorialTramites(tramites);
+        } else {
+            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
+            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
 

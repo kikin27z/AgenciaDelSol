@@ -6,6 +6,7 @@ import com.itson.bdavanzadas.dtos.LicenciasDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.dtos.PlacaNuevaDTO;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -88,6 +89,17 @@ public class Ventana extends javax.swing.JFrame {
         VistaInicio vistaInicio = new VistaInicio(this);
         ponerEnJFrame(vistaInicio);
         panelActual = vistaInicio;
+    }
+    
+    /**
+     * Cambia la vista actual del frame a la vista de historial de tramites.
+     * @param tramites lista de tramites a mostrar.
+     */
+    public void cambiarVistaHistorialTramites(List<TramiteDTO> tramites){
+        limpiarFrame();
+        VistaHistorialTramites vistaHistorialTramites = new VistaHistorialTramites(this, tramites);
+        ponerEnJFrame(vistaHistorialTramites);
+        panelActual = vistaHistorialTramites;
     }
 
     public void cambiarVistaInfomacionTramites(PlacaNuevaDTO placa){
@@ -253,6 +265,10 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaTramitarPlaca;
     }
 
+    /**
+     * Cambia la vista actual del frame a la vista de previsión de reportes.
+     * @param tramiteDTO
+     */
     public void cambiarVistaPrevisionReporte(TramiteDTO tramiteDTO) {
         limpiarFrame();
         VistaPrevisionReporte vistaPrevisionReporte = new VistaPrevisionReporte(this, tramiteDTO);

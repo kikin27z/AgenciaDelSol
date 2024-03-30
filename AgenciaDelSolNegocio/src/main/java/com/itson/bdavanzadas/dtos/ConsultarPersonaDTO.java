@@ -58,13 +58,35 @@ public class ConsultarPersonaDTO {
         this.discapacidad = discapacidad;
     }
 
+    /**
+     * Constructor que inicializa el DTO con los atributos especificado.
+     * @param nombres Los nombres de la persona.
+     * @param apellidoPaterno El apellido paterno de la persona.
+     * @param apellidoMaterno El apellido materno de la persona.
+     */
     public ConsultarPersonaDTO(String nombres, String apellidoPaterno, String apellidoMaterno) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
     }
-    
-    
+
+    /**
+     * Constructor que inicializa el DTO con los atributos especificado.
+     * @param rfc El RFC de la persona.
+     * @param nombres Los nombres de la persona.
+     * @param apellidoPaterno El apellido paterno de la persona.
+     * @param apellidoMaterno El apellido materno de la persona.
+     * @param fechaNacimiento La fecha de nacimiento de la persona.
+     * @param discapacidad El estado de discapacidad de la persona.
+     */
+    public ConsultarPersonaDTO(String rfc,String nombres, String apellidoPaterno, String apellidoMaterno, Calendar fechaNacimiento, Discapacidad discapacidad) {
+        this.rfc = rfc;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.fechaNacimiento = fechaNacimiento;
+        this.discapacidad = discapacidad;
+    }
 
     /**
      * Obtiene el RFC de la persona.
