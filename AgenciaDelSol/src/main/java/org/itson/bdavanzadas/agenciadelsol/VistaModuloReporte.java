@@ -438,72 +438,72 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
         // Filtrar por fechas si se han seleccionado
         if (dpPeriodoInicio.getDate() != null && dpPeriodoFin.getDate() != null) {
-            LocalDate periodoInicio = dpPeriodoInicio.getDate();
-            LocalDate periodoFin = dpPeriodoFin.getDate();
+            Date periodoInicio = Date.from(dpPeriodoInicio.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date periodoFin = Date.from(dpPeriodoFin.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             List<TramiteDTO> tramitesPorFecha = new ArrayList<>();
 
             for (TramiteDTO tramite : tramitesFiltrados) {
-                Calendar fechaEmision = tramite.getFechaEmision();
-                LocalDate fechaEmisionLocalDate = fechaEmision.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                Date fechaEmision = tramite.getFechaEmision(); // Obtenemos directamente la fecha como Date
 
-                if (fechaEmisionLocalDate.isEqual(periodoInicio) || fechaEmisionLocalDate.isEqual(periodoFin)
-                        || (fechaEmisionLocalDate.isAfter(periodoInicio) && fechaEmisionLocalDate.isBefore(periodoFin))) {
+                if (fechaEmision.equals(periodoInicio) || fechaEmision.equals(periodoFin)
+                        || (fechaEmision.after(periodoInicio) && fechaEmision.before(periodoFin))) {
                     tramitesPorFecha.add(tramite);
                 }
             }
 
             tramitesFiltrados = tramitesPorFecha;
         }
+
         limpiarTabla();
         actualizarTabla(tramitesFiltrados);
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-        int filaSeleccionada = tblPersonasCoincidentes.getSelectedRow();
-
-        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
-            Object[] datosFila = new Object[tblPersonasCoincidentes.getColumnCount()];
-
-            for (int i = 0; i < tblPersonasCoincidentes.getColumnCount(); i++) {
-                datosFila[i] = tblPersonasCoincidentes.getValueAt(filaSeleccionada, i);
-            }
-
-            tramiteDTO.setTipoTramite(datosFila[0].toString());
-
-            // Convertir fecha de String a Calendar
-            String fechaString = datosFila[1].toString();
-            try {
-                SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date fechaDate = formatoEntrada.parse(fechaString);
-
-                // Crear objeto Calendar y asignar la fecha
-                Calendar fechaCalendar = Calendar.getInstance();
-                fechaCalendar.setTime(fechaDate);
-
-                // Pasar directamente el objeto Calendar
-                tramiteDTO.setFechaEmision(fechaCalendar);
-            } catch (ParseException e) {
-                System.out.println("Error al parsear la fecha: " + e.getMessage());
-            }
-
-            // Limpiar la cadena de caracteres no numéricos y convertir a float
-            String costoString = datosFila[2].toString().replaceAll("[^\\d.]", "");
-            if (!costoString.isEmpty()) {
-                tramiteDTO.setCosto(Float.valueOf(costoString));
-            } else {
-                System.out.println("El valor del costo no es válido.");
-            }
-            // Crear ConsultarPersonaDTO y asignarlo a tramiteDTO
-            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
-            tramiteDTO.setPersona(persona);
-
-            ventana.cambiarVistaPrevisionReporte(tramiteDTO);
-
-        } else {
-            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
-            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
-        }
+//        int filaSeleccionada = tblPersonasCoincidentes.getSelectedRow();
+//
+//        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
+//            Object[] datosFila = new Object[tblPersonasCoincidentes.getColumnCount()];
+//
+//            for (int i = 0; i < tblPersonasCoincidentes.getColumnCount(); i++) {
+//                datosFila[i] = tblPersonasCoincidentes.getValueAt(filaSeleccionada, i);
+//            }
+//
+//            tramiteDTO.setTipoTramite(datosFila[0].toString());
+//
+//            // Convertir fecha de String a Calendar
+//            String fechaString = datosFila[1].toString();
+//            try {
+//                SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date fechaDate = formatoEntrada.parse(fechaString);
+//
+//                // Crear objeto Calendar y asignar la fecha
+//                Calendar fechaCalendar = Calendar.getInstance();
+//                fechaCalendar.setTime(fechaDate);
+//
+//                // Pasar directamente el objeto Calendar
+//                tramiteDTO.setFechaEmision(fechaCalendar);
+//            } catch (ParseException e) {
+//                System.out.println("Error al parsear la fecha: " + e.getMessage());
+//            }
+//
+//            // Limpiar la cadena de caracteres no numéricos y convertir a float
+//            String costoString = datosFila[2].toString().replaceAll("[^\\d.]", "");
+//            if (!costoString.isEmpty()) {
+//                tramiteDTO.setCosto(Float.valueOf(costoString));
+//            } else {
+//                System.out.println("El valor del costo no es válido.");
+//            }
+//            // Crear ConsultarPersonaDTO y asignarlo a tramiteDTO
+//            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
+//            tramiteDTO.setPersona(persona);
+//
+//            ventana.cambiarVistaPrevisionReporte(tramiteDTO);
+//
+//        } else {
+//            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
+//            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
+//        }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked

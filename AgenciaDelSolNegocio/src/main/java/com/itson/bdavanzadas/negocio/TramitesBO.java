@@ -3,6 +3,7 @@ package com.itson.bdavanzadas.negocio;
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.FiltrosReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.io.FileInputStream;
@@ -10,7 +11,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,8 +83,12 @@ public class TramitesBO implements ITramitesBO {
             List<TramiteDTO> tramitesDTOEncontrados = new LinkedList<>();
 
             for (Tramite tramitesEncontrado : tramitesEncontrados) {
+                
+                Calendar fechaEmisionCalendar = tramitesEncontrado.getFechaEmision();
+                Date fechaEmisionDate = fechaEmisionCalendar.getTime(); // Convertir Calendar a Date
+
                 TramiteDTO tramite = new TramiteDTO(
-                        tramitesEncontrado.getFechaEmision(),
+                        fechaEmisionDate,
                         tramitesEncontrado.getCosto(),
                         tramitesEncontrado.getTipo(),
                         fromPersona(tramitesEncontrado.getPersona()));
@@ -94,11 +101,22 @@ public class TramitesBO implements ITramitesBO {
             return null;
         }
     }
+    
+   
+    public List<TramiteDTO> obtenerTramites(FiltrosReporteDTO filtro){
+     
+        
+        return null;
+     
+        
+    }
 
     @Override
     public void generarReporte(List<TramiteDTO> listaTramitesFiltrados) {
 
         try {
+            
+            
             // Crear un JRBeanCollectionDataSource con la lista de TramiteDTO
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaTramitesFiltrados);
 
