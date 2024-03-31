@@ -46,7 +46,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.tramiteDTO = new TramiteDTO();
         initComponents();
         actualizarTabla(tramites);
-        cmbTipoReporte.setEnabled(false);
         txtNombrePersona.setEditable(false);
         dpPeriodoInicio.setEnabled(false);
         dpPeriodoFin.setEnabled(false);

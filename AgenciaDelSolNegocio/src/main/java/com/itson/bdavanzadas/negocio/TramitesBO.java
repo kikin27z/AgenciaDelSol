@@ -160,6 +160,7 @@ public class TramitesBO implements ITramitesBO {
 
     /**
      * Consulta los tramites de una persona en especifico.
+     *
      * @param personaDTO persona a la cual consultaremos
      * @return lista de tramites de la persona.
      */
@@ -172,13 +173,14 @@ public class TramitesBO implements ITramitesBO {
             List<TramiteDTO> tramitesDTO = new LinkedList<>();
             for (Tramite tramiteEncontrado : tramitesEncontrados) {
                 TramiteDTO tramite = new TramiteDTO(
-                        tramiteEncontrado.getFechaEmision(), 
-                        tramiteEncontrado.getCosto(), 
+                        //Nota Gael: Hola Jesús, al hacer un cambio en el TramiteDTO fue necesario añadir el getTime()
+                        tramiteEncontrado.getFechaEmision().getTime(),
+                        tramiteEncontrado.getCosto(),
                         tramiteEncontrado.getTipo()
                 );
                 tramitesDTO.add(tramite);
             }
-            return tramitesDTO; 
+            return tramitesDTO;
         } catch (PersistenciaException ex) {
             Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, null, "No fue posible consultar la lista de tramites");
             return null;
