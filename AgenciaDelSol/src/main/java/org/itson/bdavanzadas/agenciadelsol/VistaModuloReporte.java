@@ -45,8 +45,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.tramitesBO = new TramitesBO();
         this.tramiteDTO = new TramiteDTO();
         initComponents();
-        actualizarTabla();
-//        limpiarTabla();
+        actualizarTabla(tramites);
         cmbTipoReporte.setEnabled(false);
         txtNombrePersona.setEditable(false);
         dpPeriodoInicio.setEnabled(false);
@@ -138,7 +137,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         lblNombrePersona = new javax.swing.JLabel();
         btnFiltrar = new javax.swing.JButton();
         txtNombrePersona = new javax.swing.JTextField();
-        lblCheck1 = new javax.swing.JLabel();
         lblCheck2 = new javax.swing.JLabel();
         lblCheck3 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
@@ -280,13 +278,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         txtNombrePersona.setBorder(null);
         txtNombrePersona.setForeground(new java.awt.Color(143, 143, 143));
         add(txtNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 245, 200, 30));
-
-        lblCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCheck1MouseClicked(evt);
-            }
-        });
-        add(lblCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 217, 19, 19));
 
         lblCheck2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -555,7 +546,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private javax.swing.JLabel fondo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
-    private javax.swing.JLabel lblCheck1;
     private javax.swing.JLabel lblCheck2;
     private javax.swing.JLabel lblCheck3;
     private javax.swing.JLabel lblLogo;

@@ -55,7 +55,7 @@ public class TramiteDTO {
      * @param costo
      * @param tipoTramite
      */
-    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite) {
+    public TramiteDTO(Date fechaEmision, Float costo, String tipoTramite) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
         this.tipoTramite = tipoTramite;
