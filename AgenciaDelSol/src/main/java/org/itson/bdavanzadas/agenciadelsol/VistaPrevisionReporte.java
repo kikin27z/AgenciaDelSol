@@ -6,6 +6,7 @@ import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import org.itson.bdavanzadas.conexion.Conexion;
@@ -38,10 +39,10 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
         this.personasBO = new PersonasBO();
         initComponents();
         lblTipo.setText(tramiteDTO.getTipoTramite());
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // Formato que desees para la fecha
         String fechaFormateada = sdf.format(tramiteDTO.getFechaEmision().getTime());
-        
+
         lblFecha.setText(fechaFormateada);
         lblCosto.setText((String.valueOf(tramiteDTO.getCosto())));
         lblPersona.setText(tramiteDTO.getPersona().getRfc());
@@ -253,7 +254,6 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
-
         try {
             // Obtener los valores de los labels
             String tipoTramite = lblTipo.getText();
@@ -274,26 +274,11 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
             // Convertir costo a un valor numérico
             double costo = Double.parseDouble(costoText);
 
-            // Crear un objeto TramiteDTO con los valores obtenidos
-            TramiteDTO tramite = new TramiteDTO();
-            tramite.setTipoTramite(tipoTramite);
-            tramite.setFechaEmision(fechaEmision);
-            tramite.setCosto(costo);
-            tramite.setPersona(persona);
-
-            // Crear un objeto TramiteDTO con los valores de los labels
-            TramiteDTO tramite = new TramiteDTO();
-
-            tramite.setTipoTramite(tipoTramite);
-//            tramite.setFechaEmision(fechaEmision);
-//            tramite.setCosto(costo);
-//            tramite.setPersona(persona);
-
             // Crear una instancia de la clase TramitesBO
             TramitesBO tramitesBO = new TramitesBO();
 
             // Llamar al método generarReporte en la instancia tramitesBO
-            tramitesBO.generarReporte(tramite);
+//            tramitesBO.generarReporte();
         } catch (Exception ex) {
             // Manejar cualquier excepción que ocurra al generar el reporte
             JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

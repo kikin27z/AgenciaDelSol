@@ -62,7 +62,7 @@ public class TramitesBO implements ITramitesBO {
     public TramitesBO() {
         this.conexion = new Conexion();
         this.tramitesDAO = new TramitesDAO(conexion);
-        
+
     }
 
     /**
@@ -95,14 +95,16 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
-    public void generarReporte(TramiteDTO tramite) {
+    @Override
+    public void generarReporte(List<TramiteDTO> listaTramitesFiltrados) {
+
         try {
-            // Crear un JRBeanCollectionDataSource con el objeto TramiteReporteDTO
-            JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(Collections.singletonList(tramite));
+            // Crear un JRBeanCollectionDataSource con la lista de TramiteDTO
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaTramitesFiltrados);
 
             // Parámetros para el reporte
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("ParametroTipo", itemJRBean);
+            parameters.put("ParametroTipo", dataSource);
 
             // Configuración del JFileChooser para seleccionar la ubicación y nombre del archivo
             JFileChooser fileChooser = new JFileChooser();
@@ -123,7 +125,7 @@ public class TramitesBO implements ITramitesBO {
                 }
 
                 // Exportar el reporte a un archivo PDF
-                try (InputStream input = getClass().getResourceAsStream("AgenicaReporte_A4.jrxml")) {
+                try (InputStream input = getClass().getResourceAsStream("/AgenciaReporte_A4.jrxml")) {
                     JasperDesign jasperDesign = JRXmlLoader.load(input);
                     JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
                     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
@@ -136,6 +138,7 @@ public class TramitesBO implements ITramitesBO {
                 } catch (Exception ex) {
                     // Manejar la excepción si ocurre algún error al generar el reporte
                     JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(ex.getMessage());
                 }
             } else if (userSelection == JFileChooser.CANCEL_OPTION) {
                 // Si el usuario cancela la operación

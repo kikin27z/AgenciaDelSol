@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 //import org.itson.bdavanzadas.entidades.Persona;
 //import com.itextpdf.text.Document;
@@ -47,7 +48,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private ITramitesBO tramitesBO;
     private boolean isChecked = false;
     private List<TramiteDTO> tramites;
-    private String tipo;
+    private List<TramiteDTO> tramitesFiltrados;
 
     /**
      * Constructor de la clase VistaModuloReporte.
@@ -150,6 +151,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         dpPeriodoFin = new com.github.lgooddatepicker.components.DatePicker();
         cmbTipoReporte = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersonasCoincidentes = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
@@ -327,6 +329,14 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 484, 188, 45));
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 500, -1, -1));
+
         tblPersonasCoincidentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -389,7 +399,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 
-        List<TramiteDTO> tramitesFiltrados = new ArrayList<>();
+        tramitesFiltrados = new ArrayList<>();
 
         // Filtrar por tipo
         if (cmbTipoReporte.getSelectedItem() != null) {
@@ -471,6 +481,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
                 Calendar fechaCalendar = Calendar.getInstance();
                 fechaCalendar.setTime(fechaDate);
 
+                // Pasar directamente el objeto Calendar
                 tramiteDTO.setFechaEmision(fechaCalendar);
             } catch (ParseException e) {
                 System.out.println("Error al parsear la fecha: " + e.getMessage());
@@ -532,6 +543,16 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Verificar si hay tramites filtrados
+        if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
+            tramitesBO.generarReporte(tramitesFiltrados);
+            JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltrar;
@@ -545,6 +566,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoFin;
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoInicio;
     private javax.swing.JLabel fondo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCheck2;

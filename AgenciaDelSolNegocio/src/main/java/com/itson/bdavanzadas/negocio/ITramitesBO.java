@@ -22,4 +22,6 @@ public interface ITramitesBO {
      */
     public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
 
+    public void generarReporte(List<TramiteDTO> listaTramitesFiltrados);
+
 }
