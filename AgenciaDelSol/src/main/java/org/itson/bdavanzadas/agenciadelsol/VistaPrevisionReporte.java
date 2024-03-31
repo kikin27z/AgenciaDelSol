@@ -4,10 +4,15 @@ import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.negocio.IPersonasBO;
 import com.itson.bdavanzadas.negocio.PersonasBO;
+import com.itson.bdavanzadas.negocio.TramitesBO;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
+import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
 /**
  *
@@ -21,6 +26,7 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
 
     private Ventana ventana;
     private IPersonasBO personasBO = new PersonasBO();
+    private TramiteDTO tramiteDTO;
 
     /**
      * Constructor de la clase VistaInicio.
@@ -31,6 +37,14 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
         this.ventana = ventana;
         this.personasBO = new PersonasBO();
         initComponents();
+        lblTipo.setText(tramiteDTO.getTipoTramite());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // Formato que desees para la fecha
+        String fechaFormateada = sdf.format(tramiteDTO.getFechaEmision().getTime());
+        
+        lblFecha.setText(fechaFormateada);
+        lblCosto.setText((String.valueOf(tramiteDTO.getCosto())));
+        lblPersona.setText(tramiteDTO.getPersona().getRfc());
     }
 
     /**
@@ -46,6 +60,10 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
         btnTramitesEnCurso = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnModuloReportes = new javax.swing.JButton();
+        lblPersona = new javax.swing.JLabel();
+        lblCosto = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogoInfo = new javax.swing.JLabel();
@@ -103,6 +121,26 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
             }
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
+
+        lblPersona.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblPersona.setForeground(new java.awt.Color(196, 4, 67));
+        lblPersona.setText("Prevista del reporte");
+        add(lblPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, -1, -1));
+
+        lblCosto.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblCosto.setForeground(new java.awt.Color(196, 4, 67));
+        lblCosto.setText("Prevista del reporte");
+        add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, -1, -1));
+
+        lblFecha.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(196, 4, 67));
+        lblFecha.setText("Prevista del reporte");
+        add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, -1, -1));
+
+        lblTipo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
+        lblTipo.setForeground(new java.awt.Color(196, 4, 67));
+        lblTipo.setText("Prevista del reporte");
+        add(lblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 210, -1, -1));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
@@ -215,7 +253,51 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            // Obtener los valores de los labels
+            String tipoTramite = lblTipo.getText();
+            String fechaEmisionText = lblFecha.getText();
+            String costoText = lblCosto.getText();
+            String persona = lblPersona.getText();
+
+            // Verificar que los valores no estén vacíos
+            if (tipoTramite.isEmpty() || fechaEmisionText.isEmpty() || costoText.isEmpty() || persona.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Convertir fecha de emisión a un objeto Date
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date fechaEmision = sdf.parse(fechaEmisionText);
+
+            // Convertir costo a un valor numérico
+            double costo = Double.parseDouble(costoText);
+
+            // Crear un objeto TramiteDTO con los valores obtenidos
+            TramiteDTO tramite = new TramiteDTO();
+            tramite.setTipoTramite(tipoTramite);
+            tramite.setFechaEmision(fechaEmision);
+            tramite.setCosto(costo);
+            tramite.setPersona(persona);
+
+            // Crear un objeto TramiteDTO con los valores de los labels
+            TramiteDTO tramite = new TramiteDTO();
+
+            tramite.setTipoTramite(tipoTramite);
+//            tramite.setFechaEmision(fechaEmision);
+//            tramite.setCosto(costo);
+//            tramite.setPersona(persona);
+
+            // Crear una instancia de la clase TramitesBO
+            TramitesBO tramitesBO = new TramitesBO();
+
+            // Llamar al método generarReporte en la instancia tramitesBO
+            tramitesBO.generarReporte(tramite);
+        } catch (Exception ex) {
+            // Manejar cualquier excepción que ocurra al generar el reporte
+            JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnExportarPDFActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -231,6 +313,8 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
     private javax.swing.JButton btnTramitesEnCurso;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel lblCosto;
+    private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
     private javax.swing.JLabel lblLogo2;
@@ -238,7 +322,9 @@ public class VistaPrevisionReporte extends javax.swing.JPanel {
     private javax.swing.JLabel lblLogo4;
     private javax.swing.JLabel lblLogoInfo;
     private javax.swing.JLabel lblModuloConsultas;
+    private javax.swing.JLabel lblPersona;
     private javax.swing.JLabel lblReportes;
+    private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTramitesDisponibles;
     private javax.swing.JLabel lblTramitesPendientes;

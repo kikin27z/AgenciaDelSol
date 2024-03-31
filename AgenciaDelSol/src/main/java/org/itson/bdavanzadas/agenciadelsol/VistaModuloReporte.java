@@ -12,11 +12,13 @@ import com.itson.bdavanzadas.negocio.ITramitesBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -459,42 +461,33 @@ public class VistaModuloReporte extends javax.swing.JPanel {
 
             tramiteDTO.setTipoTramite(datosFila[0].toString());
 
-            tramiteDTO.setFechaEmision((Calendar) datosFila[1]);
+            // Convertir fecha de String a Calendar
+            String fechaString = datosFila[1].toString();
+            try {
+                SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date fechaDate = formatoEntrada.parse(fechaString);
 
-            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[2].toString());
+                // Crear objeto Calendar y asignar la fecha
+                Calendar fechaCalendar = Calendar.getInstance();
+                fechaCalendar.setTime(fechaDate);
 
-            tramiteDTO.setCosto(Float.valueOf(datosFila[3].toString()));
+                tramiteDTO.setFechaEmision(fechaCalendar);
+            } catch (ParseException e) {
+                System.out.println("Error al parsear la fecha: " + e.getMessage());
+            }
+
+            // Limpiar la cadena de caracteres no numéricos y convertir a float
+            String costoString = datosFila[2].toString().replaceAll("[^\\d.]", "");
+            if (!costoString.isEmpty()) {
+                tramiteDTO.setCosto(Float.valueOf(costoString));
+            } else {
+                System.out.println("El valor del costo no es válido.");
+            }
+            // Crear ConsultarPersonaDTO y asignarlo a tramiteDTO
+            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
+            tramiteDTO.setPersona(persona);
 
             ventana.cambiarVistaPrevisionReporte(tramiteDTO);
-
-            // Crear un nuevo documento PDF
-            Document documento = new Document();
-
-            try {
-                // Especificar la ruta y nombre del archivo PDF a generar
-                PdfWriter.getInstance(documento, new FileOutputStream("TramiteReporte.pdf"));
-
-                // Abrir el documento para comenzar a escribir
-                documento.open();
-
-                // Crear un formato de fecha para formatear la fecha de emisión
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-                // Agregar contenido al PDF
-                documento.add(new Paragraph("Reporte de Trámite"));
-                documento.add(new Paragraph("Tipo de trámite: " + tramiteDTO.getTipoTramite()));
-                documento.add(new Paragraph("Fecha de emisión: " + dateFormat.format(tramiteDTO.getFechaEmision().getTime())));
-                documento.add(new Paragraph("Costo: $" + tramiteDTO.getCosto() + " MXN"));
-                documento.add(new Paragraph("Nombre de persona: " + tramiteDTO.getPersona().getNombres() + " " + tramiteDTO.getPersona().getApellidoPaterno()));
-
-                // Cerrar el documento después de agregar todo el contenido
-                documento.close();
-
-                // Mostrar un mensaje de éxito o realizar otra acción
-                new Aviso().mostrarAviso(ventana, "Reporte generado correctamente en reporte.pdf");
-            } catch (DocumentException | FileNotFoundException ex) {
-                Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
         } else {
             // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
