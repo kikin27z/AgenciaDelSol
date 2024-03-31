@@ -25,4 +25,6 @@ public interface ITramitesBO {
 
     public void generarReporte(List<ReporteDTO> listaTramites);
 
+    public List<ReporteDTO> convertirTramitesAReportes(List<TramiteDTO> listaTramites);
+
 }

@@ -9,9 +9,11 @@ com\itson\bdavanzadas\excepcionesdtos\ValidacionDTOException.class
 com\itson\bdavanzadas\avisos\Aviso.class
 com\itson\bdavanzadas\negocio\ITramitesBO.class
 com\itson\bdavanzadas\dtos\LicenciasDTO.class
+com\itson\bdavanzadas\dtos\ReporteDTO.class
 com\itson\bdavanzadas\dtos\TramiteDTO.class
 com\itson\bdavanzadas\dtos\ConsultaPlacaDTO.class
 com\itson\bdavanzadas\negocio\IPersonasBO.class
 com\itson\bdavanzadas\avisos\IAviso.class
 com\itson\bdavanzadas\negocio\PlacasBO.class
+com\itson\bdavanzadas\dtos\FiltrosReporteDTO.class
 com\itson\bdavanzadas\negocio\LicenciaBO.class

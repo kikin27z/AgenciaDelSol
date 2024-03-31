@@ -1,6 +1,7 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.ITramitesBO;
@@ -36,6 +37,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private boolean isChecked = false;
     private List<TramiteDTO> tramites;
     private List<TramiteDTO> tramitesFiltrados;
+    
 
     /**
      * Constructor de la clase VistaModuloReporte.
@@ -533,7 +535,10 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Verificar si hay tramites filtrados
         if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
-//            tramitesBO.generarReporte(tramitesFiltrados);
+            // Convertir tramitesFiltrados a ReporteDTO
+            List<ReporteDTO> reportes = tramitesBO.convertirTramitesAReportes(tramitesFiltrados);
+
+            tramitesBO.generarReporte(reportes);
             JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
         } else {
             JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");

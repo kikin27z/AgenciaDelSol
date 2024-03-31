@@ -14,22 +14,25 @@ public class ReporteDTO {
 
     private Date fechaEmision;
     private Float costo;
-    private String nombre;
+    private String persona;
     private String tipoTramite;
 
-    public ReporteDTO(Date fechaEmision, Float costo, String nombre, String tipoTramite) {
+    public ReporteDTO() {
+    }
+
+    public ReporteDTO(Date fechaEmision, Float costo, String persona, String tipoTramite) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
-        this.nombre = nombre;
+        this.persona = persona;
         this.tipoTramite = tipoTramite;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getPersona() {
+        return persona;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPersona(String persona) {
+        this.persona = persona;
     }
 
     public String getTipoTramite() {

@@ -207,4 +207,23 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
+    @Override
+    public List<ReporteDTO> convertirTramitesAReportes(List<TramiteDTO> listaTramites) {
+        List<ReporteDTO> listaReportes = new ArrayList<>();
+
+        for (TramiteDTO tramite : listaTramites) {
+            // Obtener los datos necesarios del tramite
+            Date fechaEmision = tramite.getFechaEmision();
+            float costo = tramite.getCosto();
+            String tipoTramite = tramite.getTipoTramite();
+            String persona = tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() + " " + tramite.getPersona().getApellidoMaterno();
+
+            // Crear un nuevo objeto ReporteDTO y agregarlo a la lista
+            ReporteDTO reporte = new ReporteDTO(fechaEmision, costo, tipoTramite, persona);
+            listaReportes.add(reporte);
+        }
+
+        return listaReportes;
+    }
+
 }
