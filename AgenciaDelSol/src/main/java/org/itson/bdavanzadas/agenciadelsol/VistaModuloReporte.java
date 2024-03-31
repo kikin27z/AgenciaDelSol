@@ -44,6 +44,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         this.ventana = ventana;
         this.tramitesBO = new TramitesBO();
         this.tramiteDTO = new TramiteDTO();
+        try {
+            this.tramites = tramitesBO.consultarTramites();
+        } catch (ValidacionDTOException ex) {
+            Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
         actualizarTabla(tramites);
         txtNombrePersona.setEditable(false);
@@ -72,35 +77,29 @@ public class VistaModuloReporte extends javax.swing.JPanel {
      * tabla.
      */
     private void actualizarTabla(List<TramiteDTO> tramites) {
-
         try {
-            tramites = tramitesBO.consultarTramites();
-            try {
-                DefaultTableModel personasCoincidentes = new DefaultTableModel();
-                personasCoincidentes.addColumn("Tipo reporte");
-                personasCoincidentes.addColumn("Fecha de emision");
-                personasCoincidentes.addColumn("Costo");
-                personasCoincidentes.addColumn("Nombre");
+            DefaultTableModel personasCoincidentes = new DefaultTableModel();
+            personasCoincidentes.addColumn("Tipo reporte");
+            personasCoincidentes.addColumn("Fecha de emision");
+            personasCoincidentes.addColumn("Costo");
+            personasCoincidentes.addColumn("Nombre");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                for (TramiteDTO tramite : tramites) {
-                    Object[] fila = {
-                        tramite.getTipoTramite(),
-                        dateFormat.format(tramite.getFechaEmision().getTime()),
-                        "$" + tramite.getCosto() + " MXN", 
-                        tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() 
-                    };
+            for (TramiteDTO tramite : tramites) {
+                Object[] fila = {
+                    tramite.getTipoTramite(),
+                    dateFormat.format(tramite.getFechaEmision().getTime()),
+                    "$" + tramite.getCosto() + " MXN",
+                    tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno()
+                };
 
-                    personasCoincidentes.addRow(fila);
-                }
-
-                tblPersonasCoincidentes.setModel(personasCoincidentes);
-
-            } catch (PersistenceException ex) {
-                Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
+                personasCoincidentes.addRow(fila);
             }
-        } catch (ValidacionDTOException ex) {
+
+            tblPersonasCoincidentes.setModel(personasCoincidentes);
+
+        } catch (PersistenceException ex) {
             Logger.getLogger(VistaModuloReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -306,8 +305,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         add(dpPeriodoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 239, 190, 40));
         add(dpPeriodoFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(783, 239, 190, 40));
 
-        cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Placa", "Licencia" }));
-        cmbTipoReporte.setSelectedIndex(-1);
+        cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No especificado", "Placa", "Licencia" }));
         add(cmbTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 239, 150, 40));
 
         btnGenerarReporte.setText("Generar reporte");
@@ -493,6 +491,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             lblCheck2.setIcon(null); // Esto eliminará la imagen actual
             isChecked = false;
             txtNombrePersona.setEditable(false); // Deshabilita la edición cuando isChecked es false
+            txtNombrePersona.setText("");
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
@@ -517,6 +516,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             isChecked = false;
             dpPeriodoInicio.setEnabled(false); // Habilita la edición cuando isChecked es true
             dpPeriodoFin.setEnabled(false); // Habilita la edición cuando isChecked es true
+            dpPeriodoInicio.setText("");
+            dpPeriodoFin.setText("");
         }
     }//GEN-LAST:event_lblCheck3MouseClicked
 
