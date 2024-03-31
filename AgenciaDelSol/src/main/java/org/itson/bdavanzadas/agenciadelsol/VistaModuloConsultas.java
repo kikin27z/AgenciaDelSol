@@ -387,7 +387,7 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
      * hacer clic en el botón "Módulo consultas").
      */
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
-        ventana.cambiarVistaModuloConsultas();
+        
     }//GEN-LAST:event_btnModuloConsultasActionPerformed
 
     /**

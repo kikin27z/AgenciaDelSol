@@ -35,7 +35,7 @@
 		</queryString>
 		<field name="tipoTramite" class="java.lang.String"/>
 		<field name="fechaEmision" class="java.util.Date"/>
-		<field name="costo" class="java.lang.Float"/>
+		<field name="costo" class="java.lang.String"/>
 		<field name="persona" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="ParametroTipo" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -146,7 +146,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="30" uuid="acae7d45-a8e8-4fa8-8d1c-2d4556f2a255"/>
+								<reportElement style="Table_TH" x="0" y="0" width="110" height="30" uuid="acae7d45-a8e8-4fa8-8d1c-2d4556f2a255"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{costo}]]></textFieldExpression>
 							</textField>

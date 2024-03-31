@@ -1,39 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package org.itson.bdavanzadas.agenciadelsol;
 
 import com.itson.bdavanzadas.dtos.ConsultaPlacaDTO;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 /**
- *
- * @author Jesus
+ * Panel de confirmación de recepción de placa.
+ * 
+ * Esta clase representa una vista para mostrar la confirmación de la recepción 
+ * de una placa tramitada.
+ * @author José Karim Franco Valencia - 245138
+ * @author Jesus Rene Gonzalez Castro - 247336
+ * @author Gael Rafael Castro Molina - 247887
  */
-public class vistaConfirmacionRecepcion extends javax.swing.JPanel {
+public class VistaConfirmacionRecepcion extends javax.swing.JPanel {
 
     private Ventana ventana;
     private ConsultaPlacaDTO placaConsultada; 
     
     /**
-     * Constructor para mostrar la confirmación de recepcion de placas.
+     * Constructor para mostrar la confirmación de trámite de placa nueva.
      *
+     * @param ventana La ventana principal de la aplicación.
+     * @param placaConsultaDTO Objeto ConsultaPlacaDTO que contiene la información de la consulta de placa tramitada.
      */
-    public vistaConfirmacionRecepcion(Ventana ventana, ConsultaPlacaDTO placaConsultada) {
+    public VistaConfirmacionRecepcion(Ventana ventana, ConsultaPlacaDTO placaConsultaDTO) {
         this.ventana = ventana;
-        this.placaConsultada = placaConsultada;
+        this.placaConsultada = placaConsultaDTO;
         initComponents();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        lblFechaEmision.setText(dateFormat.format(placaConsultada.getFechaEmision().getTime()));
-        lblFechaRecepcion.setText(dateFormat.format(placaConsultada.getFechaRecepcion().getTime()));
-        lblTipoTramite1.setText(placaConsultada.getTipoVehiculo());
-        lblNombreSolicitanteTramite1.setText(placaConsultada.getPersona().getNombres()+" "+placaConsultada.getPersona().getApellidoPaterno()+" "+placaConsultada.getPersona().getApellidoMaterno());
-        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "MX"));
-        String costoFormateado = formatoMoneda.format(placaConsultada.getCosto());
-        lblCostoTramite1.setText(costoFormateado+" MXN");
+        lblFechaEmision.setText(dateFormat.format(placaConsultaDTO.getFechaEmision().getTime()));
+        lblFechaRecepcion.setText(dateFormat.format(placaConsultaDTO.getFechaRecepcion().getTime()));
+        lblTipoTramite1.setText(placaConsultaDTO.getTipoVehiculo());
+        lblNombreSolicitanteTramite1.setText(placaConsultaDTO.getPersona().getNombres()+" "+placaConsultaDTO.getPersona().getApellidoPaterno()+" "+placaConsultaDTO.getPersona().getApellidoMaterno());
+        String costoFormateado = "$" + String.format("%.2f", placaConsultaDTO.getCosto())+" MXN";
+        lblCostoTramite1.setText(costoFormateado + " MXN");
     }
 
     /**
@@ -130,6 +130,10 @@ public class vistaConfirmacionRecepcion extends javax.swing.JPanel {
         add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 580));
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Este método cambia la vista actual de la aplicación a la vista de inicio o alguna otra vista predeterminada.
+     * @param evt Evento de acción.
+     */
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
         ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnAceptar1ActionPerformed

@@ -384,7 +384,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
      * hacer clic en el botón "Módulo reportes").
      */
     private void btnModuloReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloReportesActionPerformed
-        ventana.cambiarVistaModuloReporte();
+        
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
     /**

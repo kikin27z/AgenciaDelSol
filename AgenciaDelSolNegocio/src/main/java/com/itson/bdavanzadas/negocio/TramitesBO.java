@@ -128,8 +128,9 @@ public class TramitesBO implements ITramitesBO {
                 Date fechaEmision = tramite.getFechaEmision().getTime();
 
                 Float costo = tramite.getCosto();
+                String numeroFormateado = "$" + String.format("%.2f", costo)+" MXN";
 
-                ReporteDTO reporteDTO = new ReporteDTO(fechaEmision, costo, persona, tipoTramite);
+                ReporteDTO reporteDTO = new ReporteDTO(fechaEmision, numeroFormateado, persona, tipoTramite);
 
                 listaTramites.add(reporteDTO);
             }
@@ -268,11 +269,12 @@ public class TramitesBO implements ITramitesBO {
             // Obtener los datos necesarios del tramite
             Date fechaEmision = tramite.getFechaEmision();
             float costo = tramite.getCosto();
+            String numeroFormateado = "$" + String.format("%.2f", costo)+" MXN";
             String tipoTramite = tramite.getTipoTramite();
             String persona = tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() + " " + tramite.getPersona().getApellidoMaterno();
 
             // Crear un nuevo objeto ReporteDTO y agregarlo a la lista
-            ReporteDTO reporte = new ReporteDTO(fechaEmision, costo, persona, tipoTramite);
+            ReporteDTO reporte = new ReporteDTO(fechaEmision, numeroFormateado, persona, tipoTramite);
             listaReportes.add(reporte);
         }
 

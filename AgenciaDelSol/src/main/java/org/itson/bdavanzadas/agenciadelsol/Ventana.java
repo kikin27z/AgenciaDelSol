@@ -111,7 +111,7 @@ public class Ventana extends javax.swing.JFrame {
     
     public void cambiarVistaConfirmacionRecepcion(ConsultaPlacaDTO placaConsultada){
         limpiarFrame();
-        vistaConfirmacionRecepcion vistaConfirmacionRecepcion = new vistaConfirmacionRecepcion(this, placaConsultada);
+        VistaConfirmacionRecepcion vistaConfirmacionRecepcion = new VistaConfirmacionRecepcion(this, placaConsultada);
         ponerEnJFrame(vistaConfirmacionRecepcion);
         panelActual = vistaConfirmacionRecepcion;
     }

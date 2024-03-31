@@ -263,7 +263,7 @@ public class VistaTramitesEnCurso extends javax.swing.JPanel {
      * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Trámites disponibles").
      */
     private void btnTramitesEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesEnCursoActionPerformed
-        ventana.cambiarVistaTramitesEnCurso();
+        
     }//GEN-LAST:event_btnTramitesEnCursoActionPerformed
 
     /**

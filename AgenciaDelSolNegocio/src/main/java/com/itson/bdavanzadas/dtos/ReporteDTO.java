@@ -16,7 +16,7 @@ import java.util.Date;
 public class ReporteDTO {
 
     private Date fechaEmision;
-    private Float costo;
+    private String costo;
     private String persona;
     private String tipoTramite;
 
@@ -34,7 +34,7 @@ public class ReporteDTO {
      * @param persona La persona asociada al reporte.
      * @param tipoTramite El tipo de trámite asociado al reporte.
      */
-    public ReporteDTO(Date fechaEmision, Float costo, String persona, String tipoTramite) {
+    public ReporteDTO(Date fechaEmision, String costo, String persona, String tipoTramite) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
         this.persona = persona;
@@ -100,7 +100,7 @@ public class ReporteDTO {
      *
      * @return El costo del trámite asociado al reporte.
      */
-    public Float getCosto() {
+    public String getCosto() {
         return costo;
     }
 
@@ -109,7 +109,7 @@ public class ReporteDTO {
      *
      * @param costo El costo del trámite asociado al reporte.
      */
-    public void setCosto(Float costo) {
+    public void setCosto(String costo) {
         this.costo = costo;
     }
 }

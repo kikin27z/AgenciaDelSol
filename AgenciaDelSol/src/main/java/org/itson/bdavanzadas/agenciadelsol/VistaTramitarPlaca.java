@@ -356,6 +356,7 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
      * hacer clic en el botón "Trámites en curso").
      */
     private void btnTramitesDisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTramitesDisponiblesActionPerformed
+        ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnTramitesDisponiblesActionPerformed
 
     /**

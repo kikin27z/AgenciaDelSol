@@ -10,7 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+  Vista para agregar un nuevo vehículo a la base de datos.
+ * 
+ * Esta clase permite al usuario agregar información sobre un nuevo vehículo, 
+ * incluyendo número de serie, marca, línea, modelo, color y tipo de vehículo.
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887
@@ -298,10 +301,20 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+     /**
+     * Método que se ejecuta al hacer clic en el botón "Volver".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Volver").
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         ventana.cambiarVistaVehiculoTramitar(personaDTO);
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Agregar".
+     * 
+     * @param evt El evento de acción que desencadena este método (en este caso, hacer clic en el botón "Agregar").
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         cargarDatosVehiculo();
         try {
@@ -348,6 +361,9 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
     private javax.swing.JTextField txtNumeroSerie;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método para cargar los datos del vehículo desde los campos de entrada.
+     */
     private void cargarDatosVehiculo(){
         autoDTO.setLinea(txtLinea.getText());
         autoDTO.setColor(txtColor.getText());
@@ -356,11 +372,18 @@ public class VistaAgregarVehiculo extends javax.swing.JPanel {
         autoDTO.setNumeroSerie(txtNumeroSerie.getText());
     }
 
+    /**
+     * Método para validar los datos ingresados por el usuario.
+     * @throws ValidacionDTOException Si se encuentra alguna validación incorrecta en los datos ingresados.
+     */
     private void validarDatos() throws ValidacionDTOException {
         autoDTO.validarCamposVacios();
         autoDTO.validaCampos();
     }
 
+    /**
+     * Método para cargar los datos de la placa del vehículo.
+     */
     private void cargarDatosPlaca() {
         placaDTO = new PlacaNuevaDTO();
         placaDTO.setPersona(personaDTO);
