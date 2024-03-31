@@ -1,31 +1,18 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.ITramitesBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 //import org.itson.bdavanzadas.entidades.Persona;
@@ -546,11 +533,12 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Verificar si hay tramites filtrados
         if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
-            tramitesBO.generarReporte(tramitesFiltrados);
+//            tramitesBO.generarReporte(tramitesFiltrados);
             JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
         } else {
             JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

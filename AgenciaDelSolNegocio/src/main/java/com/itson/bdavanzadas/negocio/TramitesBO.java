@@ -4,6 +4,7 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
 import com.itson.bdavanzadas.dtos.FiltrosReporteDTO;
+import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.io.FileInputStream;
@@ -36,6 +37,7 @@ import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.ITramitesDAO;
 import org.itson.bdavanzadas.daos.TramitesDAO;
+import org.itson.bdavanzadas.encriptar.FiltrosReporte;
 import org.itson.bdavanzadas.entidades.Discapacidad;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
@@ -83,7 +85,7 @@ public class TramitesBO implements ITramitesBO {
             List<TramiteDTO> tramitesDTOEncontrados = new LinkedList<>();
 
             for (Tramite tramitesEncontrado : tramitesEncontrados) {
-                
+
                 Calendar fechaEmisionCalendar = tramitesEncontrado.getFechaEmision();
                 Date fechaEmisionDate = fechaEmisionCalendar.getTime(); // Convertir Calendar a Date
 
@@ -101,24 +103,61 @@ public class TramitesBO implements ITramitesBO {
             return null;
         }
     }
-    
-   
-    public List<TramiteDTO> obtenerTramites(FiltrosReporteDTO filtro){
-     
-        
-        return null;
-     
-        
+
+    public List<ReporteDTO> obtenerTramites(FiltrosReporteDTO filtro) {
+
+        List<ReporteDTO> listaTramites = new ArrayList<>();
+
+        FiltrosReporte filtrosReporte = new FiltrosReporte();
+        filtrosReporte.setPersona(filtro.getPersona());
+        filtrosReporte.setTipoTramite(filtro.getTipoTramite());
+        filtrosReporte.setFechaInicio(filtro.getFechaInicio());
+        filtrosReporte.setFechaFin(filtro.getFechaFin());
+
+        try {
+            // Obtener los trámites de acuerdo a los filtros proporcionados
+            List<Tramite> tramitesEncontrados = tramitesDAO.consultarTramites();
+
+            // Convertir los trámites encontrados a TramiteDTO
+            for (Tramite tramite : tramitesEncontrados) {
+
+                String persona = tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno();
+
+                String tipoTramite = tramite.getTipo();
+
+                Date fechaEmision = tramite.getFechaEmision().getTime();
+
+                Float costo = tramite.getCosto();
+
+                ReporteDTO reporteDTO = new ReporteDTO(fechaEmision, costo, persona, tipoTramite);
+
+                listaTramites.add(reporteDTO);
+            }
+
+            return listaTramites;
+        } catch (PersistenciaException ex) {
+            // Manejar la excepción en caso de error
+            Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, "No fue posible obtener los trámites con los filtros especificados");
+            return Collections.emptyList();
+        }
+    }
+
+    // Método para convertir Persona a ConsultarPersonaDTO
+    private static ConsultarPersonaDTO fromPersona(Persona persona) {
+        return new ConsultarPersonaDTO(
+                persona.getNombres(),
+                persona.getApellidoPaterno(),
+                persona.getApellidoMaterno()
+        );
     }
 
     @Override
-    public void generarReporte(List<TramiteDTO> listaTramitesFiltrados) {
+    public void generarReporte(List<ReporteDTO> listaTramites) {
 
         try {
-            
-            
+
             // Crear un JRBeanCollectionDataSource con la lista de TramiteDTO
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaTramitesFiltrados);
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaTramites);
 
             // Parámetros para el reporte
             Map<String, Object> parameters = new HashMap<>();
@@ -166,15 +205,6 @@ public class TramitesBO implements ITramitesBO {
             // Manejar cualquier excepción que pueda ocurrir
             JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    // Método para convertir Persona a ConsultarPersonaDTO
-    private static ConsultarPersonaDTO fromPersona(Persona persona) {
-        return new ConsultarPersonaDTO(
-                persona.getNombres(),
-                persona.getApellidoPaterno(),
-                persona.getApellidoMaterno()
-        );
     }
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
+import org.itson.bdavanzadas.encriptar.FiltrosReporte;
 import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.entidades.Placa;
@@ -90,4 +91,8 @@ public class TramitesDAO implements ITramitesDAO {
         return historialTramites;
     }
 
+    @Override
+    public List<Tramite> obtenerTramitesPorFiltros(FiltrosReporte filtro) {
+        
+    }
 }

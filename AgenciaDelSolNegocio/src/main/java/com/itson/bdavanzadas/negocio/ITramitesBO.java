@@ -1,5 +1,6 @@
 package com.itson.bdavanzadas.negocio;
 
+import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.List;
@@ -22,6 +23,6 @@ public interface ITramitesBO {
      */
     public List<TramiteDTO> consultarTramites() throws ValidacionDTOException;
 
-    public void generarReporte(List<TramiteDTO> listaTramitesFiltrados);
+    public void generarReporte(List<ReporteDTO> listaTramites);
 
 }

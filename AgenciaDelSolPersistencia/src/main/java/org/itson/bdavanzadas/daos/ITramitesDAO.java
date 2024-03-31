@@ -5,6 +5,7 @@
 package org.itson.bdavanzadas.daos;
 
 import java.util.List;
+import org.itson.bdavanzadas.encriptar.FiltrosReporte;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -27,5 +28,8 @@ public interface ITramitesDAO {
      * en la persistencia de datos.
      */
     public List<Tramite> consultarTramites() throws PersistenciaException;
+
+
+    public List<Tramite> obtenerTramitesPorFiltros(FiltrosReporte filtro);
     
 }
