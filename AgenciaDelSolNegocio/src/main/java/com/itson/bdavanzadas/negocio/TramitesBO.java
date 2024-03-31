@@ -237,7 +237,7 @@ public class TramitesBO implements ITramitesBO {
                 } catch (Exception ex) {
                     // Manejar la excepción cuando ocurre algún error al generar el reporte
                     JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(ex.getMessage());
+                    Logger.getLogger(TramitesBO.class.getName()).log(Level.SEVERE, null, "No fue posible generar el reporte");
                 }
             } else if (userSelection == JFileChooser.CANCEL_OPTION) {
                 // Si el usuario cancela la operación

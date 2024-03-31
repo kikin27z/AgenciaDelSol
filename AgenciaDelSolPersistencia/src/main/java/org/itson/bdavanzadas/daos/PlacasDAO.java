@@ -152,7 +152,11 @@ public class PlacasDAO implements IPlacasDAO{
         Root<Placa> root = query.from(Placa.class);
 
         // Crear el predicado para filtrar las placas sin fecha de emisión
-        Predicate predicate = builder.isNull(root.get("fechaRecepcion"));
+//        Predicate predicate = builder.isNull(root.get("fechaRecepcion"));
+        Predicate predicate = builder.and(
+            builder.isNull(root.get("fechaRecepcion")), // Placas sin fecha de recepción
+            builder.equal(root.get("estado"), EstadoPlaca.HABILITADA) // Placas con estado diferente a "inhabilitado"
+        );
 
         // Agregar el predicado a la consulta
         query.where(predicate);

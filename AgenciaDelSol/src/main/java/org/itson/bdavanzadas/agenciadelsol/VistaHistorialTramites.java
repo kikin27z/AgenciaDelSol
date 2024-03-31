@@ -222,6 +222,7 @@ public class VistaHistorialTramites extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblTramites);
+        tblTramites.getTableHeader().setResizingAllowed(false);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 800, 300));
 

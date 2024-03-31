@@ -109,7 +109,7 @@ public class vistaConfirmacionRecepcion extends javax.swing.JPanel {
 
         lblFecha1.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblFecha1.setForeground(new java.awt.Color(196, 4, 67));
-        lblFecha1.setText("Fecha emisiòn:");
+        lblFecha1.setText("Fecha emisión:");
         add(lblFecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 220, 43));
 
         lblTramiteEnCurso1.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
@@ -119,7 +119,7 @@ public class vistaConfirmacionRecepcion extends javax.swing.JPanel {
 
         lblFecha2.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N
         lblFecha2.setForeground(new java.awt.Color(196, 4, 67));
-        lblFecha2.setText("Fecha recepciòn:");
+        lblFecha2.setText("Fecha recepción:");
         add(lblFecha2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 250, 43));
 
         lblFechaRecepcion.setFont(new java.awt.Font("Amazon Ember", 0, 32)); // NOI18N

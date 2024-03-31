@@ -78,7 +78,12 @@ public class VistaModuloReporte extends javax.swing.JPanel {
      */
     private void actualizarTabla(List<TramiteDTO> tramites) {
         try {
-            DefaultTableModel personasCoincidentes = new DefaultTableModel();
+            DefaultTableModel personasCoincidentes = new DefaultTableModel(){
+                @Override
+                   public boolean isCellEditable(int row, int column) {
+                       return false; // Hacer que todas las celdas sean no editables
+                   }
+            };
             personasCoincidentes.addColumn("Tipo reporte");
             personasCoincidentes.addColumn("Fecha de emision");
             personasCoincidentes.addColumn("Costo");
@@ -87,10 +92,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             for (TramiteDTO tramite : tramites) {
+                String numeroFormateado = String.format("%.2f", tramite.getCosto());
                 Object[] fila = {
                     tramite.getTipoTramite(),
                     dateFormat.format(tramite.getFechaEmision().getTime()),
-                    "$" + tramite.getCosto() + " MXN",
+                    "$" + numeroFormateado + " MXN",
                     tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno()
                 };
 
@@ -332,6 +338,7 @@ public class VistaModuloReporte extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblPersonasCoincidentes);
+        tblPersonasCoincidentes.getTableHeader().setResizingAllowed(false);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 330, 720, 130));
 

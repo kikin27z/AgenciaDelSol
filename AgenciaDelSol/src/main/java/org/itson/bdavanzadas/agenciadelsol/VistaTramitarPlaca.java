@@ -472,6 +472,7 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
     private void cargarDatos() {
         String tipoVehiculo;
         String numeroPlaca = placasBO.generaPlacaNueva();
+        String numeroFormateado;
         // Dependiendo del tipo de dto se asigna la variable correspondie los valores.
         if(ventana.isPlacaNueva()){
             lblTipo.setText("Nuevo");
@@ -480,6 +481,7 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
             autoDTO = placaNuevaDTO.getVehiculo();
             lblNumeroPlaca.setText(placaNuevaDTO.getNumero());
             tipoVehiculo = placaNuevaDTO.getTipoVehiculo();
+            numeroFormateado = String.format("%.2f", placaNuevaDTO.getCosto());
         }else{
             lblTipo.setText("Usado");
             placasBO.calcularCostoVehiculoUsado(placaConsultadaDTO);
@@ -487,6 +489,7 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
             autoDTO = placaConsultadaDTO.getVehiculo();
             lblNumeroPlaca.setText(placaConsultadaDTO.getNumero());
             tipoVehiculo = placaConsultadaDTO.getTipoVehiculo();
+            numeroFormateado = String.format("%.2f", placaConsultadaDTO.getCosto());
         }
         
         lblColor.setText(autoDTO.getColor());
@@ -495,7 +498,7 @@ public class VistaTramitarPlaca extends javax.swing.JPanel {
         lblMarca.setText(autoDTO.getMarca());
         lblNumeroSerie.setText(autoDTO.getNumeroSerie());
         
-        String numeroFormateado = String.format("%.2f", 1000F);
+        
         lblCosto.setText("$" + numeroFormateado + " MXN");
         
         switch(tipoVehiculo){

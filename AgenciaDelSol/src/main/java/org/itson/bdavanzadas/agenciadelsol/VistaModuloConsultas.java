@@ -79,7 +79,7 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
             personasTabla.addColumn("Fecha Nacimiento");
             personasTabla.addColumn("RFC");
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             Calendar fechaActual = Calendar.getInstance();
 
@@ -95,7 +95,7 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
                 if (edad >= 18) {
                     String fechaFormateada = dateFormat.format(fechaNacimiento.getTime());
                     Object[] fila = {
-                        persona.getNombres() + " " + persona.getApellidoPaterno(),
+                        persona.getNombres() + " " + persona.getApellidoPaterno()+ " " + persona.getApellidoMaterno(),
                         persona.getDiscapacidad(),
                         fechaFormateada,
                         persona.getRfc()
@@ -197,10 +197,10 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
+        lblTitulo.setText("Módulo de consultas");
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(196, 4, 67));
-        lblTitulo.setText("Módulo de consultas");
-        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 107, 337, 43));
+        add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 107, 590, 43));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSol.png"))); // NOI18N
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 10, 60, 60));
@@ -352,6 +352,7 @@ public class VistaModuloConsultas extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblPersonas);
+        tblPersonas.getTableHeader().setResizingAllowed(false);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 780, 190));
 
