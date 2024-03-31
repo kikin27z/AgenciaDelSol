@@ -239,13 +239,6 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaTramitarPlaca;
     }
 
-    public void cambiarVistaPrevisionReporte(TramiteDTO tramiteDTO) {
-        limpiarFrame();
-        VistaPrevisionReporte vistaPrevisionReporte = new VistaPrevisionReporte(this, tramiteDTO);
-        ponerEnJFrame(vistaPrevisionReporte);
-        panelActual = vistaPrevisionReporte;
-    }
-
     /**
      * Verifica si se está realizando un trámite de licencia.
      *

@@ -1,16 +1,10 @@
 package com.itson.bdavanzadas.negocio;
 
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
-import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
-import com.itson.bdavanzadas.dtos.FiltrosReporteDTO;
+import com.itson.bdavanzadas.dtos.FiltrosReporteGeneradoDTO;
 import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
-import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -37,12 +31,8 @@ import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.ITramitesDAO;
 import org.itson.bdavanzadas.daos.TramitesDAO;
-import org.itson.bdavanzadas.encriptar.FiltrosReporte;
-import org.itson.bdavanzadas.entidades.Discapacidad;
-import org.itson.bdavanzadas.entidades.Licencia;
+import org.itson.bdavanzadas.complementos.FiltrosReporte;
 import org.itson.bdavanzadas.entidades.Persona;
-import org.itson.bdavanzadas.entidades.Placa;
-import org.itson.bdavanzadas.entidades.TipoTramite;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -104,7 +94,17 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
-    public List<ReporteDTO> obtenerTramites(FiltrosReporteDTO filtro) {
+    /**
+     * Obtiene una lista de trámites que coinciden con los filtros especificados
+     * en el objeto FiltrosReporteGeneradoDTO.
+     *
+     * @param filtro El objeto FiltrosReporteGeneradoDTO que contiene los
+     * filtros para la búsqueda de trámites.
+     * @return Una lista de ReporteDTO que representa los trámites encontrados
+     * que coinciden con los filtros especificados. Si no se encuentran trámites
+     * que coincidan con los filtros, se devuelve una lista vacía.
+     */
+    public List<ReporteDTO> obtenerTramites(FiltrosReporteGeneradoDTO filtro) {
 
         List<ReporteDTO> listaTramites = new ArrayList<>();
 
@@ -142,7 +142,14 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
-    // Método para convertir Persona a ConsultarPersonaDTO
+    /**
+     * Convierte un objeto de la clase Persona en un objeto de la clase
+     * ConsultarPersonaDTO.
+     *
+     * @param persona La instancia de Persona a convertir.
+     * @return Una nueva instancia de ConsultarPersonaDTO creada a partir de los
+     * datos de la persona.
+     */
     private static ConsultarPersonaDTO fromPersona(Persona persona) {
         return new ConsultarPersonaDTO(
                 persona.getNombres(),
@@ -151,27 +158,34 @@ public class TramitesBO implements ITramitesBO {
         );
     }
 
+    /**
+     * Genera un reporte en formato PDF a partir de una lista de ReporteDTO.
+     * Permite al usuario seleccionar la ubicación y el nombre del archivo PDF.
+     *
+     * @param listaTramites La lista de ReporteDTO que se utilizará para generar
+     * el reporte.
+     */
     @Override
     public void generarReporte(List<ReporteDTO> listaTramites) {
 
         try {
 
-            // Crear un JRBeanCollectionDataSource con la lista de TramiteDTO
+            // Crear un JRBeanCollectionDataSource con la lista de ReporteDTO
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaTramites);
 
-            // Parámetros para el reporte
+            // Parámetros para el reporte mapeado
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("ParametroTipo", dataSource);
 
-            // Configuración del JFileChooser para seleccionar la ubicación y nombre del archivo
+            // Configuración del JFileChooser para la seleccion de ubicación y nombre para el archivo
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Guardar Reporte");
             fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF", "pdf"));
 
-            // Mostrar el diálogo para guardar el archivo
+            // Se muestra el diálogo para guardar el archivo
             int userSelection = fileChooser.showSaveDialog(null);
 
-            // Si el usuario selecciona guardar
+            // Cuando el usuario selecciona guardar
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 java.io.File fileToSave = fileChooser.getSelectedFile();
                 String filePath = fileToSave.getAbsolutePath();
@@ -187,13 +201,12 @@ public class TramitesBO implements ITramitesBO {
                     JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
                     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
-                    // Exportar el reporte a un archivo PDF
                     JasperExportManager.exportReportToPdfFile(jasperPrint, filePath);
 
-                    // Mensaje de éxito
+                    // Mensaje de exito
                     JOptionPane.showMessageDialog(null, "Archivo guardado", "Info", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
-                    // Manejar la excepción si ocurre algún error al generar el reporte
+                    // Manejar la excepción cuando ocurre algún error al generar el reporte
                     JOptionPane.showMessageDialog(null, "Error al generar el reporte PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     System.out.println(ex.getMessage());
                 }
@@ -207,6 +220,17 @@ public class TramitesBO implements ITramitesBO {
         }
     }
 
+    /**
+     * Convierte una lista de trámites en una lista de reportes. Cada elemento
+     * de la lista de trámites se transforma en un objeto ReporteDTO, utilizando
+     * los datos de fecha de emisión, costo, tipo de trámite y persona asociada
+     * obtenidos de los trámites de la lista.
+     *
+     * @param listaTramites La lista de trámites que se va a convertir en
+     * reportes.
+     * @return Una lista de ReporteDTO que representa los reportes generados a
+     * partir de los trámites.
+     */
     @Override
     public List<ReporteDTO> convertirTramitesAReportes(List<TramiteDTO> listaTramites) {
         List<ReporteDTO> listaReportes = new ArrayList<>();
@@ -219,7 +243,7 @@ public class TramitesBO implements ITramitesBO {
             String persona = tramite.getPersona().getNombres() + " " + tramite.getPersona().getApellidoPaterno() + " " + tramite.getPersona().getApellidoMaterno();
 
             // Crear un nuevo objeto ReporteDTO y agregarlo a la lista
-            ReporteDTO reporte = new ReporteDTO(fechaEmision, costo, tipoTramite, persona);
+            ReporteDTO reporte = new ReporteDTO(fechaEmision, costo, persona, tipoTramite);
             listaReportes.add(reporte);
         }
 

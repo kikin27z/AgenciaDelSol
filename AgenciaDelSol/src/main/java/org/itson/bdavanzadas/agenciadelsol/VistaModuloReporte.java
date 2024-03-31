@@ -16,13 +16,10 @@ import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-//import org.itson.bdavanzadas.entidades.Persona;
-//import com.itextpdf.text.Document;
-//import com.itextpdf.text.DocumentException;
-//import com.itextpdf.text.Paragraph;
-//import com.itextpdf.text.pdf.PdfWriter;
 
 /**
+ * Vista del modulo reportes de la aplicacion la cual se encarga del
+ * funcionamiento de generar un PDF.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -37,7 +34,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private boolean isChecked = false;
     private List<TramiteDTO> tramites;
     private List<TramiteDTO> tramitesFiltrados;
-    
 
     /**
      * Constructor de la clase VistaModuloReporte.
@@ -72,6 +68,14 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Actualiza la tabla de visualización con la información de los trámites
+     * especificados. Crea un nuevo modelo de tabla y lo asigna a la tabla de
+     * visualización.
+     *
+     * @param tramites La lista de trámites que se utilizará para actualizar la
+     * tabla.
+     */
     private void actualizarTabla(List<TramiteDTO> tramites) {
 
         try {
@@ -140,7 +144,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         dpPeriodoFin = new com.github.lgooddatepicker.components.DatePicker();
         cmbTipoReporte = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersonasCoincidentes = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
@@ -188,9 +191,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
+        lblPersonasCoincidentes.setText("Coincidentes:");
         lblPersonasCoincidentes.setFont(new java.awt.Font("Amazon Ember", 0, 24)); // NOI18N
         lblPersonasCoincidentes.setForeground(new java.awt.Color(196, 4, 67));
-        lblPersonasCoincidentes.setText("Personas coincidentes");
         add(lblPersonasCoincidentes, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 300, 250, 29));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
@@ -248,9 +251,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         lblTipoReporte.setText("Tipo reporte:");
         add(lblTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 211, 120, 24));
 
+        lblPeriodo.setText("Periodo:");
         lblPeriodo.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblPeriodo.setForeground(new java.awt.Color(215, 70, 118));
-        lblPeriodo.setText("Periodo:");
         add(lblPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(638, 211, 80, 24));
 
         lblNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -290,11 +293,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(724, 217, 19, 19));
 
-        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
         btnVolver.setBorder(null);
         btnVolver.setContentAreaFilled(false);
+        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
@@ -307,24 +310,17 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         cmbTipoReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No especificado", "Placa", "Licencia" }));
         add(cmbTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 239, 150, 40));
 
+        btnGenerarReporte.setText("Generar reporte");
+        btnGenerarReporte.setBorder(null);
+        btnGenerarReporte.setContentAreaFilled(false);
         btnGenerarReporte.setFont(new java.awt.Font("Amazon Ember", 0, 19)); // NOI18N
         btnGenerarReporte.setForeground(new java.awt.Color(253, 253, 253));
-        btnGenerarReporte.setText("Generar reporte");
-        btnGenerarReporte.setContentAreaFilled(false);
         btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarReporteActionPerformed(evt);
             }
         });
         add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 484, 188, 45));
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 500, -1, -1));
 
         tblPersonasCoincidentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -386,6 +382,13 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
+    /**
+     * Realiza la acción de filtrar los trámites según los criterios
+     * especificados por el usuario. Actualiza la tabla de visualización con los
+     * trámites filtrados.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 
         tramitesFiltrados = new ArrayList<>();
@@ -448,53 +451,37 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         actualizarTabla(tramitesFiltrados);
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
+    /**
+     * Realiza la acción de generar un reporte a partir de los trámites
+     * filtrados, si los hay. Convierte los trámites filtrados en ReporteDTO y
+     * los pasa al método correspondiente de la clase ITramitesBO para generar
+     * el reporte. Muestra un mensaje de éxito o de falta de trámites para
+     * generar el reporte.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-//        int filaSeleccionada = tblPersonasCoincidentes.getSelectedRow();
-//
-//        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
-//            Object[] datosFila = new Object[tblPersonasCoincidentes.getColumnCount()];
-//
-//            for (int i = 0; i < tblPersonasCoincidentes.getColumnCount(); i++) {
-//                datosFila[i] = tblPersonasCoincidentes.getValueAt(filaSeleccionada, i);
-//            }
-//
-//            tramiteDTO.setTipoTramite(datosFila[0].toString());
-//
-//            // Convertir fecha de String a Calendar
-//            String fechaString = datosFila[1].toString();
-//            try {
-//                SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                Date fechaDate = formatoEntrada.parse(fechaString);
-//
-//                // Crear objeto Calendar y asignar la fecha
-//                Calendar fechaCalendar = Calendar.getInstance();
-//                fechaCalendar.setTime(fechaDate);
-//
-//                // Pasar directamente el objeto Calendar
-//                tramiteDTO.setFechaEmision(fechaCalendar);
-//            } catch (ParseException e) {
-//                System.out.println("Error al parsear la fecha: " + e.getMessage());
-//            }
-//
-//            // Limpiar la cadena de caracteres no numéricos y convertir a float
-//            String costoString = datosFila[2].toString().replaceAll("[^\\d.]", "");
-//            if (!costoString.isEmpty()) {
-//                tramiteDTO.setCosto(Float.valueOf(costoString));
-//            } else {
-//                System.out.println("El valor del costo no es válido.");
-//            }
-//            // Crear ConsultarPersonaDTO y asignarlo a tramiteDTO
-//            ConsultarPersonaDTO persona = new ConsultarPersonaDTO(datosFila[3].toString());
-//            tramiteDTO.setPersona(persona);
-//
-//            ventana.cambiarVistaPrevisionReporte(tramiteDTO);
-//
-//        } else {
-//            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
-//            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
-//        }
+        // Verificar si hay tramites filtrados
+        if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
+            // Convertir tramitesFiltrados a ReporteDTO
+            List<ReporteDTO> reportes = tramitesBO.convertirTramitesAReportes(tramitesFiltrados);
+
+            tramitesBO.generarReporte(reportes);
+            JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");
+        }
+
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
+    /**
+     * Maneja el evento de clic del mouse en el componente lblCheck2. Cambia la
+     * imagen del componente dependiendo del estado de isChecked y
+     * habilita/deshabilita la edición del campo de texto txtNombrePersona en
+     * consecuencia.
+     *
+     * @param evt El evento de clic del mouse que desencadenó este método.
+     */
     private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -510,6 +497,14 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
+    /**
+     * Maneja el evento de clic del mouse en el componente lblCheck3. Cambia la
+     * imagen del componente dependiendo del estado de isChecked y
+     * habilita/deshabilita la edición de los campos de fecha dpPeriodoInicio y
+     * dpPeriodoFin en consecuencia.
+     *
+     * @param evt El evento de clic del mouse que desencadenó este método.
+     */
     private void lblCheck3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck3MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -528,23 +523,15 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck3MouseClicked
 
+    /**
+     * Maneja el evento de clic del botón btnVolver. Cambia la vista actual de
+     * la ventana a la vista de inicio.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnVolverActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Verificar si hay tramites filtrados
-        if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
-            // Convertir tramitesFiltrados a ReporteDTO
-            List<ReporteDTO> reportes = tramitesBO.convertirTramitesAReportes(tramitesFiltrados);
-
-            tramitesBO.generarReporte(reportes);
-            JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
-        } else {
-            JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -559,7 +546,6 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoFin;
     private com.github.lgooddatepicker.components.DatePicker dpPeriodoInicio;
     private javax.swing.JLabel fondo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCheck2;

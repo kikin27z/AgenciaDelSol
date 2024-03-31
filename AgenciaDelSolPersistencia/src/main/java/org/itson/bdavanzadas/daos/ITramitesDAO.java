@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package org.itson.bdavanzadas.daos;
 
 import java.util.List;
-import org.itson.bdavanzadas.encriptar.FiltrosReporte;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 
@@ -29,7 +24,4 @@ public interface ITramitesDAO {
      */
     public List<Tramite> consultarTramites() throws PersistenciaException;
 
-
-    public List<Tramite> obtenerTramitesPorFiltros(FiltrosReporte filtro);
-    
 }

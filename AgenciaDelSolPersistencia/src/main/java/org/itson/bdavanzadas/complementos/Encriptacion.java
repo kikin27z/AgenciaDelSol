@@ -1,4 +1,4 @@
-package org.itson.bdavanzadas.encriptar;
+package org.itson.bdavanzadas.complementos;
 
 
 import java.security.SecureRandom;

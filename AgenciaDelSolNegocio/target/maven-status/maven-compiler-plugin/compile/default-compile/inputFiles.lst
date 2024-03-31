@@ -2,6 +2,7 @@ C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\avisos\Aviso.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\negocio\LicenciaBO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\negocio\PlacasBO.java
+C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\FiltrosReporteGeneradoDTO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\VehiculoNuevoDTO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\negocio\IPersonasBO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\negocio\ILicenciaBO.java
@@ -9,7 +10,6 @@ C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\ReporteDTO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\negocio\ITramitesBO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\TramiteDTO.java
-C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\FiltrosReporteDTO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\LicenciasDTO.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\avisos\IAviso.java
 C:\Users\castr\OneDrive\Documentos\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java\com\itson\bdavanzadas\dtos\PlacaNuevaDTO.java
