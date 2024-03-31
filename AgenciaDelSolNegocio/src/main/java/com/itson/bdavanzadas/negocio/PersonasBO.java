@@ -11,8 +11,8 @@ import org.itson.bdavanzadas.conexion.Conexion;
 import org.itson.bdavanzadas.conexion.IConexion;
 import org.itson.bdavanzadas.daos.IPersonasDAO;
 import org.itson.bdavanzadas.daos.PersonasDAO;
-import org.itson.bdavanzadas.encriptar.Encriptacion;
 import org.itson.bdavanzadas.entidades.Discapacidad;
+import org.itson.bdavanzadas.complementos.Encriptacion;
 import org.itson.bdavanzadas.entidades.Persona;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 

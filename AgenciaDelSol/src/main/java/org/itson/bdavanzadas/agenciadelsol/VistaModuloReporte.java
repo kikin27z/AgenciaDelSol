@@ -1,24 +1,25 @@
 package org.itson.bdavanzadas.agenciadelsol;
 
-import com.itson.bdavanzadas.avisos.Aviso;
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import com.itson.bdavanzadas.negocio.ITramitesBO;
 import com.itson.bdavanzadas.negocio.TramitesBO;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
-import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.itson.bdavanzadas.entidades.Persona;
 
 /**
+ * Vista del modulo reportes de la aplicacion la cual se encarga del
+ * funcionamiento de generar un PDF.
  *
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
@@ -31,6 +32,8 @@ public class VistaModuloReporte extends javax.swing.JPanel {
     private TramiteDTO tramiteDTO;
     private ITramitesBO tramitesBO;
     private boolean isChecked = false;
+    private List<TramiteDTO> tramites;
+    private List<TramiteDTO> tramitesFiltrados;
 
     /**
      * Constructor de la clase VistaModuloReporte.
@@ -62,8 +65,16 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }
 
-    private void actualizarTabla() {
-        List<TramiteDTO> tramites;
+    /**
+     * Actualiza la tabla de visualización con la información de los trámites
+     * especificados. Crea un nuevo modelo de tabla y lo asigna a la tabla de
+     * visualización.
+     *
+     * @param tramites La lista de trámites que se utilizará para actualizar la
+     * tabla.
+     */
+    private void actualizarTabla(List<TramiteDTO> tramites) {
+
         try {
             tramites = tramitesBO.consultarTramites();
             try {
@@ -182,9 +193,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(btnModuloReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 267, 128, 40));
 
+        lblPersonasCoincidentes.setText("Coincidentes:");
         lblPersonasCoincidentes.setFont(new java.awt.Font("Amazon Ember", 0, 24)); // NOI18N
         lblPersonasCoincidentes.setForeground(new java.awt.Color(196, 4, 67));
-        lblPersonasCoincidentes.setText("Personas coincidentes");
         add(lblPersonasCoincidentes, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 300, 250, 29));
 
         lblTitulo.setFont(new java.awt.Font("Amazon Ember", 0, 36)); // NOI18N
@@ -242,9 +253,9 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         lblTipoReporte.setText("Tipo reporte:");
         add(lblTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 211, 120, 24));
 
+        lblPeriodo.setText("Periodo:");
         lblPeriodo.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
         lblPeriodo.setForeground(new java.awt.Color(215, 70, 118));
-        lblPeriodo.setText("Periodo:");
         add(lblPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(638, 211, 80, 24));
 
         lblNombrePersona.setFont(new java.awt.Font("Amazon Ember Light", 0, 20)); // NOI18N
@@ -291,11 +302,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         });
         add(lblCheck3, new org.netbeans.lib.awtextra.AbsoluteConstraints(724, 217, 19, 19));
 
-        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
-        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.setText("Volver");
         btnVolver.setBorder(null);
         btnVolver.setContentAreaFilled(false);
+        btnVolver.setFont(new java.awt.Font("Amazon Ember", 0, 20)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(253, 253, 253));
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
@@ -309,10 +320,11 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         cmbTipoReporte.setSelectedIndex(-1);
         add(cmbTipoReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 239, 150, 40));
 
+        btnGenerarReporte.setText("Generar reporte");
+        btnGenerarReporte.setBorder(null);
+        btnGenerarReporte.setContentAreaFilled(false);
         btnGenerarReporte.setFont(new java.awt.Font("Amazon Ember", 0, 19)); // NOI18N
         btnGenerarReporte.setForeground(new java.awt.Color(253, 253, 253));
-        btnGenerarReporte.setText("Generar reporte");
-        btnGenerarReporte.setContentAreaFilled(false);
         btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarReporteActionPerformed(evt);
@@ -380,50 +392,106 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         ventana.cambiarVistaModuloReporte();
     }//GEN-LAST:event_btnModuloReportesActionPerformed
 
-    private void lblCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck1MouseClicked
-        // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
-        if (!isChecked) {
-            lblCheck1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgPalomita.png")));
-            isChecked = true;
-            cmbTipoReporte.setEnabled(true); // Habilita la edición cuando isChecked es true
-        } else {
-            // Si isChecked es true, establece una imagen vacía (o cualquier otra imagen deseada) y cambia isChecked a false
-            lblCheck1.setIcon(null); // Esto eliminará la imagen actual
-            isChecked = false;
-            cmbTipoReporte.setEnabled(false); // Deshabilita la edición cuando isChecked es false
-        }
-    }//GEN-LAST:event_lblCheck1MouseClicked
-
+    /**
+     * Realiza la acción de filtrar los trámites según los criterios
+     * especificados por el usuario. Actualiza la tabla de visualización con los
+     * trámites filtrados.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 
+        tramitesFiltrados = new ArrayList<>();
 
-    }//GEN-LAST:event_btnFiltrarActionPerformed
+        // Filtrar por tipo
+        if (cmbTipoReporte.getSelectedItem() != null) {
+            String tipoReporte = cmbTipoReporte.getSelectedItem().toString().trim();
+            for (TramiteDTO tramite : tramites) {
+                String tipo = tramite.getTipoTramite();
 
-    private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-        int filaSeleccionada = tblPersonasCoincidentes.getSelectedRow();
+                if (tipoReporte.equals("No especificado")) {
+                    tramitesFiltrados.add(tramite);
+                } else if (tipoReporte.equals("Placa") && tipo.equals("Expedición de placas")) {
+                    tramitesFiltrados.add(tramite);
+                } else if (tipoReporte.equals("Licencia") && tipo.equals("Expedición de Licencia")) {
+                    tramitesFiltrados.add(tramite);
+                }
+            }
+        } else {
+            // Si no se selecciona ningún tipo de trámite, mantener todos los trámites
+            tramitesFiltrados.addAll(tramites);
+        }
 
-        if (filaSeleccionada != -1) { // Verificar si se ha seleccionado alguna fila
-            Object[] datosFila = new Object[tblPersonasCoincidentes.getColumnCount()];
+        //Filtrar por persona
+        if (txtNombrePersona.getText() != null && !txtNombrePersona.getText().isEmpty()) {
+            String nombrePersona = txtNombrePersona.getText().toLowerCase();
 
-            for (int i = 0; i < tblPersonasCoincidentes.getColumnCount(); i++) {
-                datosFila[i] = tblPersonasCoincidentes.getValueAt(filaSeleccionada, i);
+            List<TramiteDTO> tramitesPorPersona = new ArrayList<>();
+
+            for (TramiteDTO tramite : tramitesFiltrados) {
+                ConsultarPersonaDTO personaTramite = tramite.getPersona();
+                String nombreCompleto = personaTramite.getNombres().toLowerCase() + " " + personaTramite.getApellidoPaterno().toLowerCase();
+
+                if (nombreCompleto.contains(nombrePersona)) {
+                    tramitesPorPersona.add(tramite);
+                }
+            }
+            tramitesFiltrados = tramitesPorPersona;
+        }
+        // Filtrar por fechas si se han seleccionado
+        if (dpPeriodoInicio.getDate() != null && dpPeriodoFin.getDate() != null) {
+            Date periodoInicio = Date.from(dpPeriodoInicio.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date periodoFin = Date.from(dpPeriodoFin.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            List<TramiteDTO> tramitesPorFecha = new ArrayList<>();
+
+            for (TramiteDTO tramite : tramitesFiltrados) {
+                Date fechaEmision = tramite.getFechaEmision(); // Obtenemos directamente la fecha como Date
+
+                if (fechaEmision.equals(periodoInicio) || fechaEmision.equals(periodoFin)
+                        || (fechaEmision.after(periodoInicio) && fechaEmision.before(periodoFin))) {
+                    tramitesPorFecha.add(tramite);
+                }
             }
 
-            tramiteDTO.setTipoTramite(datosFila[0].toString());
-
-            tramiteDTO.setFechaEmision((Calendar) datosFila[1]);
-
-            tramiteDTO.setPersona(new ConsultarPersonaDTO(datosFila[2].toString()));
-
-            tramiteDTO.setCosto(Float.valueOf(datosFila[3].toString())); // Suponiendo que la columna 3 es para costo
-
-            ventana.cambiarVistaPrevisionReporte(tramiteDTO);
-        } else {
-            // Si no se ha seleccionado ninguna fila, muestra un mensaje de advertencia o realiza alguna otra acción
-            new Aviso().mostrarAviso(ventana, "Primero seleccione un tramite antes de generar el PDF");
+            tramitesFiltrados = tramitesPorFecha;
         }
+
+        limpiarTabla();
+        actualizarTabla(tramitesFiltrados);
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    /**
+     * Realiza la acción de generar un reporte a partir de los trámites
+     * filtrados, si los hay. Convierte los trámites filtrados en ReporteDTO y
+     * los pasa al método correspondiente de la clase ITramitesBO para generar
+     * el reporte. Muestra un mensaje de éxito o de falta de trámites para
+     * generar el reporte.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
+    private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
+        // Verificar si hay tramites filtrados
+        if (tramitesFiltrados != null && !tramitesFiltrados.isEmpty()) {
+            // Convertir tramitesFiltrados a ReporteDTO
+            List<ReporteDTO> reportes = tramitesBO.convertirTramitesAReportes(tramitesFiltrados);
+
+            tramitesBO.generarReporte(reportes);
+            JOptionPane.showMessageDialog(ventana, "Reporte generado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(ventana, "No hay tramites para generar el reporte");
+        }
+
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
+    /**
+     * Maneja el evento de clic del mouse en el componente lblCheck2. Cambia la
+     * imagen del componente dependiendo del estado de isChecked y
+     * habilita/deshabilita la edición del campo de texto txtNombrePersona en
+     * consecuencia.
+     *
+     * @param evt El evento de clic del mouse que desencadenó este método.
+     */
     private void lblCheck2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck2MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -438,6 +506,14 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck2MouseClicked
 
+    /**
+     * Maneja el evento de clic del mouse en el componente lblCheck3. Cambia la
+     * imagen del componente dependiendo del estado de isChecked y
+     * habilita/deshabilita la edición de los campos de fecha dpPeriodoInicio y
+     * dpPeriodoFin en consecuencia.
+     *
+     * @param evt El evento de clic del mouse que desencadenó este método.
+     */
     private void lblCheck3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCheck3MouseClicked
         // Si isChecked es false, establece la imagen de la palomita y cambia isChecked a true
         if (!isChecked) {
@@ -454,6 +530,12 @@ public class VistaModuloReporte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_lblCheck3MouseClicked
 
+    /**
+     * Maneja el evento de clic del botón btnVolver. Cambia la vista actual de
+     * la ventana a la vista de inicio.
+     *
+     * @param evt El evento de acción que desencadenó este método.
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         ventana.cambiarVistaInicio();
     }//GEN-LAST:event_btnVolverActionPerformed

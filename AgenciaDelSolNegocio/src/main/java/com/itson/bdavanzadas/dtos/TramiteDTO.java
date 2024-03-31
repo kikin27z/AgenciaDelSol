@@ -1,6 +1,7 @@
 package com.itson.bdavanzadas.dtos;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * En esta clase encapsulamos un objeto tramite con los datos necesarios para
@@ -12,7 +13,7 @@ import java.util.Calendar;
  */
 public class TramiteDTO {
 
-    private Calendar fechaEmision;
+    private Date fechaEmision;
     private Float costo;
     private ConsultarPersonaDTO persona;
     private String tipoTramite;
@@ -37,7 +38,7 @@ public class TramiteDTO {
      * @param tipoTramite el tipo de tramite realizado.
      * @param persona
      */
-    public TramiteDTO(Calendar fechaEmision, Float costo, String tipoTramite, ConsultarPersonaDTO persona) {
+    public TramiteDTO(Date fechaEmision, Float costo, String tipoTramite, ConsultarPersonaDTO persona) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
         this.tipoTramite = tipoTramite;
@@ -65,7 +66,7 @@ public class TramiteDTO {
      *
      * @return La fecha de emisión del trámite.
      */
-    public Calendar getFechaEmision() {
+    public Date getFechaEmision() {
         return fechaEmision;
     }
 
@@ -74,7 +75,7 @@ public class TramiteDTO {
      *
      * @param fechaEmision La fecha de emisión del trámite.
      */
-    public void setFechaEmision(Calendar fechaEmision) {
+    public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

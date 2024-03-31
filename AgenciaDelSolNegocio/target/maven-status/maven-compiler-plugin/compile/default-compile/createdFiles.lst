@@ -1,3 +1,4 @@
+com\itson\bdavanzadas\dtos\FiltrosReporteGeneradoDTO.class
 com\itson\bdavanzadas\negocio\IPlacasBO.class
 com\itson\bdavanzadas\dtos\ConsultarPersonaDTO.class
 com\itson\bdavanzadas\negocio\TramitesBO.class
@@ -9,6 +10,7 @@ com\itson\bdavanzadas\excepcionesdtos\ValidacionDTOException.class
 com\itson\bdavanzadas\avisos\Aviso.class
 com\itson\bdavanzadas\negocio\ITramitesBO.class
 com\itson\bdavanzadas\dtos\LicenciasDTO.class
+com\itson\bdavanzadas\dtos\ReporteDTO.class
 com\itson\bdavanzadas\dtos\TramiteDTO.class
 com\itson\bdavanzadas\dtos\ConsultaPlacaDTO.class
 com\itson\bdavanzadas\negocio\IPersonasBO.class

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.itson.bdavanzadas.daos;
 
 import java.util.ArrayList;
@@ -10,17 +6,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.itson.bdavanzadas.conexion.IConexion;
-import org.itson.bdavanzadas.entidades.Licencia;
 import org.itson.bdavanzadas.entidades.Persona;
-import org.itson.bdavanzadas.entidades.Placa;
 import org.itson.bdavanzadas.entidades.Tramite;
 import org.itson.bdavanzadas.excepciones.PersistenciaException;
 

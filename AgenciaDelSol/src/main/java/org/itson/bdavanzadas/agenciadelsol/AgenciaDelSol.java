@@ -14,4 +14,5 @@ public class AgenciaDelSol {
         ventana.cambiarVistaInicio();
         ventana.setVisible(true);
     }
+    
 }

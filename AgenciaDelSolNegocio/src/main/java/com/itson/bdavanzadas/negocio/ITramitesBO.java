@@ -1,6 +1,7 @@
 package com.itson.bdavanzadas.negocio;
 
 import com.itson.bdavanzadas.dtos.ConsultarPersonaDTO;
+import com.itson.bdavanzadas.dtos.ReporteDTO;
 import com.itson.bdavanzadas.dtos.TramiteDTO;
 import com.itson.bdavanzadas.excepcionesdtos.ValidacionDTOException;
 import java.util.List;
@@ -29,4 +30,27 @@ public interface ITramitesBO {
      * @return lista de tramites de la persona.
      */
     public List<TramiteDTO> consultarTramitesPersona(ConsultarPersonaDTO personaDTO);
+
+    /**
+     * Genera un reporte a partir de una lista de ReporteDTO. Permite al usuario
+     * seleccionar la ubicación y el nombre del archivo PDF donde se guardará el
+     * reporte.
+     *
+     * @param listaTramites La lista de ReporteDTO que se utilizará para generar
+     * el reporte.
+     */
+    public void generarReporte(List<ReporteDTO> listaTramites);
+
+    /**
+     * Convierte una lista de trámites representados como objetos TramiteDTO en
+     * una lista de reportes representados como objetos ReporteDTO. Cada objeto
+     * TramiteDTO se transforma en un objeto ReporteDTO con los mismos datos.
+     *
+     * @param listaTramites La lista de TramiteDTO que se va a convertir en
+     * reportes.
+     * @return Una lista de ReporteDTO que representa los reportes generados a
+     * partir de los trámites.
+     */
+    public List<ReporteDTO> convertirTramitesAReportes(List<TramiteDTO> listaTramites);
+
 }
