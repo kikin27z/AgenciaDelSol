@@ -32,6 +32,7 @@ public class VistaTramitarLicencia extends javax.swing.JPanel {
      *
      * @param ventana La ventana de Persona a tramitar recibe datos para
      * consultar personas.
+     * @param personaDTO informarcion de persona que tramitara licencia.
      */
     public VistaTramitarLicencia(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;

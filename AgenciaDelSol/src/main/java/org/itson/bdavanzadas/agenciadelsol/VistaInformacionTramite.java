@@ -27,6 +27,7 @@ public class VistaInformacionTramite extends javax.swing.JPanel {
      * Constructor de la clase VistaInicio.
      * 
      * @param ventana La ventana principal de la aplicación.
+     * @param placa placa a mostrar.
      */
     public VistaInformacionTramite(Ventana ventana, PlacaNuevaDTO placa) {
         this.ventana = ventana;

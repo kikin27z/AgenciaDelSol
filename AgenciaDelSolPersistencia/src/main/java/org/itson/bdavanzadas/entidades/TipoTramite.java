@@ -9,6 +9,14 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum TipoTramite {
+
+    /**
+     * Representa que el tramite a realizar es de licencia.
+     */
     Licencia,
+
+    /**
+     * Representa que el tramite a realizar es de placa.
+     */
     Placa
 }

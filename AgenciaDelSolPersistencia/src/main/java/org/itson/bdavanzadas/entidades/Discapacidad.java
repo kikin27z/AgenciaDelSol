@@ -9,6 +9,14 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum Discapacidad {
+
+    /**
+     * Representa a una persona sin discapacidad.
+     */
     NORMAL,
+
+    /**
+     * Representa a una persona con discapacidad.
+     */
     DISCAPACITADO
 }

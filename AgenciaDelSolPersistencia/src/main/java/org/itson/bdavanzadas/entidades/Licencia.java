@@ -39,6 +39,11 @@ public class Licencia extends Tramite implements Serializable {
     public Licencia() {
     }
 
+    /**
+     * Consturctor que iniciliza solo el estado y la fecha de vigencia de la licencia.
+     * @param estado estado de la licencia.
+     * @param fechaVigencia fecha de vigencia de la licencia.
+     */
     public Licencia(EstadoLicencia estado, Calendar fechaVigencia) {
         this.estado = estado;
         this.fechaVigencia = fechaVigencia;

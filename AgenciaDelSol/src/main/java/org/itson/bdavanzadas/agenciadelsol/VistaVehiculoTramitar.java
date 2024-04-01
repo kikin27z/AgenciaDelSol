@@ -31,6 +31,7 @@ public class VistaVehiculoTramitar extends javax.swing.JPanel {
      *
      * @param ventana La ventana de Persona a tramitar recibe datos para
      * consultar personas.
+     * @param personaDTO informacion de persona a tramitar vehiculo.
      */
     public VistaVehiculoTramitar(Ventana ventana, ConsultarPersonaDTO personaDTO) {
         this.ventana = ventana;

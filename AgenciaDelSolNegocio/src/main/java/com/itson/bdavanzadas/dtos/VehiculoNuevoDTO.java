@@ -27,6 +27,16 @@ public class VehiculoNuevoDTO {
     public VehiculoNuevoDTO() {
     }
 
+    /**
+     * Constructor para la clase VehiculoNuevoDTO.
+     *
+     * @param numeroSerie El número de serie del vehículo nuevo.
+     * @param color El color del vehículo nuevo.
+     * @param marca La marca del vehículo nuevo.
+     * @param modelo El modelo del vehículo nuevo.
+     * @param linea La línea del vehículo nuevo.
+     * @param persona       El DTO de la persona asociada al vehículo nuevo.
+ */
     public VehiculoNuevoDTO(String numeroSerie, String color, String marca, String modelo, String linea, ConsultarPersonaDTO persona) {
         this.numeroSerie = numeroSerie;
         this.color = color;

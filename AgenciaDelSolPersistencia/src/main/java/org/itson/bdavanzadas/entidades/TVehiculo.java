@@ -9,5 +9,9 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum TVehiculo {
+
+    /**
+     * Represnta el tipo de vehiculo el cual posee una persona.
+     */
     Automovil
 }

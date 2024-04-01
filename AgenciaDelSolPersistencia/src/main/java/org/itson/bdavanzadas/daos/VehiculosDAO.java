@@ -12,7 +12,12 @@ import org.itson.bdavanzadas.entidades.Automovil;
 import org.itson.bdavanzadas.entidades.Vehiculo;
 
 /**
- *
+ * Clase que proporciona métodos para acceder y manipular la entidad Vehiculo en la base de datos.
+ * Esta clase implementa la interfaz IVehiculosDAO.
+ * 
+ * Los métodos disponibles incluyen agregar un vehículo a la base de datos, buscar un vehículo por su número de serie
+ * y verificar si ya existe un vehículo con el mismo número de serie en la base de datos.
+ * 
  * @author José Karim Franco Valencia - 245138
  * @author Jesus Rene Gonzalez Castro - 247336
  * @author Gael Rafael Castro Molina - 247887

@@ -10,7 +10,15 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum EstadoLicencia {
+
+    /**
+     * Representa una licencia activada.
+     */
     ACTIVA,
+
+    /**
+     * Representa una licencia desactivada.
+     */
     INACTIVA
     
 }

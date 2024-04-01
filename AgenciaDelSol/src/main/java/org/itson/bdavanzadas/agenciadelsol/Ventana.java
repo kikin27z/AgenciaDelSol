@@ -102,6 +102,12 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaHistorialTramites;
     }
 
+    /**
+     * Cambia la vista actual del frame a la vista de información del trámite.
+     *
+     * @param placa Objeto PlacaNuevaDTO que contiene la información del trámite
+     * a mostrar.
+     */
     public void cambiarVistaInfomacionTramites(PlacaNuevaDTO placa){
         limpiarFrame();
         VistaInformacionTramite vistaInformacionTramite = new VistaInformacionTramite(this, placa);
@@ -109,6 +115,12 @@ public class Ventana extends javax.swing.JFrame {
         panelActual = vistaInformacionTramite;
     }
     
+    /**
+     * Cambia la vista actual del frame a la vista de confirmación de recepción.
+     *
+     * @param placaConsultada Objeto ConsultaPlacaDTO que contiene la
+     * información de la placa consultada.
+     */
     public void cambiarVistaConfirmacionRecepcion(ConsultaPlacaDTO placaConsultada){
         limpiarFrame();
         VistaConfirmacionRecepcion vistaConfirmacionRecepcion = new VistaConfirmacionRecepcion(this, placaConsultada);

@@ -8,5 +8,14 @@ package org.itson.bdavanzadas.entidades;
  * @author Gael Rafael Castro Molina - 247887
  */
 public enum EstadoPlaca {
-    HABILITADA, INHABILITADA
+
+    /**
+     * Representa una placa habilitada.
+     */
+    HABILITADA,
+
+    /**
+     * Representa una placa inhabilitada.
+     */
+    INHABILITADA
 }

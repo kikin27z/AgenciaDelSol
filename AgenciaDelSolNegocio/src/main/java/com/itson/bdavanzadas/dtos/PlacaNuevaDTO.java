@@ -28,6 +28,18 @@ public class PlacaNuevaDTO {
     public PlacaNuevaDTO() {
     }
 
+    /**
+     * Constructor para la clase PlacaNuevaDTO.
+     *
+     * @param vehiculo El DTO del vehículo asociado a la placa nueva.
+     * @param fechaRecepcion La fecha de recepción de la placa nueva.
+     * @param fechaEmision La fecha de emisión de la placa nueva.
+     * @param numero El número de la placa nueva.
+     * @param estado El estado de la placa nueva.
+     * @param costo El costo de la placa nueva.
+     * @param persona El DTO de la persona asociada a la placa nueva.
+     * @param tipoVehiculo El tipo de vehículo asociado a la placa nueva.
+     */
     public PlacaNuevaDTO(VehiculoNuevoDTO vehiculo, Calendar fechaRecepcion, Calendar fechaEmision, String numero, EstadoPlaca estado, Float costo, ConsultarPersonaDTO persona, String tipoVehiculo) {
         this.vehiculo = vehiculo;
         this.fechaRecepcion = fechaRecepcion;

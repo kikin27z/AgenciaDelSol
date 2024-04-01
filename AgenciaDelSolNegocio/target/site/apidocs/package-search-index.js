@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.itson.bdavanzadas.avisos"},{"l":"com.itson.bdavanzadas.dtos"},{"l":"com.itson.bdavanzadas.excepcionesdtos"},{"l":"com.itson.bdavanzadas.negocio"}];updateSearchResults();

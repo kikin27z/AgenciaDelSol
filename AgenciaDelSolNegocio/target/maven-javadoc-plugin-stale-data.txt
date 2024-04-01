@@ -1,0 +1,80 @@
+@options
+@packages
+-classpath
+'C:/Users/Jesus/.m2/repository/org/itson/bdavanzadas/AgenciaDelSolPersistencia/1.0-SNAPSHOT/AgenciaDelSolPersistencia-1.0-SNAPSHOT.jar;C:/Users/Jesus/.m2/repository/com/mysql/mysql-connector-j/8.2.0/mysql-connector-j-8.2.0.jar;C:/Users/Jesus/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.core/2.7.12/org.eclipse.persistence.core-2.7.12.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.asm/9.4.0/org.eclipse.persistence.asm-9.4.0.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.antlr/2.7.12/org.eclipse.persistence.antlr-2.7.12.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa/2.7.12/org.eclipse.persistence.jpa-2.7.12.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.jpql/2.7.12/org.eclipse.persistence.jpa.jpql-2.7.12.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.moxy/2.7.12/org.eclipse.persistence.moxy-2.7.12.jar;C:/Users/Jesus/.m2/repository/org/eclipse/persistence/jakarta.persistence/2.2.3/jakarta.persistence-2.2.3.jar;C:/Users/Jesus/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar;C:/Users/Jesus/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar;C:/Users/Jesus/.m2/repository/net/sf/jasperreports/jasperreports/6.21.2/jasperreports-6.21.2.jar;C:/Users/Jesus/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar;C:/Users/Jesus/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar;C:/Users/Jesus/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar;C:/Users/Jesus/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar;C:/Users/Jesus/.m2/repository/org/apache/commons/commons-collections4/4.2/commons-collections4-4.2.jar;C:/Users/Jesus/.m2/repository/com/github/librepdf/openpdf/1.3.32/openpdf-1.3.32.jar;C:/Users/Jesus/.m2/repository/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar;C:/Users/Jesus/.m2/repository/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar;C:/Users/Jesus/.m2/repository/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar;C:/Users/Jesus/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar;C:/Users/Jesus/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar;C:/Users/Jesus/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar;C:/Users/Jesus/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.15.3/jackson-dataformat-xml-2.15.3.jar;C:/Users/Jesus/.m2/repository/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar;C:/Users/Jesus/.m2/repository/com/fasterxml/woodstox/woodstox-core/6.5.1/woodstox-core-6.5.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'21'
+-sourcepath
+'C:/Users/Jesus/Documents/GitHub/AgenciaDelSol/AgenciaDelSolNegocio/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Jesus/Documents/GitHub/AgenciaDelSol/AgenciaDelSolNegocio/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'AgenciaDelSolNegocio 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'AgenciaDelSolNegocio 1.0-SNAPSHOT API'
+com.itson.bdavanzadas.avisos
+com.itson.bdavanzadas.dtos
+com.itson.bdavanzadas.excepcionesdtos
+com.itson.bdavanzadas.negocio
+C:\Users\Jesus\.m2\repository\org\itson\bdavanzadas\AgenciaDelSolPersistencia\1.0-SNAPSHOT\AgenciaDelSolPersistencia-1.0-SNAPSHOT.jar = 1711943454429
+C:\Users\Jesus\.m2\repository\com\mysql\mysql-connector-j\8.2.0\mysql-connector-j-8.2.0.jar = 1711571184861
+C:\Users\Jesus\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar = 1711571188547
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.core\2.7.12\org.eclipse.persistence.core-2.7.12.jar = 1711571190834
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.asm\9.4.0\org.eclipse.persistence.asm-9.4.0.jar = 1711571185664
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.antlr\2.7.12\org.eclipse.persistence.antlr-2.7.12.jar = 1711571185481
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa\2.7.12\org.eclipse.persistence.jpa-2.7.12.jar = 1711571188188
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.jpql\2.7.12\org.eclipse.persistence.jpa.jpql-2.7.12.jar = 1711571188616
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.moxy\2.7.12\org.eclipse.persistence.moxy-2.7.12.jar = 1711571187361
+C:\Users\Jesus\.m2\repository\org\eclipse\persistence\jakarta.persistence\2.2.3\jakarta.persistence-2.2.3.jar = 1711571187999
+C:\Users\Jesus\.m2\repository\javax\xml\bind\jaxb-api\2.3.1\jaxb-api-2.3.1.jar = 1711571188363
+C:\Users\Jesus\.m2\repository\javax\activation\javax.activation-api\1.2.0\javax.activation-api-1.2.0.jar = 1711571188445
+C:\Users\Jesus\.m2\repository\net\sf\jasperreports\jasperreports\6.21.2\jasperreports-6.21.2.jar = 1711847732096
+C:\Users\Jesus\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar = 1711847732408
+C:\Users\Jesus\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar = 1711847734262
+C:\Users\Jesus\.m2\repository\commons-digester\commons-digester\2.1\commons-digester-2.1.jar = 1711847733253
+C:\Users\Jesus\.m2\repository\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar = 1711847734285
+C:\Users\Jesus\.m2\repository\org\apache\commons\commons-collections4\4.2\commons-collections4-4.2.jar = 1711847734361
+C:\Users\Jesus\.m2\repository\com\github\librepdf\openpdf\1.3.32\openpdf-1.3.32.jar = 1711847734315
+C:\Users\Jesus\.m2\repository\org\jfree\jcommon\1.0.23\jcommon-1.0.23.jar = 1711847734336
+C:\Users\Jesus\.m2\repository\org\jfree\jfreechart\1.0.19\jfreechart-1.0.19.jar = 1711847736925
+C:\Users\Jesus\.m2\repository\org\eclipse\jdt\ecj\3.21.0\ecj-3.21.0.jar = 1711847735693
+C:\Users\Jesus\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.15.3\jackson-core-2.15.3.jar = 1711847735162
+C:\Users\Jesus\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.15.3\jackson-databind-2.15.3.jar = 1711847736664
+C:\Users\Jesus\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.15.3\jackson-annotations-2.15.3.jar = 1711847734581
+C:\Users\Jesus\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-xml\2.15.3\jackson-dataformat-xml-2.15.3.jar = 1711847735003
+C:\Users\Jesus\.m2\repository\org\codehaus\woodstox\stax2-api\4.2.1\stax2-api-4.2.1.jar = 1711847735493
+C:\Users\Jesus\.m2\repository\com\fasterxml\woodstox\woodstox-core\6.5.1\woodstox-core-6.5.1.jar = 1711847736863
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\src\main\java = 1711570959299
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\allclasses-index.html = 1711943489557
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\allpackages-index.html = 1711943489562
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\copy.svg = 1711943489646
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\element-list = 1711943489261
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\help-doc.html = 1711943489635
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\index-all.html = 1711943489620
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\index.html = 1711943489525
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\link.svg = 1711943489648
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\member-search-index.js = 1711943489572
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\module-search-index.js = 1711943489564
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\overview-summary.html = 1711943489628
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\overview-tree.html = 1711943489518
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\package-search-index.js = 1711943489567
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\script.js = 1711943489642
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\search-page.js = 1711943489656
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\search.html = 1711943489625
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\search.js = 1711943489651
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\serialized-form.html = 1711943489346
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\stylesheet.css = 1711943489639
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\tag-search-index.js = 1711943489574
+C:\Users\Jesus\Documents\GitHub\AgenciaDelSol\AgenciaDelSolNegocio\target\site\apidocs\type-search-index.js = 1711943489569
